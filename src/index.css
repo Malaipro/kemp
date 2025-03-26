@@ -108,6 +108,10 @@
     @apply kamp-button bg-kamp-primary text-white hover:bg-opacity-90 focus:ring-kamp-primary;
   }
 
+  .kamp-button-accent {
+    @apply kamp-button bg-kamp-accent text-white hover:bg-opacity-90 focus:ring-kamp-accent;
+  }
+
   .kamp-button-secondary {
     @apply kamp-button bg-white text-kamp-dark border border-gray-200 hover:bg-gray-50 focus:ring-gray-200;
   }
@@ -133,7 +137,7 @@
   }
 
   .section-heading p {
-    @apply text-lg text-gray-500 max-w-2xl mx-auto;
+    @apply text-lg text-gray-700 max-w-2xl mx-auto;
   }
 
   .hover-lift {
@@ -199,7 +203,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-kamp-primary to-blue-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-kamp-accent to-red-500;
   }
 
   .scale-hover {

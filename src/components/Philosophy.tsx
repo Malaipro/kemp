@@ -25,7 +25,7 @@ const principles = [
 
 export const Philosophy: React.FC = () => {
   return (
-    <section id="philosophy" className="kamp-section bg-kamp-primary text-white relative overflow-hidden">
+    <section id="philosophy" className="kamp-section bg-gradient-to-br from-kamp-primary to-blue-800 text-white relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -33,9 +33,9 @@ export const Philosophy: React.FC = () => {
 
       <div className="kamp-container relative z-10">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-white/80 font-semibold mb-2">Наша философия</span>
+          <span className="inline-block text-white/90 font-semibold mb-2">Наша философия</span>
           <h2 className="text-white">В каждом из нас есть сила. Мы учим, как ее раскрыть.</h2>
-          <p className="text-white/80">
+          <p className="text-white/90">
             Мы верим, что настоящая сила формируется через преодоление трудностей, 
             дисциплину и постоянное развитие. КЭМП — это путь к лучшей версии себя.
           </p>
@@ -45,19 +45,19 @@ export const Philosophy: React.FC = () => {
           {principles.map((principle) => (
             <div 
               key={principle.id} 
-              className="text-center p-8 glass-card bg-white/5 backdrop-blur-sm rounded-xl reveal-on-scroll transform transition-all duration-500 hover:translate-y-[-10px] hover:bg-white/10"
+              className="text-center p-8 glass-card bg-white/10 backdrop-blur-sm rounded-xl reveal-on-scroll transform transition-all duration-500 hover:translate-y-[-10px] hover:bg-white/15"
             >
-              <div className="rounded-full bg-white/10 p-5 inline-flex mb-6 transform transition-all duration-300 hover:rotate-12">
+              <div className="rounded-full bg-kamp-accent p-5 inline-flex mb-6 transform transition-all duration-300 hover:rotate-12">
                 {principle.icon}
               </div>
               <h3 className="text-xl font-bold mb-3">{principle.title}</h3>
-              <p className="text-white/80">{principle.description}</p>
+              <p className="text-white/90">{principle.description}</p>
             </div>
           ))}
         </div>
 
         <div className="mt-16 text-center reveal-on-scroll">
-          <div className="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm p-8 md:p-12 rounded-xl hover-lift">
+          <div className="max-w-3xl mx-auto bg-white/15 backdrop-blur-sm p-8 md:p-12 rounded-xl hover-lift">
             <blockquote className="text-xl md:text-2xl italic font-light">
               "Сила не в том, чтобы никогда не падать, а в том, чтобы всегда подниматься."
             </blockquote>

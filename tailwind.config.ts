@@ -70,6 +70,7 @@ export default {
 					primary: '#0466C8',
 					secondary: '#979DAC',
 					accent: '#E63946',
+					highlight: '#FF9F1C',
 				}
 			},
 			borderRadius: {

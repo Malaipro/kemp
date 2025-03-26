@@ -42,7 +42,7 @@ export const Header: React.FC = () => {
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-soft py-3' : 'bg-transparent py-5'
+        isScrolled ? 'bg-white shadow-soft py-3' : 'bg-white/95 backdrop-blur-md py-4 shadow-md'
       }`}
     >
       <div className="kamp-container">
@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-gray-800 font-medium hover:text-kamp-primary transition-colors"
+                className="text-kamp-dark font-medium hover:text-kamp-accent transition-colors"
               >
                 {item.label}
               </button>
@@ -76,7 +76,7 @@ export const Header: React.FC = () => {
           {/* Register Button - Desktop */}
           <div className="hidden md:block">
             <button 
-              className="kamp-button-primary"
+              className="kamp-button-accent"
               onClick={() => scrollToSection('contact')}
             >
               Записаться
@@ -85,7 +85,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-gray-800 focus:outline-none"
+            className="md:hidden text-kamp-dark focus:outline-none"
             onClick={toggleMenu}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -105,13 +105,13 @@ export const Header: React.FC = () => {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className="text-lg text-gray-800 font-medium hover:text-kamp-primary transition-colors py-2"
+              className="text-lg text-kamp-dark font-medium hover:text-kamp-accent transition-colors py-2"
             >
               {item.label}
             </button>
           ))}
           <button 
-            className="kamp-button-primary mt-4 w-full"
+            className="kamp-button-accent mt-4 w-full"
             onClick={() => scrollToSection('contact')}
           >
             Записаться
