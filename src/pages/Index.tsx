@@ -1,13 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useEffect } from 'react';
+import { Layout } from '@/components/Layout';
+import { Hero } from '@/components/Hero';
+import { AboutUs } from '@/components/AboutUs';
+import { Philosophy } from '@/components/Philosophy';
+import { Program } from '@/components/Program';
+import { Trainers } from '@/components/Trainers';
+import { Leaderboard } from '@/components/Leaderboard';
+import { ContactForm } from '@/components/ContactForm';
 
 const Index = () => {
+  useEffect(() => {
+    // Set the document title
+    document.title = 'КЭМП - Курс Эффективного Мужского Прогресса';
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <Layout>
+      <Hero />
+      <AboutUs />
+      <Philosophy />
+      <Program />
+      <Trainers />
+      <Leaderboard />
+      <ContactForm />
+    </Layout>
   );
 };
 
