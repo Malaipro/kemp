@@ -42,7 +42,7 @@ export const AboutUs: React.FC = () => {
               key={feature.id} 
               className="kamp-card p-8 reveal-on-scroll hover-lift"
             >
-              <div className="mb-6">{feature.icon}</div>
+              <div className="mb-6 bg-blue-50 inline-flex p-4 rounded-lg">{feature.icon}</div>
               <h3 className="text-xl font-bold mb-3 text-kamp-dark">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
             </div>
@@ -50,7 +50,7 @@ export const AboutUs: React.FC = () => {
         </div>
 
         <div className="mt-16 text-center reveal-on-scroll">
-          <div className="relative overflow-hidden rounded-xl">
+          <div className="relative overflow-hidden rounded-xl shadow-lg">
             <img 
               src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05" 
               alt="Групповые тренировки"
@@ -64,6 +64,12 @@ export const AboutUs: React.FC = () => {
                 Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
                 Каждый день — новый вызов, каждый день — новая победа над собой.
               </p>
+              <button className="mt-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center">
+                Узнать больше
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>

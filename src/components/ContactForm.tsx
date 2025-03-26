@@ -233,8 +233,8 @@ export const ContactForm: React.FC = () => {
               <div className="p-6 bg-white/10 backdrop-blur-sm border-t border-white/10">
                 <div className="flex items-center">
                   <div className="flex-grow">
-                    <div className="text-xl font-bold">30,000 ₽</div>
-                    <div className="text-white/70 text-sm">за полный курс</div>
+                    <div className="text-xl font-bold">Ограниченный набор</div>
+                    <div className="text-white/70 text-sm">Запишись прямо сейчас</div>
                   </div>
                   <button 
                     onClick={() => {

@@ -30,6 +30,15 @@ export const Header: React.FC = () => {
     }
   };
 
+  const menuItems = [
+    { id: 'about', label: 'О нас' },
+    { id: 'philosophy', label: 'Философия' },
+    { id: 'program', label: 'Программа' },
+    { id: 'trainers', label: 'Тренеры' },
+    { id: 'leaderboard', label: 'Рейтинг' },
+    { id: 'contact', label: 'Контакты' }
+  ];
+
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -53,13 +62,13 @@ export const Header: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            {['about', 'philosophy', 'program', 'trainers', 'leaderboard', 'contact'].map((item) => (
+            {menuItems.map((item) => (
               <button
-                key={item}
-                onClick={() => scrollToSection(item)}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
                 className="text-gray-800 font-medium hover:text-kamp-primary transition-colors"
               >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
+                {item.label}
               </button>
             ))}
           </nav>
@@ -92,13 +101,13 @@ export const Header: React.FC = () => {
         style={{ top: '0', paddingTop: '5rem' }}
       >
         <nav className="flex flex-col space-y-4 p-8">
-          {['about', 'philosophy', 'program', 'trainers', 'leaderboard', 'contact'].map((item) => (
+          {menuItems.map((item) => (
             <button
-              key={item}
-              onClick={() => scrollToSection(item)}
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
               className="text-lg text-gray-800 font-medium hover:text-kamp-primary transition-colors py-2"
             >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
+              {item.label}
             </button>
           ))}
           <button 

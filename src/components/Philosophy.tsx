@@ -45,9 +45,9 @@ export const Philosophy: React.FC = () => {
           {principles.map((principle) => (
             <div 
               key={principle.id} 
-              className="text-center p-8 glass-card bg-white/5 backdrop-blur-sm rounded-xl reveal-on-scroll"
+              className="text-center p-8 glass-card bg-white/5 backdrop-blur-sm rounded-xl reveal-on-scroll transform transition-all duration-500 hover:translate-y-[-10px] hover:bg-white/10"
             >
-              <div className="rounded-full bg-white/10 p-5 inline-flex mb-6">
+              <div className="rounded-full bg-white/10 p-5 inline-flex mb-6 transform transition-all duration-300 hover:rotate-12">
                 {principle.icon}
               </div>
               <h3 className="text-xl font-bold mb-3">{principle.title}</h3>
@@ -57,7 +57,7 @@ export const Philosophy: React.FC = () => {
         </div>
 
         <div className="mt-16 text-center reveal-on-scroll">
-          <div className="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm p-8 md:p-12 rounded-xl">
+          <div className="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm p-8 md:p-12 rounded-xl hover-lift">
             <blockquote className="text-xl md:text-2xl italic font-light">
               "Сила не в том, чтобы никогда не падать, а в том, чтобы всегда подниматься."
             </blockquote>

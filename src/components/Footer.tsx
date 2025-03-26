@@ -3,6 +3,23 @@ import React from 'react';
 import { Instagram, Facebook, Twitter, Phone, Mail, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const menuItems = [
+    { id: 'about', label: 'О нас' },
+    { id: 'philosophy', label: 'Философия' },
+    { id: 'program', label: 'Программа' },
+    { id: 'trainers', label: 'Тренеры' },
+    { id: 'leaderboard', label: 'Рейтинг' },
+    { id: 'contact', label: 'Контакты' }
+  ];
+
+  const programItems = [
+    { label: 'Кикбоксинг' },
+    { label: 'Кроссфит' },
+    { label: 'Выездные испытания' },
+    { label: 'Реабилитация' },
+    { label: 'Пробежки и закаливание' }
+  ];
+
   return (
     <footer className="bg-gray-900 text-white">
       <div className="kamp-container py-16">
@@ -41,13 +58,13 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-1">
             <h3 className="text-lg font-bold mb-4">Навигация</h3>
             <ul className="space-y-3">
-              {['about', 'philosophy', 'program', 'trainers', 'leaderboard', 'contact'].map((item) => (
-                <li key={item}>
+              {menuItems.map((item) => (
+                <li key={item.id}>
                   <a 
-                    href={`#${item}`} 
+                    href={`#${item.id}`} 
                     className="text-gray-400 hover:text-white transition-colors"
                   >
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -57,31 +74,13 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-1">
             <h3 className="text-lg font-bold mb-4">Программы</h3>
             <ul className="space-y-3">
-              <li>
-                <a href="#program" className="text-gray-400 hover:text-white transition-colors">
-                  Кикбоксинг
-                </a>
-              </li>
-              <li>
-                <a href="#program" className="text-gray-400 hover:text-white transition-colors">
-                  Кроссфит
-                </a>
-              </li>
-              <li>
-                <a href="#program" className="text-gray-400 hover:text-white transition-colors">
-                  Выездные испытания
-                </a>
-              </li>
-              <li>
-                <a href="#program" className="text-gray-400 hover:text-white transition-colors">
-                  Реабилитация
-                </a>
-              </li>
-              <li>
-                <a href="#program" className="text-gray-400 hover:text-white transition-colors">
-                  Пробежки и закаливание
-                </a>
-              </li>
+              {programItems.map((item, index) => (
+                <li key={index}>
+                  <a href="#program" className="text-gray-400 hover:text-white transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
           

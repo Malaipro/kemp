@@ -11,7 +11,7 @@ import { ContactForm } from '@/components/ContactForm';
 
 const Index = () => {
   useEffect(() => {
-    // Set the document title
+    // Устанавливаем заголовок на русском языке
     document.title = 'КЭМП - Курс Эффективного Мужского Прогресса';
   }, []);
 
