@@ -166,15 +166,12 @@ export const Leaderboard: React.FC = () => {
                   {isPointsVisible && (
                     <div className="space-y-3 mt-4">
                       <div className="p-3 bg-white/10 backdrop-blur-md rounded-lg">
-                        <span className="font-bold text-white">1 место:</span> 
                         <p className="text-white/80 text-sm">Годовой абонемент в премиум-зал и персональный комплект экипировки</p>
                       </div>
                       <div className="p-3 bg-white/10 backdrop-blur-md rounded-lg">
-                        <span className="font-bold text-white">2 место:</span> 
                         <p className="text-white/80 text-sm">Полугодовой абонемент и спортивный инвентарь</p>
                       </div>
                       <div className="p-3 bg-white/10 backdrop-blur-md rounded-lg">
-                        <span className="font-bold text-white">3 место:</span> 
                         <p className="text-white/80 text-sm">Трехмесячный абонемент и комплект спортивной одежды</p>
                       </div>
                     </div>
