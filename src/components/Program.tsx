@@ -7,7 +7,7 @@ const programs = [
     id: 1,
     title: 'Кикбоксинг',
     description: 'Техника ударов, спарринги, работа в парах. Развитие координации и скорости реакции.',
-    image: '/lovable-uploads/c48d6187-a32d-4c6e-aecd-fdea121adb0d.png',
+    image: 'https://www.fit-l.com/images/14-812bfw7mtbdl-sl1407.jpg',
     days: ['Понедельник', 'Среда'],
     time: '20:00 - 21:30',
   },
