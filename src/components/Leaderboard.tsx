@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Medal, Target, Sun, DropletIcon, Utensils, Share2 } from 'lucide-react';
 
@@ -162,20 +161,6 @@ export const Leaderboard: React.FC = () => {
                     Участники, занявшие призовые места, получат ценные призы и особое признание.
                     Но главная награда — это преображение, которое происходит с каждым участником КЭМП.
                   </p>
-                  
-                  {isPointsVisible && (
-                    <div className="space-y-3 mt-4">
-                      <div className="p-3 bg-white/10 backdrop-blur-md rounded-lg">
-                        <p className="text-white/80 text-sm">Годовой абонемент в премиум-зал и персональный комплект экипировки</p>
-                      </div>
-                      <div className="p-3 bg-white/10 backdrop-blur-md rounded-lg">
-                        <p className="text-white/80 text-sm">Полугодовой абонемент и спортивный инвентарь</p>
-                      </div>
-                      <div className="p-3 bg-white/10 backdrop-blur-md rounded-lg">
-                        <p className="text-white/80 text-sm">Трехмесячный абонемент и комплект спортивной одежды</p>
-                      </div>
-                    </div>
-                  )}
                   
                   <div className={`absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-kamp-primary to-transparent ${isPointsVisible ? 'hidden' : 'block'}`}></div>
                 </div>
