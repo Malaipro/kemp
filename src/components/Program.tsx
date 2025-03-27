@@ -15,7 +15,7 @@ const programs = [
     id: 2,
     title: 'Кроссфит',
     description: 'Функциональные тренировки, силовые испытания. Развитие выносливости и силы.',
-    image: '/lovable-uploads/2906564a-211f-4f5b-ab17-082e1fb3eadd.png',
+    image: 'https://jubibas.ru/wp-content/uploads/2022/12/krossfit-trenirovki.jpg',
     days: ['Пятница'],
     time: '20:00 - 21:30',
   },
