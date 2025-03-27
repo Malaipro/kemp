@@ -131,6 +131,10 @@ export default {
 					'0%': { backgroundPosition: '0% 50%' },
 					'50%': { backgroundPosition: '100% 50%' },
 					'100%': { backgroundPosition: '0% 50%' }
+				},
+				'slow-zoom': {
+					'0%': { transform: 'scale(1)' },
+					'100%': { transform: 'scale(1.05)' }
 				}
 			},
 			animation: {
@@ -145,7 +149,8 @@ export default {
 				'blur-in': 'blur-in 0.7s ease-out',
 				'pulse-slow': 'pulse 3s infinite',
 				'bounce-slow': 'bounce-slow 3s infinite',
-				'gradient-background': 'gradient-background 15s ease infinite'
+				'gradient-background': 'gradient-background 15s ease infinite',
+				'slow-zoom': 'slow-zoom 30s infinite alternate ease-in-out'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

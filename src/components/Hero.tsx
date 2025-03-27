@@ -22,8 +22,8 @@ export const Hero: React.FC = () => {
 
   return (
     <VideoBackground
-      imageUrl="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5"
-      overlayColor="rgba(0, 0, 0, 0.7)"
+      imageUrl="/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png"
+      overlayColor="rgba(0, 0, 0, 0.6)"
       className="h-screen flex items-center justify-center"
     >
       <div className="kamp-container text-center mx-auto">
