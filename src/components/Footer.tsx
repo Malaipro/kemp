@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Instagram, Facebook, Twitter, Phone, Mail, MapPin } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Phone, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const menuItems = [
@@ -44,18 +44,25 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/cemp_kazan" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
-                aria-label="Facebook"
+                aria-label="Instagram"
               >
-                <Facebook size={20} />
+                <Instagram size={20} />
               </a>
               <a 
-                href="#" 
+                href="https://vk.com/kemp_ryx" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
-                aria-label="Twitter"
+                aria-label="VKontakte"
               >
-                <Twitter size={20} />
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                </svg>
               </a>
             </div>
           </div>
@@ -95,10 +102,6 @@ export const Footer: React.FC = () => {
               <li className="flex">
                 <Phone size={20} className="mr-3 text-gray-400 flex-shrink-0" />
                 <span className="text-gray-400">+7 927 444 1844</span>
-              </li>
-              <li className="flex">
-                <Mail size={20} className="mr-3 text-gray-400 flex-shrink-0" />
-                <span className="text-gray-400">info@kamp-course.ru</span>
               </li>
               <li className="flex">
                 <MapPin size={20} className="mr-3 text-gray-400 flex-shrink-0" />
