@@ -9,6 +9,94 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activities: {
+        Row: {
+          created_at: string
+          icon: string
+          id: string
+          points: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          icon: string
+          id?: string
+          points: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string
+          id?: string
+          points?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      participant_activities: {
+        Row: {
+          activity_id: string
+          created_at: string
+          id: string
+          participant_id: string
+        }
+        Insert: {
+          activity_id: string
+          created_at?: string
+          id?: string
+          participant_id: string
+        }
+        Update: {
+          activity_id?: string
+          created_at?: string
+          id?: string
+          participant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participant_activities_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participant_activities_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participant_activities_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      participants: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          points: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          points?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          points?: number
+        }
+        Relationships: []
+      }
       КЭМП: {
         Row: {
           created_at: string
@@ -26,7 +114,15 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      leaderboard: {
+        Row: {
+          id: string | null
+          name: string | null
+          points: number | null
+          rank: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

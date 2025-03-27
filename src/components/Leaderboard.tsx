@@ -1,59 +1,100 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Medal, Target, Sun, DropletIcon, Utensils, Share2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-const pointSources = [
-  {
-    icon: <Target className="w-5 h-5 text-kamp-primary" />,
-    title: 'Посещение тренировки',
-    points: '+10 баллов',
-  },
-  {
-    icon: <Medal className="w-5 h-5 text-kamp-primary" />,
-    title: 'Победа в спарринге',
-    points: '+20 баллов',
-  },
-  {
-    icon: <Sun className="w-5 h-5 text-kamp-primary" />,
-    title: 'Утренние пробежки',
-    points: '+5 баллов',
-  },
-  {
-    icon: <DropletIcon className="w-5 h-5 text-kamp-primary" />,
-    title: 'Закаливание',
-    points: '+10 баллов',
-  },
-  {
-    icon: <Utensils className="w-5 h-5 text-kamp-primary" />,
-    title: 'Отчет о питании',
-    points: '+5 баллов',
-  },
-  {
-    icon: <Share2 className="w-5 h-5 text-kamp-primary" />,
-    title: 'Активность в соцсетях',
-    points: '+5 баллов',
-  },
-];
+interface Participant {
+  id: string;
+  name: string;
+  points: number;
+  rank: number;
+}
 
-// Mock data for leaderboard
-const mockParticipants = [
-  { id: 1, name: 'Алексей Петров', points: 240, rank: 1 },
-  { id: 2, name: 'Иван Смирнов', points: 225, rank: 2 },
-  { id: 3, name: 'Сергей Иванов', points: 210, rank: 3 },
-  { id: 4, name: 'Дмитрий Козлов', points: 195, rank: 4 },
-  { id: 5, name: 'Николай Морозов', points: 180, rank: 5 },
-  { id: 6, name: 'Артем Волков', points: 170, rank: 6 },
-  { id: 7, name: 'Максим Соколов', points: 165, rank: 7 },
-  { id: 8, name: 'Владимир Новиков', points: 155, rank: 8 },
-  { id: 9, name: 'Георгий Лебедев', points: 140, rank: 9 },
-  { id: 10, name: 'Антон Орлов', points: 130, rank: 10 },
-];
+interface Activity {
+  id: string;
+  title: string;
+  icon: string;
+  points: number;
+}
 
 export const Leaderboard: React.FC = () => {
   const [isPointsVisible, setIsPointsVisible] = useState(false);
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const togglePointsVisibility = () => {
     setIsPointsVisible(!isPointsVisible);
   };
+
+  // Функция для получения иконки на основе строкового названия
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'Target':
+        return <Target className="w-5 h-5 text-kamp-primary" />;
+      case 'Medal':
+        return <Medal className="w-5 h-5 text-kamp-primary" />;
+      case 'Sun':
+        return <Sun className="w-5 h-5 text-kamp-primary" />;
+      case 'DropletIcon':
+        return <DropletIcon className="w-5 h-5 text-kamp-primary" />;
+      case 'Utensils':
+        return <Utensils className="w-5 h-5 text-kamp-primary" />;
+      case 'Share2':
+        return <Share2 className="w-5 h-5 text-kamp-primary" />;
+      default:
+        return <Target className="w-5 h-5 text-kamp-primary" />;
+    }
+  };
+
+  // Загрузка данных из Supabase
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Загрузка списка участников из представления leaderboard
+        const { data: participantsData, error: participantsError } = await supabase
+          .from('leaderboard')
+          .select('*')
+          .order('rank', { ascending: true })
+          .limit(10);
+        
+        if (participantsError) {
+          console.error('Ошибка при загрузке участников:', participantsError);
+          return;
+        }
+        
+        // Загрузка списка активностей
+        const { data: activitiesData, error: activitiesError } = await supabase
+          .from('activities')
+          .select('*');
+        
+        if (activitiesError) {
+          console.error('Ошибка при загрузке активностей:', activitiesError);
+          return;
+        }
+        
+        setParticipants(participantsData);
+        setActivities(activitiesData);
+      } catch (error) {
+        console.error('Произошла ошибка:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
 
   return (
     <section id="leaderboard" className="kamp-section bg-gray-50">
@@ -70,85 +111,103 @@ export const Leaderboard: React.FC = () => {
         <div className="mt-16 grid md:grid-cols-5 gap-8">
           {/* Leaderboard Table */}
           <div className="md:col-span-3 reveal-on-scroll">
-            <div className="bg-white rounded-xl shadow-soft overflow-hidden">
-              <div className="flex justify-between items-center p-6 border-b border-gray-100">
+            <Card className="overflow-hidden">
+              <CardHeader className="flex flex-row justify-between items-center p-6 border-b border-gray-100">
                 <h3 className="font-bold text-kamp-dark">Рейтинг участников</h3>
                 <span className="text-sm text-gray-500">Обновлено: сегодня</span>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="py-4 px-6 text-left text-sm font-semibold text-gray-500">Место</th>
-                      <th className="py-4 px-6 text-left text-sm font-semibold text-gray-500">Участник</th>
-                      <th className="py-4 px-6 text-right text-sm font-semibold text-gray-500">Баллы</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {mockParticipants.map((participant) => (
-                      <tr 
-                        key={participant.id} 
-                        className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
-                      >
-                        <td className="py-4 px-6">
-                          <div className="flex items-center">
-                            {participant.rank <= 3 ? (
-                              <span className={`flex items-center justify-center w-8 h-8 rounded-full ${
-                                participant.rank === 1 
-                                  ? 'bg-yellow-100 text-yellow-600' 
-                                  : participant.rank === 2 
-                                    ? 'bg-gray-100 text-gray-600' 
-                                    : 'bg-amber-100 text-amber-600'
-                              }`}>
-                                {participant.rank}
-                              </span>
-                            ) : (
-                              <span className="text-gray-500 font-medium pl-2">
-                                {participant.rank}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="py-4 px-6 font-medium text-kamp-dark">
-                          {participant.name}
-                        </td>
-                        <td className="py-4 px-6 text-right font-bold text-kamp-primary">
-                          {participant.points}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50">
+                        <TableHead className="py-4 px-6 text-left text-sm font-semibold text-gray-500">Место</TableHead>
+                        <TableHead className="py-4 px-6 text-left text-sm font-semibold text-gray-500">Участник</TableHead>
+                        <TableHead className="py-4 px-6 text-right text-sm font-semibold text-gray-500">Баллы</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {loading ? (
+                        <TableRow>
+                          <TableCell colSpan={3} className="text-center py-10">
+                            Загрузка данных...
+                          </TableCell>
+                        </TableRow>
+                      ) : participants.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={3} className="text-center py-10">
+                            Нет данных для отображения
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        participants.map((participant) => (
+                          <TableRow 
+                            key={participant.id} 
+                            className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
+                          >
+                            <TableCell className="py-4 px-6">
+                              <div className="flex items-center">
+                                {participant.rank <= 3 ? (
+                                  <span className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                                    participant.rank === 1 
+                                      ? 'bg-yellow-100 text-yellow-600' 
+                                      : participant.rank === 2 
+                                        ? 'bg-gray-100 text-gray-600' 
+                                        : 'bg-amber-100 text-amber-600'
+                                  }`}>
+                                    {participant.rank}
+                                  </span>
+                                ) : (
+                                  <span className="text-gray-500 font-medium pl-2">
+                                    {participant.rank}
+                                  </span>
+                                )}
+                              </div>
+                            </TableCell>
+                            <TableCell className="py-4 px-6 font-medium text-kamp-dark">
+                              {participant.name}
+                            </TableCell>
+                            <TableCell className="py-4 px-6 text-right font-bold text-kamp-primary">
+                              {participant.points}
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* How to earn points */}
           <div className="md:col-span-2 reveal-on-scroll">
-            <div className="bg-white rounded-xl shadow-soft overflow-hidden h-full">
-              <div className="p-6 border-b border-gray-100">
+            <Card className="h-full">
+              <CardHeader className="p-6 border-b border-gray-100">
                 <h3 className="font-bold text-kamp-dark">Как заработать баллы?</h3>
-              </div>
-
-              <div className="p-6 space-y-4">
-                {pointSources.map((source, index) => (
-                  <div 
-                    key={index} 
-                    className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex-shrink-0">
-                      {source.icon}
+              </CardHeader>
+              <CardContent className="p-6 space-y-4">
+                {loading ? (
+                  <div className="py-10 text-center">Загрузка активностей...</div>
+                ) : (
+                  activities.map((activity) => (
+                    <div 
+                      key={activity.id} 
+                      className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="flex-shrink-0">
+                        {getIconComponent(activity.icon)}
+                      </div>
+                      <div className="ml-4 flex-grow">
+                        <span className="font-medium text-gray-800">{activity.title}</span>
+                      </div>
+                      <div className="text-kamp-primary font-bold">
+                        +{activity.points} баллов
+                      </div>
                     </div>
-                    <div className="ml-4 flex-grow">
-                      <span className="font-medium text-gray-800">{source.title}</span>
-                    </div>
-                    <div className="text-kamp-primary font-bold">
-                      {source.points}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))
+                )}
+              </CardContent>
 
               <div className="p-6 bg-gradient-to-r from-kamp-primary to-blue-600 text-white">
                 <h3 className="font-bold mb-3">Что в конце курса?</h3>
@@ -172,7 +231,7 @@ export const Leaderboard: React.FC = () => {
                   {isPointsVisible ? 'Скрыть детали' : 'Узнать подробнее'}
                 </button>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
