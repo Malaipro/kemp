@@ -1,44 +1,36 @@
 
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const trainers = [
   {
     id: 1,
-    name: 'Александр Волков',
-    role: 'Главный тренер',
-    image: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop',
-    quote: 'Настоящая сила приходит через дисциплину и самоотверженность.',
-    experience: '10+ лет в профессиональном спорте, чемпион России по кикбоксингу.',
-    bio: 'Александр — основатель КЭМП и главный идеолог программы. Его подход к тренировкам основан на гармоничном развитии физической силы, выносливости и ментальной стойкости. Под его руководством сотни мужчин смогли преодолеть свои слабости и открыть новые горизонты.'
+    name: 'Али Валиев',
+    role: 'Тренер по кроссфиту',
+    image: '/lovable-uploads/6b420bc5-20a7-4fe5-98bd-5cca487bc213.png',
+    quote: 'Достигни своего максимума через дисциплину и упорство.',
+    experience: '7+ лет в профессиональном кроссфите, мастер спорта по тяжелой атлетике.',
+    bio: 'Али специализируется на функциональных тренировках и развитии выносливости. Его методики помогают участникам КЭМП существенно улучшить физическую форму в кратчайшие сроки, одновременно развивая ментальную стойкость.'
   },
   {
     id: 2,
-    name: 'Михаил Соколов',
-    role: 'Тренер по кроссфиту',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80',
-    quote: 'Пределы существуют только в твоей голове.',
-    experience: '8 лет опыта, сертифицированный тренер CrossFit Level 2.',
-    bio: 'Михаил специализируется на функциональных тренировках и развитии выносливости. Его программы тренировок адаптированы для мужчин любого уровня подготовки, но всегда направлены на достижение максимального результата.'
+    name: 'Радик',
+    role: 'Тренер по кикбоксингу',
+    image: '/lovable-uploads/8351ad0b-a654-4d4f-b008-6c2f7404efab.png',
+    quote: 'Бой раскрывает истинный характер человека.',
+    experience: '10+ лет в профессиональном спорте, чемпион по кикбоксингу.',
+    bio: 'Радик не только обучает технике ударов, но и помогает развивать бойцовский характер. Его тренировки — это всегда вызов, который помогает участникам выйти из зоны комфорта и обрести уверенность в своих силах.'
   },
   {
     id: 3,
-    name: 'Дмитрий Лебедев',
-    role: 'Тренер по кикбоксингу',
-    image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1974&auto=format&fit=crop',
-    quote: 'Бой раскрывает истинный характер человека.',
-    experience: '15 лет в профессиональном спорте, мастер спорта международного класса.',
-    bio: 'Дмитрий не только учит технике ударов, но и помогает развивать бойцовский характер. Его занятия — это всегда вызов, который помогает участникам выйти из зоны комфорта и обрести уверенность в своих силах.'
-  },
-  {
-    id: 4,
-    name: 'Игорь Морозов',
-    role: 'Специалист по реабилитации',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
-    quote: 'Правильное восстановление — ключ к устойчивому прогрессу.',
-    experience: '12 лет работы с профессиональными спортсменами, кандидат медицинских наук.',
-    bio: 'Игорь разрабатывает индивидуальные программы восстановления для каждого участника. Благодаря его методикам, интенсивные тренировки КЭМП становятся эффективными и безопасными даже для новичков.'
-  },
+    name: 'Михаил',
+    role: 'Нутрициолог',
+    image: '/lovable-uploads/d3838e7b-1bf0-4b62-a9ce-20c39e6abb1a.png',
+    quote: 'Правильное питание — основа прогресса и энергии для достижения целей.',
+    experience: '8 лет опыта в спортивной нутрициологии, сертифицированный специалист.',
+    bio: 'Михаил разрабатывает индивидуальные планы питания для участников КЭМП, учитывая интенсивность тренировок и персональные особенности. Его рекомендации помогают оптимизировать результаты тренировок и ускорить восстановление.'
+  }
 ];
 
 export const Trainers: React.FC = () => {
@@ -56,7 +48,7 @@ export const Trainers: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
@@ -93,7 +85,7 @@ export const Trainers: React.FC = () => {
       {selectedTrainer && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div 
-            className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-auto animate-scale-in"
+            className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative">
@@ -104,13 +96,13 @@ export const Trainers: React.FC = () => {
                 <X size={20} className="text-kamp-dark" />
               </button>
               
-              <div className="md:flex">
-                <div className="md:w-1/3">
-                  <div className="aspect-[3/4] md:h-full">
+              <div className="flex flex-col md:flex-row">
+                <div className="md:w-1/3 h-auto">
+                  <div className="h-64 md:h-full">
                     <img 
                       src={selectedTrainer.image} 
                       alt={selectedTrainer.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                 </div>
@@ -128,7 +120,7 @@ export const Trainers: React.FC = () => {
                   </div>
                   
                   <div>
-                    <h4 className="font-bold text-kamp-dark mb-2">Биография</h4>
+                    <h4 className="font-bold text-kamp-dark mb-2">Профессиональный подход</h4>
                     <p className="text-gray-700">{selectedTrainer.bio}</p>
                   </div>
                 </div>
