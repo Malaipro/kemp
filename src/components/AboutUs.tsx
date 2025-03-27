@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Dumbbell, Award, Users } from 'lucide-react';
+import { Button } from './ui/button';
 
 const features = [
   {
@@ -24,6 +25,14 @@ const features = [
 ];
 
 export const AboutUs: React.FC = () => {
+  // Function to scroll to the Program section
+  const scrollToProgram = () => {
+    const programSection = document.getElementById('program');
+    if (programSection) {
+      programSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="about" className="kamp-section bg-kamp-light">
       <div className="kamp-container">
@@ -64,7 +73,10 @@ export const AboutUs: React.FC = () => {
                 Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
                 Каждый день — новый вызов, каждый день — новая победа над собой.
               </p>
-              <button className="mt-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center">
+              <button 
+                onClick={scrollToProgram}
+                className="mt-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center"
+              >
                 Узнать больше
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
