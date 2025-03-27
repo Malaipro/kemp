@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
     <VideoBackground
       imageUrl="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5"
       overlayColor="rgba(0, 0, 0, 0.7)"
-      className="h-screen flex items-center"
+      className="h-screen flex items-center justify-center"
     >
       <div className="kamp-container text-center">
         <div className={`space-y-6 max-w-4xl mx-auto transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
@@ -42,20 +42,14 @@ export const Hero: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <button 
-              onClick={() => {
-                const contactSection = document.getElementById('contact');
-                if (contactSection) {
-                  window.scrollTo({
-                    top: contactSection.offsetTop - 80,
-                    behavior: 'smooth'
-                  });
-                }
-              }}
-              className="kamp-button-primary bg-kamp-accent hover:bg-opacity-90"
+            <a 
+              href="https://forms.gle/ZcyxhZawxxakThWb6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="kamp-button-primary bg-kamp-accent hover:bg-opacity-90 text-center"
             >
               Записаться на курс
-            </button>
+            </a>
             <button 
               onClick={() => {
                 const programSection = document.getElementById('program');

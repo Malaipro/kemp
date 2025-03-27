@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Send, Clock } from 'lucide-react';
 
@@ -11,9 +11,8 @@ export const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Countdown timer for next course start
-  const targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 14); // 14 days from now
+  // Countdown timer for next course start (April 7)
+  const targetDate = new Date("2024-04-07T00:00:00");
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -21,13 +20,14 @@ export const ContactForm: React.FC = () => {
     seconds: 0,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
       
       if (difference <= 0) {
         clearInterval(interval);
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
       
@@ -51,18 +51,16 @@ export const ContactForm: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      toast.success("Заявка успешно отправлена!", {
-        description: "Мы свяжемся с вами в ближайшее время.",
-      });
-      setFormData({
-        name: '',
-        phone: '',
-        course: 'male',
-      });
-      setIsSubmitting(false);
-    }, 1500);
+    // Redirect to Google Form instead of submitting
+    window.open("https://forms.gle/ZcyxhZawxxakThWb6", "_blank");
+    
+    // Reset form
+    setFormData({
+      name: '',
+      phone: '',
+      course: 'male',
+    });
+    setIsSubmitting(false);
   };
 
   return (
@@ -143,28 +141,17 @@ export const ContactForm: React.FC = () => {
                 </div>
                 
                 <div className="pt-3">
-                  <button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className={`kamp-button-primary w-full flex items-center justify-center ${
-                      isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
+                  <a 
+                    href="https://forms.gle/ZcyxhZawxxakThWb6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="kamp-button-primary w-full flex items-center justify-center"
                   >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Отправка...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        <Send size={18} className="mr-2" />
-                        Отправить заявку
-                      </span>
-                    )}
-                  </button>
+                    <span className="flex items-center">
+                      <Send size={18} className="mr-2" />
+                      Отправить заявку
+                    </span>
+                  </a>
                 </div>
               </form>
             </div>
@@ -176,7 +163,7 @@ export const ContactForm: React.FC = () => {
               <div className="flex-grow p-8">
                 <h3 className="text-xl font-bold mb-6">Не упусти свой шанс</h3>
                 <p className="text-white/80 mb-8">
-                  Следующий поток КЭМП стартует совсем скоро. Количество мест ограничено, 
+                  Следующий поток КЭМП стартует 7 апреля. Количество мест ограничено, 
                   чтобы мы могли уделить внимание каждому участнику.
                 </p>
 
@@ -236,17 +223,14 @@ export const ContactForm: React.FC = () => {
                     <div className="text-xl font-bold">Ограниченный набор</div>
                     <div className="text-white/70 text-sm">Запишись прямо сейчас</div>
                   </div>
-                  <button 
-                    onClick={() => {
-                      const form = document.querySelector('form');
-                      if (form) {
-                        form.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
+                  <a 
+                    href="https://forms.gle/ZcyxhZawxxakThWb6"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="kamp-button text-kamp-primary bg-white hover:bg-white/90"
                   >
                     Записаться
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
