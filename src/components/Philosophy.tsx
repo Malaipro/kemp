@@ -25,7 +25,7 @@ const principles = [
 
 export const Philosophy: React.FC = () => {
   return (
-    <section id="philosophy" className="kamp-section bg-gradient-to-br from-kamp-primary to-blue-800 text-white relative overflow-hidden">
+    <section id="philosophy" className="kamp-section bg-gradient-to-br from-slate-800 to-slate-900 text-white relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"></div>
