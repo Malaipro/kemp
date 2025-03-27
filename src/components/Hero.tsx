@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
       overlayColor="rgba(0, 0, 0, 0.7)"
       className="h-screen flex items-center justify-center"
     >
-      <div className="kamp-container text-center">
+      <div className="kamp-container text-center mx-auto">
         <div className={`space-y-6 max-w-4xl mx-auto transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
           <span className="inline-block text-white/80 text-sm md:text-base font-semibold uppercase tracking-wider mb-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm">
             Курс Эффективного Мужского Прогресса

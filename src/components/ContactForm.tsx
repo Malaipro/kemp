@@ -11,8 +11,8 @@ export const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Countdown timer for next course start (April 7)
-  const targetDate = new Date("2024-04-07T00:00:00");
+  // Countdown timer for next course start (April 7, 2025)
+  const targetDate = new Date("2025-04-07T00:00:00");
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -163,7 +163,7 @@ export const ContactForm: React.FC = () => {
               <div className="flex-grow p-8">
                 <h3 className="text-xl font-bold mb-6">Не упусти свой шанс</h3>
                 <p className="text-white/80 mb-8">
-                  Следующий поток КЭМП стартует 7 апреля. Количество мест ограничено, 
+                  Следующий поток КЭМП стартует 7 апреля 2025 года. Количество мест ограничено, 
                   чтобы мы могли уделить внимание каждому участнику.
                 </p>
 
