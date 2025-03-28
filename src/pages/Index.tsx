@@ -6,6 +6,7 @@ import { AboutUs } from '@/components/AboutUs';
 import { Philosophy } from '@/components/Philosophy';
 import { Program } from '@/components/Program';
 import { Trainers } from '@/components/Trainers';
+import { Testimonials } from '@/components/Testimonials';
 import { Leaderboard } from '@/components/Leaderboard';
 import { ContactForm } from '@/components/ContactForm';
 
@@ -28,6 +29,7 @@ const Index = () => {
       <Philosophy />
       <Program />
       <Trainers />
+      <Testimonials />
       <Leaderboard />
       <ContactForm />
     </Layout>
