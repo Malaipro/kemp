@@ -6,8 +6,9 @@ import { AboutUs } from '@/components/AboutUs';
 import { Philosophy } from '@/components/Philosophy';
 import { Program } from '@/components/Program';
 import { Trainers } from '@/components/Trainers';
-import { Testimonials } from '@/components/Testimonials';
 import { Leaderboard } from '@/components/Leaderboard';
+import { Testimonials } from '@/components/Testimonials';
+import { PhotoGallery } from '@/components/PhotoGallery';
 import { ContactForm } from '@/components/ContactForm';
 
 const Index = () => {
@@ -29,8 +30,9 @@ const Index = () => {
       <Philosophy />
       <Program />
       <Trainers />
-      <Testimonials />
+      <PhotoGallery />
       <Leaderboard />
+      <Testimonials />
       <ContactForm />
     </Layout>
   );
