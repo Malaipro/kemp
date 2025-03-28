@@ -1,84 +1,91 @@
 
 import React, { useEffect, useRef } from 'react';
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Image, GalleryHorizontal } from 'lucide-react';
+import { GalleryHorizontal } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Photos from the course
 const photos = [
   {
     id: 1,
     src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
-    alt: "Участники в процессе тренировки",
-    caption: "Интенсивная тренировка на выносливость"
+    alt: "Участники в процессе тренировки"
   },
   {
     id: 2,
     src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
-    alt: "Групповое занятие на природе",
-    caption: "Утренняя пробежка в горах"
+    alt: "Групповое занятие на природе"
   },
   {
     id: 3,
     src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
-    alt: "Силовая тренировка",
-    caption: "Развитие силы и выносливости"
+    alt: "Силовая тренировка"
   },
   {
     id: 4,
     src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
-    alt: "Выпускники КЭМП",
-    caption: "Выпускники специального потока"
+    alt: "Выпускники КЭМП"
   },
   {
     id: 5,
     src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
-    alt: "Командное упражнение",
-    caption: "Формирование командного духа"
+    alt: "Командное упражнение"
   }
 ];
 
 export const PhotoGallery: React.FC = () => {
   const galleryRef = useRef<HTMLDivElement>(null);
-
-  // Animation for gallery items when they come into view
+  const animationRef = useRef<number | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Function to create infinite scrolling animation
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const photos = entry.target.querySelectorAll('.photo-item');
-            photos.forEach((photo, index) => {
-              setTimeout(() => {
-                photo.classList.add('photo-visible');
-              }, index * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (galleryRef.current) {
-      observer.observe(galleryRef.current);
-    }
-
-    return () => {
-      if (galleryRef.current) {
-        observer.unobserve(galleryRef.current);
+    const scrollContainer = scrollContainerRef.current;
+    
+    if (!scrollContainer) return;
+    
+    const scroll = () => {
+      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+        scrollContainer.scrollLeft = 0;
+      } else {
+        scrollContainer.scrollLeft += 1;
       }
+      animationRef.current = requestAnimationFrame(scroll);
+    };
+    
+    // Start scrolling animation
+    animationRef.current = requestAnimationFrame(scroll);
+    
+    // Pause animation on hover
+    const handleMouseEnter = () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+    
+    // Resume animation on mouse leave
+    const handleMouseLeave = () => {
+      if (animationRef.current === null) {
+        animationRef.current = requestAnimationFrame(scroll);
+      }
+    };
+    
+    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
   return (
     <section id="gallery" className="kamp-section bg-kamp-light">
       <div className="kamp-container">
-        <div className="section-heading mb-16">
+        <div className="section-heading mb-10">
           <div className="flex items-center justify-center gap-2 mb-2">
             <GalleryHorizontal className="text-kamp-primary h-6 w-6" />
             <span className="text-kamp-primary font-semibold">Галерея</span>
@@ -89,53 +96,41 @@ export const PhotoGallery: React.FC = () => {
           </p>
         </div>
 
-        {/* Featured photos section */}
-        <div ref={galleryRef} className="mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {photos.slice(0, 3).map((photo, index) => (
+        {/* Horizontal scrolling gallery */}
+        <div className="relative overflow-hidden" ref={galleryRef}>
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-4 overflow-x-auto scrollbar-hide py-4"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {/* Original photos */}
+            {photos.map((photo) => (
               <div
                 key={photo.id}
-                className={`photo-item relative overflow-hidden rounded-xl shadow-lg opacity-0 transform translate-y-10 transition-all duration-700 ease-out delay-${index * 150}`}
-                style={{ transitionDelay: `${index * 0.15}s` }}
+                className="flex-none w-72 h-80 relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
               >
                 <img
                   src={photo.src}
                   alt={photo.alt}
-                  className="w-full h-64 object-cover transition-transform duration-700 hover:scale-110"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white">
-                  <p className="font-medium">{photo.caption}</p>
-                </div>
+              </div>
+            ))}
+            
+            {/* Duplicate photos for seamless scrolling */}
+            {photos.map((photo) => (
+              <div
+                key={`duplicate-${photo.id}`}
+                className="flex-none w-72 h-80 relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="w-full h-full object-cover"
+                />
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Carousel for additional photos */}
-        <div className="reveal-on-scroll">
-          <h3 className="text-xl font-bold text-center mb-6">Еще фото с курса</h3>
-          <Carousel className="w-full max-w-4xl mx-auto">
-            <CarouselContent>
-              {photos.slice(1).map((photo) => (
-                <CarouselItem key={photo.id} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-2 h-full">
-                    <div className="relative h-56 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                      <img 
-                        src={photo.src} 
-                        alt={photo.alt}
-                        className="w-full h-full object-cover" 
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
-                        <p className="text-white p-4 text-sm">{photo.caption}</p>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-2" />
-            <CarouselNext className="right-2" />
-          </Carousel>
         </div>
       </div>
     </section>
