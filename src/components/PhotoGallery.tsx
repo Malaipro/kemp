@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -38,29 +37,38 @@ export const PhotoGallery: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollPosition = useRef<number>(0);
   
-  // Function to create smoother infinite scrolling animation
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     
     if (!scrollContainer) return;
     
+    // Calculate total width of all images + gap
+    const calculateTotalWidth = () => {
+      if (!scrollContainer.firstElementChild) return 0;
+      const firstItem = scrollContainer.firstElementChild as HTMLElement;
+      const itemWidth = firstItem.offsetWidth;
+      const gap = 16; // 4 in tailwind's gap-4 equals 16px
+      return photos.length * (itemWidth + gap) - gap; // Subtract final gap
+    };
+    
+    // Create a seamless scrolling animation
     const scroll = () => {
-      // Use a smaller increment for smoother animation
       const speed = 0.5;
+      const totalWidth = calculateTotalWidth();
       
-      if (scrollContainer.scrollWidth > 0) {
-        // Calculate when we need to reset (when first set of images is scrolled past)
-        const resetPoint = scrollContainer.scrollWidth / 2;
+      if (totalWidth > 0) {
+        scrollPosition.current += speed;
         
-        if (scrollPosition.current >= resetPoint) {
-          // Reset scroll position to beginning to create infinite loop
-          scrollPosition.current = 0;
-          scrollContainer.scrollLeft = 0;
-        } else {
-          // Increment scroll position
-          scrollPosition.current += speed;
-          scrollContainer.scrollLeft = scrollPosition.current;
+        // Create loop effect - if we've scrolled past the first image, reset
+        if (scrollPosition.current >= totalWidth / photos.length) {
+          // Move back to start minus the amount we overshot
+          const overshoot = scrollPosition.current % (totalWidth / photos.length);
+          scrollPosition.current = overshoot;
         }
+        
+        // Apply modulo to keep scrolling position within content width
+        // This creates the infinite scrolling effect
+        scrollContainer.scrollLeft = scrollPosition.current % totalWidth;
       }
       
       animationRef.current = requestAnimationFrame(scroll);
@@ -114,37 +122,26 @@ export const PhotoGallery: React.FC = () => {
         <div className="relative overflow-hidden" ref={galleryRef}>
           <div 
             ref={scrollContainerRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide py-4"
-            style={{ scrollBehavior: 'auto' }} // Changed to auto for smoother programmatic scrolling
+            className="flex gap-4 overflow-x-auto scrollbar-hide py-4 whitespace-nowrap"
+            style={{ scrollBehavior: 'auto' }}
           >
-            {/* Original photos */}
-            {photos.map((photo) => (
-              <div
-                key={photo.id}
-                className="flex-none w-72 h-80 relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover"
-                  loading="eager" // Ensure images load immediately for smooth scroll
-                />
-              </div>
-            ))}
-            
-            {/* Duplicate photos for seamless scrolling */}
-            {photos.map((photo) => (
-              <div
-                key={`duplicate-${photo.id}`}
-                className="flex-none w-72 h-80 relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover"
-                  loading="eager" // Ensure images load immediately for smooth scroll
-                />
-              </div>
+            {/* We display each photo multiple times in sequence to create infinite scroll effect */}
+            {[...Array(3)].map((_, repeatIndex) => (
+              <React.Fragment key={`repeat-${repeatIndex}`}>
+                {photos.map((photo) => (
+                  <div
+                    key={`${repeatIndex}-${photo.id}`}
+                    className="flex-none w-72 h-80 relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
+                  >
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                    />
+                  </div>
+                ))}
+              </React.Fragment>
             ))}
           </div>
         </div>
