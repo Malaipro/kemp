@@ -1,8 +1,9 @@
+
 import React, { useEffect, useRef } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// Updated photos with new URLs
+// Updated photos array with unique images only
 const photos = [
   {
     id: 1,
@@ -26,7 +27,7 @@ const photos = [
   },
   {
     id: 5,
-    src: "https://i.imgur.com/t3O09wf.jpeg", // Reusing first image as 5th since one link wasn't working
+    src: "https://i.imgur.com/yuqrv6P.jpeg", // Replaced duplicate image with new one
     alt: "Командное упражнение"
   }
 ];
