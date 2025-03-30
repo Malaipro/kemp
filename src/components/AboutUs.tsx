@@ -58,37 +58,63 @@ export const AboutUs: React.FC = () => {
           ))}
         </div>
 
-        <div className="mt-16 text-center reveal-on-scroll">
-          <div className="relative overflow-hidden rounded-xl shadow-xl bg-gradient-to-r from-kamp-dark/10 to-kamp-primary/10 p-1">
-            <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-              <video 
-                className="w-full h-full object-cover rounded-lg"
-                autoPlay 
-                muted 
-                loop 
-                playsInline
+        <div className="mt-16 reveal-on-scroll">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Text Content - Left Side */}
+            <div className="text-left">
+              <h3 className="text-2xl font-bold mb-4 text-kamp-dark">Что тебя ждет?</h3>
+              <p className="text-gray-700 mb-6">
+                Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
+                Каждый день — новый вызов, каждый день — новая победа над собой.
+              </p>
+              <button 
+                onClick={scrollToProgram}
+                className="inline-flex items-center gap-2 bg-kamp-primary hover:bg-kamp-primary/90 text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium"
               >
-                <source src="https://imgur.com/eXVpT0r" type="video/mp4" />
-                Ваш браузер не поддерживает видео.
-              </video>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-8 text-white">
-                <div className="max-w-xl text-left">
-                  <h3 className="text-2xl font-bold mb-2 text-white">Что тебя ждет?</h3>
-                  <p className="text-white/90 mb-4">
-                    Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
-                    Каждый день — новый вызов, каждый день — новая победа над собой.
-                  </p>
-                  <button 
-                    onClick={scrollToProgram}
-                    className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium"
-                  >
-                    Узнать больше
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
+                Узнать больше
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* iPhone Frame with Video - Right Side */}
+            <div className="flex justify-center">
+              <div className="relative">
+                {/* iPhone Frame */}
+                <div className="relative w-[280px] h-[570px] bg-black rounded-[40px] p-3 shadow-xl border-4 border-gray-800">
+                  {/* iPhone Notch */}
+                  <div className="absolute top-0 left-0 right-0 flex justify-center z-10">
+                    <div className="w-[120px] h-[30px] bg-black rounded-b-[14px] flex items-center justify-center">
+                      <div className="w-[8px] h-[8px] bg-gray-600 rounded-full mr-2"></div>
+                      <div className="w-[40px] h-[6px] bg-gray-600 rounded-full"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Power Button */}
+                  <div className="absolute top-[100px] right-[-8px] w-[4px] h-[60px] bg-gray-700 rounded-r-md"></div>
+                  
+                  {/* Volume Buttons */}
+                  <div className="absolute top-[100px] left-[-8px] w-[4px] h-[30px] bg-gray-700 rounded-l-md"></div>
+                  <div className="absolute top-[140px] left-[-8px] w-[4px] h-[60px] bg-gray-700 rounded-l-md"></div>
+                  
+                  {/* Screen with Video */}
+                  <div className="relative h-full w-full rounded-[32px] overflow-hidden bg-white">
+                    <video 
+                      className="w-full h-full object-cover"
+                      autoPlay 
+                      muted 
+                      loop 
+                      playsInline
+                    >
+                      <source src="https://i.imgur.com/eXVpT0r.mp4" type="video/mp4" />
+                      Ваш браузер не поддерживает видео.
+                    </video>
+                  </div>
                 </div>
+                
+                {/* Reflection effect */}
+                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-white/20 to-transparent rounded-[40px] pointer-events-none"></div>
               </div>
             </div>
           </div>
