@@ -69,7 +69,7 @@ export const Hero: React.FC = () => {
         
         <button 
           onClick={scrollToAbout}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce-slow"
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white animate-bounce-slow mt-16"
           aria-label="Прокрутить вниз"
         >
           <ChevronDown size={32} />
