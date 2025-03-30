@@ -59,29 +59,37 @@ export const AboutUs: React.FC = () => {
         </div>
 
         <div className="mt-16 text-center reveal-on-scroll">
-          <div className="relative overflow-hidden rounded-xl shadow-lg">
-            <img 
-              src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05" 
-              alt="Групповые тренировки"
-              className="w-full h-auto object-cover rounded-xl"
-              style={{ maxHeight: '500px' }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 w-full p-8 text-white text-left">
-              <h3 className="text-2xl font-bold mb-2">Что тебя ждет?</h3>
-              <p className="text-white/80 max-w-xl">
-                Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
-                Каждый день — новый вызов, каждый день — новая победа над собой.
-              </p>
-              <button 
-                onClick={scrollToProgram}
-                className="mt-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center"
+          <div className="relative overflow-hidden rounded-xl shadow-xl bg-gradient-to-r from-kamp-dark/10 to-kamp-primary/10 p-1">
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+              <video 
+                className="w-full h-full object-cover rounded-lg"
+                autoPlay 
+                muted 
+                loop 
+                playsInline
               >
-                Узнать больше
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
+                <source src="https://imgur.com/eXVpT0r" type="video/mp4" />
+                Ваш браузер не поддерживает видео.
+              </video>
+              
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-8 text-white">
+                <div className="max-w-xl text-left">
+                  <h3 className="text-2xl font-bold mb-2 text-white">Что тебя ждет?</h3>
+                  <p className="text-white/90 mb-4">
+                    Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
+                    Каждый день — новый вызов, каждый день — новая победа над собой.
+                  </p>
+                  <button 
+                    onClick={scrollToProgram}
+                    className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium"
+                  >
+                    Узнать больше
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
