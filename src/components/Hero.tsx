@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 import { VideoBackground } from './ui/VideoBackground';
 
 export const Hero: React.FC = () => {
@@ -9,16 +8,6 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     setIsLoaded(true);
   }, []);
-
-  const scrollToAbout = () => {
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-      window.scrollTo({
-        top: aboutSection.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   return (
     <VideoBackground
@@ -66,14 +55,6 @@ export const Hero: React.FC = () => {
             </button>
           </div>
         </div>
-        
-        <button 
-          onClick={scrollToAbout}
-          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white animate-bounce-slow mt-16"
-          aria-label="Прокрутить вниз"
-        >
-          <ChevronDown size={32} />
-        </button>
       </div>
     </VideoBackground>
   );
