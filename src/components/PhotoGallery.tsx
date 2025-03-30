@@ -3,31 +3,31 @@ import React, { useEffect, useRef } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// Photos from the course
+// Updated photos with new URLs
 const photos = [
   {
     id: 1,
-    src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
+    src: "https://i.imgur.com/t3O09wf.jpeg",
     alt: "Участники в процессе тренировки"
   },
   {
     id: 2,
-    src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
+    src: "https://i.imgur.com/pDQtpCd.jpeg",
     alt: "Групповое занятие на природе"
   },
   {
     id: 3,
-    src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
+    src: "https://i.imgur.com/6avhXfD.jpeg",
     alt: "Силовая тренировка"
   },
   {
     id: 4,
-    src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
+    src: "https://i.imgur.com/nJQaK50.jpeg",
     alt: "Выпускники КЭМП"
   },
   {
     id: 5,
-    src: "/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png",
+    src: "https://i.imgur.com/t3O09wf.jpeg", // Reusing first image as 5th since one link wasn't working
     alt: "Командное упражнение"
   }
 ];
@@ -36,19 +36,33 @@ export const PhotoGallery: React.FC = () => {
   const galleryRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollPosition = useRef<number>(0);
   
-  // Function to create infinite scrolling animation
+  // Function to create smoother infinite scrolling animation
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     
     if (!scrollContainer) return;
     
     const scroll = () => {
-      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-        scrollContainer.scrollLeft = 0;
-      } else {
-        scrollContainer.scrollLeft += 1;
+      // Use a smaller increment for smoother animation
+      const speed = 0.5;
+      
+      if (scrollContainer.scrollWidth > 0) {
+        // Calculate when we need to reset (when first set of images is scrolled past)
+        const resetPoint = scrollContainer.scrollWidth / 2;
+        
+        if (scrollPosition.current >= resetPoint) {
+          // Reset scroll position to beginning to create infinite loop
+          scrollPosition.current = 0;
+          scrollContainer.scrollLeft = 0;
+        } else {
+          // Increment scroll position
+          scrollPosition.current += speed;
+          scrollContainer.scrollLeft = scrollPosition.current;
+        }
       }
+      
       animationRef.current = requestAnimationFrame(scroll);
     };
     
@@ -96,12 +110,12 @@ export const PhotoGallery: React.FC = () => {
           </p>
         </div>
 
-        {/* Horizontal scrolling gallery */}
+        {/* Horizontal scrolling gallery with improved animation */}
         <div className="relative overflow-hidden" ref={galleryRef}>
           <div 
             ref={scrollContainerRef}
             className="flex gap-4 overflow-x-auto scrollbar-hide py-4"
-            style={{ scrollBehavior: 'smooth' }}
+            style={{ scrollBehavior: 'auto' }} // Changed to auto for smoother programmatic scrolling
           >
             {/* Original photos */}
             {photos.map((photo) => (
@@ -113,6 +127,7 @@ export const PhotoGallery: React.FC = () => {
                   src={photo.src}
                   alt={photo.alt}
                   className="w-full h-full object-cover"
+                  loading="eager" // Ensure images load immediately for smooth scroll
                 />
               </div>
             ))}
@@ -127,6 +142,7 @@ export const PhotoGallery: React.FC = () => {
                   src={photo.src}
                   alt={photo.alt}
                   className="w-full h-full object-cover"
+                  loading="eager" // Ensure images load immediately for smooth scroll
                 />
               </div>
             ))}
