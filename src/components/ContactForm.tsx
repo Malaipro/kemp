@@ -28,6 +28,8 @@ export const ContactForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    console.log('Form submitted:', formData);
 
     try {
       const { error } = await saveContactSubmission(formData);

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Send } from 'lucide-react';
 
 interface ContactFormFieldsProps {
@@ -18,7 +18,7 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
   isSubmitting,
 }) => {
   return (
-    <form className="space-y-5">
+    <>
       <div>
         <label 
           htmlFor="name" 
@@ -38,7 +38,7 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
         />
       </div>
       
-      <div>
+      <div className="mt-5">
         <label 
           htmlFor="phone" 
           className="block text-sm font-medium text-gray-300 mb-1"
@@ -57,7 +57,7 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
         />
       </div>
       
-      <div>
+      <div className="mt-5">
         <label 
           htmlFor="course" 
           className="block text-sm font-medium text-gray-300 mb-1"
@@ -77,7 +77,7 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
         </select>
       </div>
       
-      <div className="pt-3">
+      <div className="mt-8">
         <button 
           type="submit"
           className="kamp-button-primary w-full flex items-center justify-center"
@@ -99,6 +99,6 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
           )}
         </button>
       </div>
-    </form>
+    </>
   );
 };

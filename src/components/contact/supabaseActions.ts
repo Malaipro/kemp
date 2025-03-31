@@ -8,13 +8,24 @@ export interface FormData {
 }
 
 export const saveContactSubmission = async (formData: FormData) => {
-  return await supabase
-    .from('contact_submissions')
-    .insert([
-      { 
-        name: formData.name,
-        phone: formData.phone,
-        course: formData.course
-      }
-    ]);
+  console.log('Saving contact submission:', formData);
+  
+  // Add proper error handling and return the result of the insert operation
+  try {
+    const response = await supabase
+      .from('contact_submissions')
+      .insert([
+        { 
+          name: formData.name,
+          phone: formData.phone,
+          course: formData.course
+        }
+      ]);
+      
+    console.log('Supabase response:', response);
+    return response;
+  } catch (error) {
+    console.error('Error saving contact submission:', error);
+    throw error;
+  }
 };
