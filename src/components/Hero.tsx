@@ -9,6 +9,16 @@ export const Hero: React.FC = () => {
     setIsLoaded(true);
   }, []);
 
+  const scrollToSection = (sectionId: string) => {
+    const programSection = document.getElementById(sectionId);
+    if (programSection) {
+      window.scrollTo({
+        top: programSection.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <VideoBackground
       imageUrl="/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png"
@@ -31,24 +41,14 @@ export const Hero: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <a 
-              href="https://forms.gle/ZcyxhZawxxakThWb6"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button 
+              onClick={() => scrollToSection('contact')}
               className="kamp-button-primary bg-kamp-primary hover:bg-opacity-90 text-center"
             >
               Записаться на курс
-            </a>
+            </button>
             <button 
-              onClick={() => {
-                const programSection = document.getElementById('program');
-                if (programSection) {
-                  window.scrollTo({
-                    top: programSection.offsetTop - 80,
-                    behavior: 'smooth'
-                  });
-                }
-              }}
+              onClick={() => scrollToSection('program')}
               className="kamp-button-secondary text-white bg-black/60 border-white/20 hover:bg-black/80"
             >
               Программа курса

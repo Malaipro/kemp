@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Shield, Star, Zap } from 'lucide-react';
 
@@ -24,6 +23,16 @@ const principles = [
 ];
 
 export const Philosophy: React.FC = () => {
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section id="philosophy" className="kamp-section bg-gradient-to-br from-slate-800 to-slate-900 text-white relative overflow-hidden">
       {/* Background pattern */}
@@ -62,6 +71,14 @@ export const Philosophy: React.FC = () => {
               "Сила не в том, чтобы никогда не падать, а в том, чтобы всегда подниматься."
             </blockquote>
             <div className="mt-4 font-semibold">— Команда КЭМП</div>
+            <div className="mt-8">
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="kamp-button-primary"
+              >
+                Записаться на курс
+              </button>
+            </div>
           </div>
         </div>
       </div>

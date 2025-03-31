@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MessageSquare } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +64,7 @@ export const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex items-center space-x-8">
             {menuItems.map((item) => (
               <button
                 key={item.id}
@@ -74,6 +74,13 @@ export const Header: React.FC = () => {
                 {item.label}
               </button>
             ))}
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="flex items-center text-white font-medium hover:text-kamp-accent transition-colors"
+            >
+              <MessageSquare size={18} className="mr-2" />
+              Задать вопрос
+            </button>
           </nav>
 
           {/* Register Button - Desktop */}
@@ -113,6 +120,13 @@ export const Header: React.FC = () => {
               {item.label}
             </button>
           ))}
+          <button
+            onClick={() => scrollToSection('contact')}
+            className="flex items-center text-lg text-white font-medium hover:text-kamp-accent transition-colors py-2"
+          >
+            <MessageSquare size={18} className="mr-2" />
+            Задать вопрос
+          </button>
           <button 
             className="kamp-button-accent mt-4 w-full"
             onClick={() => scrollToSection('contact')}

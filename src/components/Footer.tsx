@@ -3,6 +3,16 @@ import React from 'react';
 import { Instagram, Facebook, Twitter, Phone, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 100,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const menuItems = [
     { id: 'about', label: 'О нас' },
     { id: 'philosophy', label: 'Философия' },
@@ -25,7 +35,16 @@ export const Footer: React.FC = () => {
       <div className="kamp-container py-16">
         <div className="grid md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
-            <a href="#" className="text-2xl font-display font-bold">КЭМП</a>
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }} 
+              className="text-2xl font-display font-bold"
+            >
+              КЭМП
+            </a>
             <p className="mt-4 text-gray-400">
               Курс Эффективного Мужского Прогресса — интенсивная программа для тех, 
               кто готов пройти испытания и стать сильнее.
@@ -72,12 +91,12 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3">
               {menuItems.map((item) => (
                 <li key={item.id}>
-                  <a 
-                    href={`#${item.id}`} 
+                  <button 
+                    onClick={() => scrollToSection(item.id)} 
                     className="text-gray-400 hover:text-white transition-colors"
                   >
                     {item.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -88,9 +107,12 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3">
               {programItems.map((item, index) => (
                 <li key={index}>
-                  <a href="#program" className="text-gray-400 hover:text-white transition-colors">
+                  <button 
+                    onClick={() => scrollToSection('program')} 
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
                     {item.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
