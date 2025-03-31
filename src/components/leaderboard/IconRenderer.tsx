@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Medal, Target, Sun, DropletIcon, Utensils, Share2 } from 'lucide-react';
+import { Medal, Target, Sun, DropletIcon, Utensils, Share2, Book, Trophy } from 'lucide-react';
 
 // Function to get icon component based on string name
 export const getIconComponent = (iconName: string) => {
@@ -17,6 +17,10 @@ export const getIconComponent = (iconName: string) => {
       return <Utensils className="w-5 h-5 text-kamp-accent" />;
     case 'Share2':
       return <Share2 className="w-5 h-5 text-kamp-accent" />;
+    case 'Book':
+      return <Book className="w-5 h-5 text-kamp-accent" />;
+    case 'Trophy':
+      return <Trophy className="w-5 h-5 text-kamp-accent" />;
     default:
       return <Target className="w-5 h-5 text-kamp-accent" />;
   }

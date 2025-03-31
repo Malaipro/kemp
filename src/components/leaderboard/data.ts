@@ -21,5 +21,6 @@ export const activities: Activity[] = [
   { id: '2', title: 'Утренняя тренировка', icon: 'Sun', points: 15 },
   { id: '3', title: 'Закаливание', icon: 'DropletIcon', points: 10 },
   { id: '4', title: 'Правильное питание', icon: 'Utensils', points: 15 },
-  { id: '5', title: 'Участие в командной активности', icon: 'Share2', points: 25 },
+  { id: '5', title: 'Посещение лекций и мастер классов', icon: 'Book', points: 15 },
+  { id: '6', title: 'Участие в финальном испытании', icon: 'Trophy', points: 30 },
 ];
