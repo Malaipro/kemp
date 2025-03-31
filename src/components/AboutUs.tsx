@@ -7,19 +7,19 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const features = [
   {
     id: 1,
-    icon: <Dumbbell className="w-10 h-10 text-kamp-primary" />,
+    icon: <Dumbbell className="w-10 h-10 text-kamp-accent" />,
     title: 'Испытания',
     description: 'Жёсткие тренировки, закаливание, дисциплина. Преодолей себя и стань сильнее.',
   },
   {
     id: 2,
-    icon: <Users className="w-10 h-10 text-kamp-primary" />,
+    icon: <Users className="w-10 h-10 text-kamp-accent" />,
     title: 'Поддержка',
     description: 'Лучшие наставники, сообщество единомышленников. Вместе мы достигнем большего.',
   },
   {
     id: 3,
-    icon: <Award className="w-10 h-10 text-kamp-primary" />,
+    icon: <Award className="w-10 h-10 text-kamp-accent" />,
     title: 'Лидерборд',
     description: 'Докажи свою силу, соревнуйся с другими участниками, получи заслуженную награду.',
   },
@@ -37,51 +37,57 @@ export const AboutUs: React.FC = () => {
   };
 
   return (
-    <section id="about" className="kamp-section bg-kamp-light">
+    <section id="about" className="kamp-section bg-kamp-light border-t-4 border-kamp-primary">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-kamp-primary font-semibold mb-2">О нас</span>
+          <span className="inline-block text-kamp-accent font-semibold mb-2 uppercase tracking-wider">О нас</span>
           <h2 className="text-kamp-dark">Мы создаем условия для развития настоящей силы</h2>
-          <p className="text-balance">
+          <p className="text-balance text-gray-400">
             Мы — команда профессионалов, объединенных одной целью: создавать условия для развития настоящей силы. 
             Наш курс — это не просто тренировки. Это система испытаний, которые делают тебя сильнее во всех сферах жизни.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mt-10 md:mt-16 stagger-animation">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mt-12 md:mt-16 stagger-animation">
           {features.map((feature) => (
             <div 
               key={feature.id} 
-              className="kamp-card p-6 md:p-8 reveal-on-scroll hover-lift"
+              className="bg-[#222226] border border-gray-700 p-6 md:p-8 reveal-on-scroll hover:border-kamp-accent transition-all duration-300 rounded-md"
             >
-              <div className="mb-6 bg-blue-50 inline-flex p-4 rounded-lg">{feature.icon}</div>
+              <div className="mb-6 bg-[#2A2A30] inline-flex p-4 rounded-md">{feature.icon}</div>
               <h3 className="text-xl font-bold mb-3 text-kamp-dark">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
+              <p className="text-gray-400">{feature.description}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-10 md:mt-16 reveal-on-scroll">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
+        <div className="mt-16 md:mt-20 reveal-on-scroll">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center">
             {/* Text Content - Left Side */}
-            <div className="text-left mb-8 md:mb-0 order-2 md:order-1">
-              <h3 className="text-2xl font-bold mb-4 text-kamp-dark">Что тебя ждет?</h3>
-              <p className="text-gray-700 mb-4">
+            <div className="text-left mb-8 md:mb-0 order-2 md:order-1 bg-[#222226] border border-gray-700 p-6 md:p-10 rounded-md">
+              <h3 className="text-2xl font-bold mb-6 text-kamp-dark border-l-4 border-kamp-primary pl-4">Что тебя ждет?</h3>
+              <p className="text-gray-400 mb-4">
                 Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
                 Каждый день — новый вызов, каждый день — новая победа над собой.
               </p>
-              <p className="text-gray-700 mb-6">
-                <span className="font-medium">В КЭМП ты найдешь:</span>
-                <ul className="list-disc list-inside mt-2 space-y-2">
+              <p className="text-gray-400 mb-6">
+                <span className="font-medium text-white">В КЭМП ты найдешь:</span>
+                <ul className="list-disc list-inside mt-4 space-y-3">
                   <li>Структурированную программу испытаний</li>
                   <li>Профессиональных тренеров с боевым опытом</li>
                   <li>Тренировки, которые меняют не только тело, но и сознание</li>
                   <li>Поддержку сообщества единомышленников</li>
+                  <li>Возможность проверить свои пределы и выйти за их рамки</li>
+                  <li>Ценные награды для лидеров рейтинга</li>
                 </ul>
+              </p>
+              <p className="text-gray-400 mb-6">
+                Наши инструкторы — профессиональные тренеры с опытом в силовых структурах. Они знают, как 
+                создать максимальную нагрузку и безопасно провести вас через все испытания.
               </p>
               <Button 
                 onClick={scrollToProgram}
-                className="bg-kamp-primary hover:bg-kamp-primary/90 text-white"
+                className="bg-kamp-primary hover:bg-kamp-primary/90 text-white mt-4"
               >
                 Узнать больше
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -91,13 +97,13 @@ export const AboutUs: React.FC = () => {
             </div>
             
             {/* iPhone Frame with Video - Right Side */}
-            <div className="flex justify-center order-1 md:order-2">
+            <div className="flex justify-center order-1 md:order-2 p-4 md:p-0">
               <div className="relative">
                 {/* iPhone Frame - Larger and better proportioned */}
-                <div className={`relative ${isMobile ? 'w-[260px] h-[530px]' : 'w-[300px] h-[610px]'} bg-black rounded-[45px] p-3 shadow-xl border-4 border-gray-800`}>
+                <div className={`relative ${isMobile ? 'w-[280px] h-[570px]' : 'w-[320px] h-[650px]'} bg-[#111111] rounded-[45px] p-4 shadow-2xl border-4 border-gray-800`}>
                   {/* iPhone Notch */}
                   <div className="absolute top-0 left-0 right-0 flex justify-center z-10">
-                    <div className="w-[130px] h-[35px] bg-black rounded-b-[16px] flex items-center justify-center">
+                    <div className="w-[130px] h-[35px] bg-[#111111] rounded-b-[16px] flex items-center justify-center">
                       <div className="w-[8px] h-[8px] bg-gray-600 rounded-full mr-2"></div>
                       <div className="w-[40px] h-[6px] bg-gray-600 rounded-full"></div>
                     </div>
@@ -126,7 +132,7 @@ export const AboutUs: React.FC = () => {
                 </div>
                 
                 {/* Reflection effect */}
-                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-white/20 to-transparent rounded-[45px] pointer-events-none"></div>
+                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-white/10 to-transparent rounded-[45px] pointer-events-none"></div>
                 
                 {/* Additional iPhone details for more realism */}
                 <div className="absolute bottom-[12px] left-0 right-0 flex justify-center">

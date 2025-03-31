@@ -64,13 +64,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				kamp: {
-					light: '#F8F9FA',
-					dark: '#212529',
-					gray: '#ADB5BD',
-					primary: '#0466C8',
-					secondary: '#979DAC',
-					accent: '#E63946',
-					highlight: '#FF9F1C',
+					light: '#1A1F2C',
+					dark: '#F5F5F5',
+					gray: '#403E43',
+					primary: '#C8102E', // Strong red
+					secondary: '#333333', // Dark gray
+					accent: '#FFCD00', // Gold accent
+					highlight: '#1A1F2C', // Dark shade
 				}
 			},
 			borderRadius: {
@@ -154,11 +154,11 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-				'hero-pattern': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8))',
+				'hero-pattern': 'linear-gradient(to right bottom, rgba(26, 31, 44, 0.9), rgba(26, 31, 44, 0.9))',
 			},
 			boxShadow: {
-				'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
-				'neu': '20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff',
+				'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.25)',
+				'neu': '20px 20px 60px #151515, -20px -20px 60px #252525',
 			}
 		}
 	},

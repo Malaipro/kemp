@@ -15,8 +15,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       reveals.forEach((element) => {
         const windowHeight = window.innerHeight;
         const elementTop = element.getBoundingClientRect().top;
-        // Reduce the elementVisible value to trigger animations earlier
-        const elementVisible = 80; // Changed from 150 to 80
+        // Reduce the elementVisible value to trigger animations much earlier
+        const elementVisible = 40; // Changed from 80 to 40
 
         if (elementTop < windowHeight - elementVisible) {
           element.classList.add('is-visible');
@@ -35,7 +35,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-kamp-light text-kamp-dark">
       <Header />
       <main className="flex-grow">
         {children}
