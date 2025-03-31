@@ -14,11 +14,11 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="text-center p-8 max-w-md">
         <span className="inline-block text-kamp-primary font-semibold mb-4">404 ошибка</span>
-        <h1 className="text-4xl font-bold mb-4 text-kamp-dark">Страница не найдена</h1>
-        <p className="text-gray-600 mb-8">
+        <h1 className="text-4xl font-bold mb-4 text-white">Страница не найдена</h1>
+        <p className="text-gray-300 mb-8">
           Извините, страница, которую вы ищете, не существует или была перемещена.
         </p>
         <a 

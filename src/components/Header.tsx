@@ -32,7 +32,6 @@ export const Header: React.FC = () => {
 
   const menuItems = [
     { id: 'about', label: 'О нас' },
-    { id: 'philosophy', label: 'Философия' },
     { id: 'program', label: 'Программа' },
     { id: 'trainers', label: 'Тренеры' },
     { id: 'leaderboard', label: 'Рейтинг' },
@@ -42,7 +41,7 @@ export const Header: React.FC = () => {
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-soft py-3' : 'bg-white/95 backdrop-blur-md py-4 shadow-md'
+        isScrolled ? 'bg-black shadow-soft py-3' : 'bg-black/95 backdrop-blur-md py-4 shadow-md'
       }`}
     >
       <div className="kamp-container">
@@ -50,7 +49,7 @@ export const Header: React.FC = () => {
           <div className="flex items-center">
             <a 
               href="#" 
-              className="text-2xl font-display font-bold text-kamp-dark"
+              className="text-2xl font-display font-bold text-white"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -66,7 +65,7 @@ export const Header: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-kamp-dark font-medium hover:text-kamp-accent transition-colors"
+                className="text-white font-medium hover:text-kamp-accent transition-colors"
               >
                 {item.label}
               </button>
@@ -85,7 +84,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-kamp-dark focus:outline-none"
+            className="md:hidden text-white focus:outline-none"
             onClick={toggleMenu}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -95,7 +94,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       <div 
-        className={`md:hidden fixed inset-0 bg-white z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed inset-0 bg-black z-40 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{ top: '0', paddingTop: '5rem' }}
@@ -105,7 +104,7 @@ export const Header: React.FC = () => {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className="text-lg text-kamp-dark font-medium hover:text-kamp-accent transition-colors py-2"
+              className="text-lg text-white font-medium hover:text-kamp-accent transition-colors py-2"
             >
               {item.label}
             </button>

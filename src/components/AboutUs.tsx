@@ -41,8 +41,8 @@ export const AboutUs: React.FC = () => {
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-accent font-semibold mb-2 uppercase tracking-wider">О нас</span>
-          <h2 className="text-kamp-dark">Мы создаем условия для развития настоящей силы</h2>
-          <p className="text-balance text-gray-400">
+          <h2 className="text-white">Мы создаем условия для развития настоящей силы</h2>
+          <p className="text-balance text-gray-300">
             Мы — команда профессионалов, объединенных одной целью: создавать условия для развития настоящей силы. 
             Наш курс — это не просто тренировки. Это система испытаний, которые делают тебя сильнее во всех сферах жизни.
           </p>
@@ -55,8 +55,8 @@ export const AboutUs: React.FC = () => {
               className="bg-[#222226] border border-gray-700 p-6 md:p-8 reveal-on-scroll hover:border-kamp-accent transition-all duration-300 rounded-md"
             >
               <div className="mb-6 bg-[#2A2A30] inline-flex p-4 rounded-md">{feature.icon}</div>
-              <h3 className="text-xl font-bold mb-3 text-kamp-dark">{feature.title}</h3>
-              <p className="text-gray-400">{feature.description}</p>
+              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
+              <p className="text-gray-300">{feature.description}</p>
             </div>
           ))}
         </div>
@@ -65,12 +65,12 @@ export const AboutUs: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center">
             {/* Text Content - Left Side */}
             <div className="text-left mb-8 md:mb-0 order-2 md:order-1 bg-[#222226] border border-gray-700 p-6 md:p-10 rounded-md">
-              <h3 className="text-2xl font-bold mb-6 text-kamp-dark border-l-4 border-kamp-primary pl-4">Что тебя ждет?</h3>
-              <p className="text-gray-400 mb-4">
+              <h3 className="text-2xl font-bold mb-6 text-white border-l-4 border-kamp-primary pl-4">Что тебя ждет?</h3>
+              <p className="text-gray-300 mb-4">
                 Интенсивные тренировки, испытания на выносливость, работа в команде и индивидуальный рост.
                 Каждый день — новый вызов, каждый день — новая победа над собой.
               </p>
-              <p className="text-gray-400 mb-6">
+              <p className="text-gray-300 mb-6">
                 <span className="font-medium text-white">В КЭМП ты найдешь:</span>
                 <ul className="list-disc list-inside mt-4 space-y-3">
                   <li>Структурированную программу испытаний</li>
@@ -81,7 +81,7 @@ export const AboutUs: React.FC = () => {
                   <li>Ценные награды для лидеров рейтинга</li>
                 </ul>
               </p>
-              <p className="text-gray-400 mb-6">
+              <p className="text-gray-300 mb-6">
                 Наши инструкторы — профессиональные тренеры с опытом в силовых структурах. Они знают, как 
                 создать максимальную нагрузку и безопасно провести вас через все испытания.
               </p>

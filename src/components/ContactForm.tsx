@@ -64,12 +64,12 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="kamp-section bg-white">
+    <section id="contact" className="kamp-section bg-black text-white">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Записаться на курс</span>
-          <h2 className="text-kamp-dark">Готов проверить себя?</h2>
-          <p>
+          <h2 className="text-white">Готов проверить себя?</h2>
+          <p className="text-gray-300">
             Заполни форму ниже, и мы свяжемся с тобой для уточнения деталей. 
             Количество мест ограничено, не упусти свой шанс.
           </p>
@@ -78,14 +78,14 @@ export const ContactForm: React.FC = () => {
         <div className="mt-16 grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="reveal-on-scroll">
-            <div className="bg-white rounded-xl shadow-soft p-8 border border-gray-100">
-              <h3 className="text-xl font-bold text-kamp-dark mb-6">Оставить заявку</h3>
+            <div className="bg-[#111] rounded-xl shadow-soft p-8 border border-gray-800">
+              <h3 className="text-xl font-bold text-white mb-6">Оставить заявку</h3>
               
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label 
                     htmlFor="name" 
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-300 mb-1"
                   >
                     Имя
                   </label>
@@ -104,7 +104,7 @@ export const ContactForm: React.FC = () => {
                 <div>
                   <label 
                     htmlFor="phone" 
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-300 mb-1"
                   >
                     Телефон
                   </label>
@@ -123,7 +123,7 @@ export const ContactForm: React.FC = () => {
                 <div>
                   <label 
                     htmlFor="course" 
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-300 mb-1"
                   >
                     Выберите курс
                   </label>
