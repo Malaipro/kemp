@@ -1,11 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
-import { Send, Clock, MessageSquare } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { AskQuestion } from './contact/AskQuestion';
+import { ContactFormFields } from './contact/ContactFormFields';
+import { CountdownTimer } from './contact/CountdownTimer';
+import { CourseInfo } from './contact/CourseInfo';
+import { SubmissionSuccess } from './contact/SubmissionSuccess';
+import { saveContactSubmission, FormData } from './contact/supabaseActions';
 
 export const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
     course: 'male', // default to male course
@@ -13,36 +17,8 @@ export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Countdown timer for next course start (April 7, 2025)
+  // Set target date for countdown timer (April 7, 2025)
   const targetDate = new Date("2025-04-07T00:00:00");
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
-      
-      if (difference <= 0) {
-        clearInterval(interval);
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-      
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      
-      setTimeLeft({ days, hours, minutes, seconds });
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, [targetDate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -54,16 +30,7 @@ export const ContactForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Save submission to Supabase
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert([
-          { 
-            name: formData.name,
-            phone: formData.phone,
-            course: formData.course
-          }
-        ]);
+      const { error } = await saveContactSubmission(formData);
 
       if (error) {
         throw error;
@@ -110,121 +77,20 @@ export const ContactForm: React.FC = () => {
               <h3 className="text-xl font-bold text-white mb-6">Оставить заявку</h3>
               
               {submitted ? (
-                <div className="p-6 bg-kamp-accent/20 rounded-lg text-center">
-                  <div className="text-2xl font-bold text-kamp-accent mb-2">Спасибо за заявку!</div>
-                  <p className="text-white/80 mb-4">
-                    Вы успешно зарегестрировались на курс. Мы свяжемся с вами в ближайшее время.
-                  </p>
-                  <button 
-                    onClick={() => setSubmitted(false)}
-                    className="kamp-button-primary"
-                  >
-                    Отправить ещё одну заявку
-                  </button>
-                </div>
+                <SubmissionSuccess onReset={() => setSubmitted(false)} />
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label 
-                      htmlFor="name" 
-                      className="block text-sm font-medium text-gray-300 mb-1"
-                    >
-                      Имя
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="kamp-input"
-                      placeholder="Введите ваше имя"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label 
-                      htmlFor="phone" 
-                      className="block text-sm font-medium text-gray-300 mb-1"
-                    >
-                      Телефон
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="kamp-input"
-                      placeholder="+7 (___) ___-__-__"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label 
-                      htmlFor="course" 
-                      className="block text-sm font-medium text-gray-300 mb-1"
-                    >
-                      Выберите курс
-                    </label>
-                    <select
-                      id="course"
-                      name="course"
-                      value={formData.course}
-                      onChange={handleChange}
-                      required
-                      className="kamp-input"
-                    >
-                      <option value="male">Мужской курс</option>
-                      <option value="female">Женский курс</option>
-                    </select>
-                  </div>
-                  
-                  <div className="pt-3">
-                    <button 
-                      type="submit"
-                      className="kamp-button-primary w-full flex items-center justify-center"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <span className="flex items-center">
-                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Отправка...
-                        </span>
-                      ) : (
-                        <span className="flex items-center">
-                          <Send size={18} className="mr-2" />
-                          Отправить заявку
-                        </span>
-                      )}
-                    </button>
-                  </div>
+                <form onSubmit={handleSubmit}>
+                  <ContactFormFields 
+                    formData={formData}
+                    handleChange={handleChange}
+                    isSubmitting={isSubmitting}
+                  />
                 </form>
               )}
             </div>
             
             {/* Ask a Question Button */}
-            <div className="mt-6 bg-[#111] rounded-xl shadow-soft p-6 border border-gray-800">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <MessageSquare size={20} className="text-kamp-accent mr-3" />
-                  <span className="font-medium">Остались вопросы?</span>
-                </div>
-                <a 
-                  href="https://t.me/Dmitriy_nar" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="kamp-button-primary text-sm px-4 py-2"
-                >
-                  Задать вопрос
-                </a>
-              </div>
-            </div>
+            <AskQuestion />
           </div>
 
           {/* Timer and Info */}
@@ -237,54 +103,9 @@ export const ContactForm: React.FC = () => {
                   чтобы мы могли уделить внимание каждому участнику.
                 </p>
 
-                <div className="mb-8">
-                  <p className="text-white/80 mb-2 flex items-center">
-                    <Clock size={16} className="mr-2" />
-                    До старта следующего потока:
-                  </p>
-                  <div className="grid grid-cols-4 gap-2 text-center">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                      <div className="text-3xl font-bold">{timeLeft.days}</div>
-                      <div className="text-xs text-white/70 mt-1">дней</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                      <div className="text-3xl font-bold">{timeLeft.hours}</div>
-                      <div className="text-xs text-white/70 mt-1">часов</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                      <div className="text-3xl font-bold">{timeLeft.minutes}</div>
-                      <div className="text-xs text-white/70 mt-1">минут</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                      <div className="text-3xl font-bold">{timeLeft.seconds}</div>
-                      <div className="text-xs text-white/70 mt-1">секунд</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                    <h4 className="font-bold text-lg mb-2">Что включено?</h4>
-                    <ul className="space-y-2 text-white/80">
-                      <li className="flex items-start">
-                        <span className="text-white mr-2">•</span>
-                        <span>10 тренировок по кикбоксингу</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-white mr-2">•</span>
-                        <span>8 функциональных тренировок</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-white mr-2">•</span>
-                        <span>4 выездных мероприятия</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-white mr-2">•</span>
-                        <span>Персональное сопровождение</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                <CountdownTimer targetDate={targetDate} />
+                
+                <CourseInfo />
               </div>
               
               <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/10">
