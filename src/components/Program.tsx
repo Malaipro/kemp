@@ -53,7 +53,7 @@ export const Program: React.FC = () => {
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Программа курса</span>
-          <h2 className="text-kamp-dark">Интенсивные тренировки для тела и духа</h2>
+          <h2 className="text-black">Интенсивные тренировки для тела и духа</h2>
           <p>
             Наша программа разработана для всестороннего развития. 
             Каждая тренировка — это шаг к совершенству, каждое испытание — возможность стать сильнее.

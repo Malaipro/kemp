@@ -49,8 +49,8 @@ export const Testimonials: React.FC = () => {
     <section id="testimonials" className="kamp-section bg-gray-50">
       <div className="kamp-container">
         <div className="section-heading">
-          <h2>Отзывы участников</h2>
-          <p>
+          <h2 className="text-black">Отзывы участников</h2>
+          <p className="text-gray-700">
             Узнайте, что говорят наши выпускники о программе КЭМП и как она изменила их жизнь
           </p>
         </div>
@@ -67,7 +67,7 @@ export const Testimonials: React.FC = () => {
                   <p className="text-sm text-gray-500">{testimonial.position}</p>
                 </div>
                 <RatingStars rating={testimonial.rating} />
-                <blockquote className="mt-3 text-gray-700 italic">
+                <blockquote className="mt-3 text-white italic">
                   "{testimonial.quote}"
                 </blockquote>
               </CardContent>

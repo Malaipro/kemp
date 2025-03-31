@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Send, Clock } from 'lucide-react';
@@ -159,7 +158,7 @@ export const ContactForm: React.FC = () => {
 
           {/* Timer and Info */}
           <div className="reveal-on-scroll">
-            <div className="bg-gradient-to-r from-kamp-primary to-blue-600 text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
+            <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
               <div className="flex-grow p-8">
                 <h3 className="text-xl font-bold mb-6">Не упусти свой шанс</h3>
                 <p className="text-white/80 mb-8">
@@ -217,7 +216,7 @@ export const ContactForm: React.FC = () => {
                 </div>
               </div>
               
-              <div className="p-6 bg-white/10 backdrop-blur-sm border-t border-white/10">
+              <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/10">
                 <div className="flex items-center">
                   <div className="flex-grow">
                     <div className="text-xl font-bold">Ограниченный набор</div>
