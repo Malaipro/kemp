@@ -25,6 +25,13 @@ export const ContactForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const scrollToContactForm = () => {
+    const contactFormElement = document.getElementById('contact-form');
+    if (contactFormElement) {
+      contactFormElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -75,7 +82,7 @@ export const ContactForm: React.FC = () => {
         <div className="mt-16 grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="reveal-on-scroll">
-            <div className="bg-[#111] rounded-xl shadow-soft p-8 border border-gray-800">
+            <div id="contact-form" className="bg-[#111] rounded-xl shadow-soft p-8 border border-gray-800">
               <h3 className="text-xl font-bold text-white mb-6">Оставить заявку</h3>
               
               {submitted ? (
@@ -116,14 +123,12 @@ export const ContactForm: React.FC = () => {
                     <div className="text-xl font-bold">Ограниченный набор</div>
                     <div className="text-white/70 text-sm">Запишись прямо сейчас</div>
                   </div>
-                  <a 
-                    href="https://forms.gle/ZcyxhZawxxakThWb6"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button 
+                    onClick={scrollToContactForm}
                     className="kamp-button text-kamp-primary bg-white hover:bg-white/90"
                   >
                     Записаться
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
