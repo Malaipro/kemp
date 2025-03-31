@@ -12,18 +12,18 @@ export const Hero: React.FC = () => {
   return (
     <VideoBackground
       imageUrl="/lovable-uploads/897a2b54-4b4a-4946-a08b-5c76b0474438.png"
-      overlayColor="rgba(0, 0, 0, 0.6)"
+      overlayColor="rgba(0, 0, 0, 0.7)"
       className="h-screen flex items-center justify-center"
     >
       <div className="kamp-container text-center mx-auto">
         <div className={`space-y-6 max-w-4xl mx-auto transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
-          <span className="inline-block text-white/80 text-sm md:text-base font-semibold uppercase tracking-wider mb-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm">
+          <span className="inline-block text-white/80 text-sm md:text-base font-semibold uppercase tracking-wider mb-2 px-4 py-1.5 rounded-full bg-kamp-primary/80 backdrop-blur-sm">
             Курс Эффективного Мужского Прогресса
           </span>
           
           <h1 className="text-white font-display font-bold leading-tight">
             КЭМП — интенсив для тех, кто готов пройти испытания и стать 
-            <span className="text-gradient bg-gradient-to-r from-blue-400 to-indigo-500"> сильнее.</span>
+            <span className="text-gradient bg-gradient-to-r from-kamp-accent to-kamp-primary"> сильнее.</span>
           </h1>
           
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-light">
@@ -35,7 +35,7 @@ export const Hero: React.FC = () => {
               href="https://forms.gle/ZcyxhZawxxakThWb6"
               target="_blank"
               rel="noopener noreferrer"
-              className="kamp-button-primary bg-kamp-accent hover:bg-opacity-90 text-center"
+              className="kamp-button-primary bg-kamp-primary hover:bg-opacity-90 text-center"
             >
               Записаться на курс
             </a>
@@ -49,7 +49,7 @@ export const Hero: React.FC = () => {
                   });
                 }
               }}
-              className="kamp-button-secondary text-white bg-white/10 border-white/20 hover:bg-white/20"
+              className="kamp-button-secondary text-white bg-black/60 border-white/20 hover:bg-black/80"
             >
               Программа курса
             </button>

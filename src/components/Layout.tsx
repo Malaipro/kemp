@@ -15,8 +15,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       reveals.forEach((element) => {
         const windowHeight = window.innerHeight;
         const elementTop = element.getBoundingClientRect().top;
-        // Reduce the elementVisible value to trigger animations much earlier
-        const elementVisible = 40; // Changed from 80 to 40
+        // Reduce the elementVisible value even more to trigger animations earlier
+        const elementVisible = 20; // Changed from 40 to 20 for earlier animations
 
         if (elementTop < windowHeight - elementVisible) {
           element.classList.add('is-visible');

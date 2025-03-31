@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -6,48 +7,26 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 100% 45%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 100% 60%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 100% 45%;
+    --radius: 0.5rem;
   }
 }
 
@@ -96,7 +75,7 @@
   }
 
   .kamp-card {
-    @apply bg-white rounded-xl shadow-soft transition-transform duration-300 overflow-hidden border border-gray-100 hover:shadow-lg;
+    @apply bg-black/80 rounded-xl shadow-soft transition-transform duration-300 overflow-hidden border border-gray-800 hover:shadow-lg;
   }
 
   .kamp-button {
@@ -112,11 +91,11 @@
   }
 
   .kamp-button-secondary {
-    @apply kamp-button bg-white text-kamp-dark border border-gray-200 hover:bg-gray-50 focus:ring-gray-200;
+    @apply kamp-button bg-black text-white border border-gray-700 hover:bg-gray-900 focus:ring-gray-700;
   }
 
   .kamp-input {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-kamp-primary focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-kamp-primary focus:border-transparent transition-all duration-200 bg-black/50 text-white;
   }
 
   .kamp-badge {
@@ -124,7 +103,7 @@
   }
 
   .glass-card {
-    @apply backdrop-blur-md bg-white/80 border border-white/20 shadow-lg;
+    @apply backdrop-blur-md bg-black/50 border border-white/10 shadow-lg;
   }
 
   .section-heading {
@@ -136,7 +115,7 @@
   }
 
   .section-heading p {
-    @apply text-lg text-gray-700 max-w-2xl mx-auto;
+    @apply text-lg text-gray-400 max-w-2xl mx-auto;
   }
 
   .hover-lift {
@@ -144,7 +123,7 @@
   }
 
   .animated-gradient {
-    @apply bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 bg-size-200 animate-gradient-background;
+    @apply bg-gradient-to-r from-kamp-primary via-kamp-accent to-kamp-primary bg-size-200 animate-gradient-background;
   }
 
   .pulsing-button {
@@ -175,7 +154,7 @@
   }
   
   .text-shadow {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   .bg-size-200 {
@@ -211,7 +190,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-kamp-accent to-red-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-kamp-accent to-red-600;
   }
 
   .scale-hover {
@@ -223,10 +202,10 @@
   }
 
   .highlight-text::after {
-    @apply content-[''] absolute bottom-0 left-0 w-full h-[30%] bg-kamp-accent/20 -z-10 transition-all duration-300;
+    @apply content-[''] absolute bottom-0 left-0 w-full h-[30%] bg-kamp-primary/20 -z-10 transition-all duration-300;
   }
 
   .highlight-text:hover::after {
-    @apply h-[50%] bg-kamp-accent/30;
+    @apply h-[50%] bg-kamp-primary/30;
   }
 }

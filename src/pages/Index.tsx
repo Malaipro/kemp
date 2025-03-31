@@ -12,10 +12,10 @@ import { ContactForm } from '@/components/ContactForm';
 
 const Index = () => {
   useEffect(() => {
-    // Устанавливаем заголовок на русском языке
+    // Set title in Russian
     document.title = 'КЭМП - Курс Эффективного Мужского Прогресса';
     
-    // Добавляем мета-описание для SEO и социальных сетей
+    // Add meta description for SEO and social networks
     const metaDescription = document.createElement('meta');
     metaDescription.name = 'description';
     metaDescription.content = 'КЭМП — интенсив для тех, кто готов пройти испытания и стать сильнее. Физически. Ментально. Духовно.';

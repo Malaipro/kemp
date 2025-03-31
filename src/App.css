@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #1A1F2C;
+  background-color: #121212;
   color: #F5F5F5;
 }
 
@@ -18,10 +18,10 @@ body {
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #C8102Eaa);
+  filter: drop-shadow(0 0 2em #e60000aa);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #C8102Eaa);
+  filter: drop-shadow(0 0 2em #e60000aa);
 }
 
 @keyframes logo-spin {
