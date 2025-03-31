@@ -1,29 +1,7 @@
 
 import React from 'react';
-import { Dumbbell, Award, Users } from 'lucide-react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-const features = [
-  {
-    id: 1,
-    icon: <Dumbbell className="w-10 h-10 text-kamp-accent" />,
-    title: 'Испытания',
-    description: 'Жёсткие тренировки, закаливание, дисциплина. Преодолей себя и стань сильнее.',
-  },
-  {
-    id: 2,
-    icon: <Users className="w-10 h-10 text-kamp-accent" />,
-    title: 'Поддержка',
-    description: 'Лучшие наставники, сообщество единомышленников. Вместе мы достигнем большего.',
-  },
-  {
-    id: 3,
-    icon: <Award className="w-10 h-10 text-kamp-accent" />,
-    title: 'Лидерборд',
-    description: 'Докажи свою силу, соревнуйся с другими участниками, получи заслуженную награду.',
-  },
-];
 
 export const AboutUs: React.FC = () => {
   const isMobile = useIsMobile();
@@ -46,19 +24,6 @@ export const AboutUs: React.FC = () => {
             Мы — команда профессионалов, объединенных одной целью: создавать условия для развития настоящей силы. 
             Наш курс — это не просто тренировки. Это система испытаний, которые делают тебя сильнее во всех сферах жизни.
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mt-12 md:mt-16 stagger-animation">
-          {features.map((feature) => (
-            <div 
-              key={feature.id} 
-              className="bg-[#222226] border border-gray-700 p-6 md:p-8 reveal-on-scroll hover:border-kamp-accent transition-all duration-300 rounded-md"
-            >
-              <div className="mb-6 bg-[#2A2A30] inline-flex p-4 rounded-md">{feature.icon}</div>
-              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-              <p className="text-gray-300">{feature.description}</p>
-            </div>
-          ))}
         </div>
 
         <div className="mt-16 md:mt-20 reveal-on-scroll">
