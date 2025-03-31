@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { Send, Clock } from 'lucide-react';
+import { Send, Clock, MessageSquare } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ export const ContactForm: React.FC = () => {
     course: 'male', // default to male course
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   // Countdown timer for next course start (April 7, 2025)
   const targetDate = new Date("2025-04-07T00:00:00");
@@ -46,20 +49,46 @@ export const ContactForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Redirect to Google Form instead of submitting
-    window.open("https://forms.gle/ZcyxhZawxxakThWb6", "_blank");
-    
-    // Reset form
-    setFormData({
-      name: '',
-      phone: '',
-      course: 'male',
-    });
-    setIsSubmitting(false);
+    try {
+      // Save submission to Supabase
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([
+          { 
+            name: formData.name,
+            phone: formData.phone,
+            course: formData.course
+          }
+        ]);
+
+      if (error) {
+        throw error;
+      }
+
+      // Reset form and show success state
+      setFormData({
+        name: '',
+        phone: '',
+        course: 'male',
+      });
+      setSubmitted(true);
+      toast.success("Вы успешно зарегестрировались на курс", {
+        duration: 5000,
+      });
+
+      // Open Google Form in new tab
+      window.open("https://forms.gle/ZcyxhZawxxakThWb6", "_blank");
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("Произошла ошибка при отправке формы. Пожалуйста, попробуйте еще раз.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -80,79 +109,121 @@ export const ContactForm: React.FC = () => {
             <div className="bg-[#111] rounded-xl shadow-soft p-8 border border-gray-800">
               <h3 className="text-xl font-bold text-white mb-6">Оставить заявку</h3>
               
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label 
-                    htmlFor="name" 
-                    className="block text-sm font-medium text-gray-300 mb-1"
+              {submitted ? (
+                <div className="p-6 bg-kamp-accent/20 rounded-lg text-center">
+                  <div className="text-2xl font-bold text-kamp-accent mb-2">Спасибо за заявку!</div>
+                  <p className="text-white/80 mb-4">
+                    Вы успешно зарегестрировались на курс. Мы свяжемся с вами в ближайшее время.
+                  </p>
+                  <button 
+                    onClick={() => setSubmitted(false)}
+                    className="kamp-button-primary"
                   >
-                    Имя
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="kamp-input"
-                    placeholder="Введите ваше имя"
-                  />
+                    Отправить ещё одну заявку
+                  </button>
                 </div>
-                
-                <div>
-                  <label 
-                    htmlFor="phone" 
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Телефон
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="kamp-input"
-                    placeholder="+7 (___) ___-__-__"
-                  />
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label 
+                      htmlFor="name" 
+                      className="block text-sm font-medium text-gray-300 mb-1"
+                    >
+                      Имя
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="kamp-input"
+                      placeholder="Введите ваше имя"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label 
+                      htmlFor="phone" 
+                      className="block text-sm font-medium text-gray-300 mb-1"
+                    >
+                      Телефон
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      className="kamp-input"
+                      placeholder="+7 (___) ___-__-__"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label 
+                      htmlFor="course" 
+                      className="block text-sm font-medium text-gray-300 mb-1"
+                    >
+                      Выберите курс
+                    </label>
+                    <select
+                      id="course"
+                      name="course"
+                      value={formData.course}
+                      onChange={handleChange}
+                      required
+                      className="kamp-input"
+                    >
+                      <option value="male">Мужской курс</option>
+                      <option value="female">Женский курс</option>
+                    </select>
+                  </div>
+                  
+                  <div className="pt-3">
+                    <button 
+                      type="submit"
+                      className="kamp-button-primary w-full flex items-center justify-center"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center">
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Отправка...
+                        </span>
+                      ) : (
+                        <span className="flex items-center">
+                          <Send size={18} className="mr-2" />
+                          Отправить заявку
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+            
+            {/* Ask a Question Button */}
+            <div className="mt-6 bg-[#111] rounded-xl shadow-soft p-6 border border-gray-800">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <MessageSquare size={20} className="text-kamp-accent mr-3" />
+                  <span className="font-medium">Остались вопросы?</span>
                 </div>
-                
-                <div>
-                  <label 
-                    htmlFor="course" 
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Выберите курс
-                  </label>
-                  <select
-                    id="course"
-                    name="course"
-                    value={formData.course}
-                    onChange={handleChange}
-                    required
-                    className="kamp-input"
-                  >
-                    <option value="male">Мужской курс</option>
-                    <option value="female">Женский курс</option>
-                  </select>
-                </div>
-                
-                <div className="pt-3">
-                  <a 
-                    href="https://forms.gle/ZcyxhZawxxakThWb6"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="kamp-button-primary w-full flex items-center justify-center"
-                  >
-                    <span className="flex items-center">
-                      <Send size={18} className="mr-2" />
-                      Отправить заявку
-                    </span>
-                  </a>
-                </div>
-              </form>
+                <a 
+                  href="https://t.me/Dmitriy_nar" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="kamp-button-primary text-sm px-4 py-2"
+                >
+                  Задать вопрос
+                </a>
+              </div>
             </div>
           </div>
 
