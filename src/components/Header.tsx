@@ -55,7 +55,11 @@ export const Header: React.FC = () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              KЭМП
+              <img 
+                src="/lovable-uploads/1c75a68d-1c27-4260-b026-51f96824147f.png" 
+                alt="КЭМП Логотип" 
+                className="h-10 md:h-12"
+              />
             </a>
           </div>
 
