@@ -28,7 +28,7 @@ export const Hero: React.FC = () => {
       <div className="kamp-container text-center mx-auto px-4 md:px-8">
         <div className={`space-y-6 max-w-4xl mx-auto transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 translate-y-10'}`}>
           <span className="inline-block text-white/80 text-xs md:text-base font-semibold uppercase tracking-wider mb-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-kamp-primary/80 backdrop-blur-sm">
-            Курс Эффективного Мужского Прогресса
+            Курс Эффективного Прогресса
           </span>
           
           <h1 className="text-3xl md:text-5xl lg:text-6xl text-white font-display font-bold leading-tight">

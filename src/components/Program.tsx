@@ -8,7 +8,6 @@ const programs = [
     title: 'Кикбоксинг',
     description: 'Техника ударов, спарринги, работа в парах. Развитие координации и скорости реакции.',
     image: 'https://www.fit-l.com/images/14-812bfw7mtbdl-sl1407.jpg',
-    days: ['Понедельник', 'Среда'],
     time: '20:00 - 21:30',
   },
   {
@@ -16,7 +15,6 @@ const programs = [
     title: 'Кроссфит',
     description: 'Функциональные тренировки, силовые испытания. Развитие выносливости и силы.',
     image: 'https://i.imgur.com/nBZ8yTd.jpeg',
-    days: ['Пятница'],
     time: '20:00 - 21:30',
   },
   {
@@ -24,7 +22,6 @@ const programs = [
     title: 'Выездные испытания',
     description: 'Голубое озеро, баня, экстремальные челленджи. Закалка духа и командная работа.',
     image: 'https://www.mcb.nsc.ru/sites/mcb.nsc.ru/files/imagecache/full_size_image/fotogallery/box_1.jpg',
-    days: ['Суббота', 'Воскресенье'],
     time: '08:00 - 14:00',
   },
   {
@@ -32,7 +29,6 @@ const programs = [
     title: 'Реабилитация',
     description: 'Крио-сауна, восстановительные процедуры в ЦГВС. Восстановление и регенерация.',
     image: 'https://i.imgur.com/7yP7h13.jpeg',
-    days: ['Среда'],
     time: '19:00 - 20:30',
   },
   {
@@ -40,7 +36,6 @@ const programs = [
     title: 'Пробежки и закаливание',
     description: 'Утренние забеги, холодные ванны. Развитие дисциплины и стойкости.',
     image: 'https://i.imgur.com/m3S48iw.jpeg',
-    days: ['Ежедневно'],
     time: '06:00 - 07:00',
   },
 ];
@@ -78,7 +73,7 @@ export const Program: React.FC = () => {
                   </h3>
                   <div className="flex items-center text-sm text-gray-500 mt-1">
                     <Calendar className="w-4 h-4 mr-1" />
-                    <span>{program.days.join(', ')}</span>
+                    <span>{program.time}</span>
                   </div>
                 </div>
                 <ArrowRight className={`ml-auto transition-transform ${
@@ -106,13 +101,6 @@ export const Program: React.FC = () => {
               </div>
               <div className="p-6">
                 <p className="text-gray-700">{activeProgram.description}</p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {activeProgram.days.map((day) => (
-                    <span key={day} className="kamp-badge bg-gray-100 text-gray-800">
-                      {day}
-                    </span>
-                  ))}
-                </div>
               </div>
             </div>
           </div>

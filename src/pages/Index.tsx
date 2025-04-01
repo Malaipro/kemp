@@ -14,7 +14,7 @@ import { ContactForm } from '@/components/ContactForm';
 const Index = () => {
   useEffect(() => {
     // Set title in Russian
-    document.title = 'КЭМП - Курс Эффективного Мужского Прогресса';
+    document.title = 'КЭМП - Курс Эффективного Прогресса';
     
     // Add meta description for SEO and social networks
     const metaDescription = document.createElement('meta');
