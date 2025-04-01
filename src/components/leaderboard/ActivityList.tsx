@@ -3,6 +3,7 @@ import React from 'react';
 import { Activity } from '@/types/leaderboard';
 import { getIconComponent } from './IconRenderer';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Video } from 'lucide-react';
 
 interface ActivityListProps {
   activities: Activity[];
@@ -37,6 +38,11 @@ export const ActivityList: React.FC<ActivityListProps> = ({
             </div>
           </div>
         ))}
+        
+        <div className="mt-8 pt-4 border-t border-gray-800 flex items-center text-sm text-gray-400">
+          <Video className="w-4 h-4 mr-2 text-kamp-accent" />
+          <p>Некоторым пунктам необходимо видео подтверждение</p>
+        </div>
       </CardContent>
 
       <div className="p-6 bg-gradient-to-r from-kamp-primary to-kamp-accent text-white">

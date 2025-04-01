@@ -17,7 +17,7 @@ export const participants: Participant[] = [
 
 // Static data for activities
 export const activities: Activity[] = [
-  { id: '1', title: 'Тренировка по кикбоксингу', icon: 'Target', points: 20 },
+  { id: '1', title: 'Тренировка', icon: 'Target', points: 20 },
   { id: '2', title: 'Утренняя тренировка', icon: 'Sun', points: 15 },
   { id: '3', title: 'Закаливание', icon: 'DropletIcon', points: 10 },
   { id: '4', title: 'Правильное питание', icon: 'Utensils', points: 15 },
