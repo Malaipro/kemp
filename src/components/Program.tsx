@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const programs = [
   {
@@ -8,35 +8,30 @@ const programs = [
     title: 'Кикбоксинг',
     description: 'Техника ударов, спарринги, работа в парах. Развитие координации и скорости реакции.',
     image: 'https://www.fit-l.com/images/14-812bfw7mtbdl-sl1407.jpg',
-    time: '20:00 - 21:30',
   },
   {
     id: 2,
     title: 'Кроссфит',
     description: 'Функциональные тренировки, силовые испытания. Развитие выносливости и силы.',
     image: 'https://i.imgur.com/nBZ8yTd.jpeg',
-    time: '20:00 - 21:30',
   },
   {
     id: 3,
     title: 'Выездные испытания',
     description: 'Голубое озеро, баня, экстремальные челленджи. Закалка духа и командная работа.',
     image: 'https://www.mcb.nsc.ru/sites/mcb.nsc.ru/files/imagecache/full_size_image/fotogallery/box_1.jpg',
-    time: '08:00 - 14:00',
   },
   {
     id: 4,
     title: 'Реабилитация',
     description: 'Крио-сауна, восстановительные процедуры в ЦГВС. Восстановление и регенерация.',
     image: 'https://i.imgur.com/7yP7h13.jpeg',
-    time: '19:00 - 20:30',
   },
   {
     id: 5,
     title: 'Пробежки и закаливание',
     description: 'Утренние забеги, холодные ванны. Развитие дисциплины и стойкости.',
     image: 'https://i.imgur.com/m3S48iw.jpeg',
-    time: '06:00 - 07:00',
   },
 ];
 
@@ -71,10 +66,6 @@ export const Program: React.FC = () => {
                   <h3 className={`font-bold ${activeProgram.id === program.id ? 'text-kamp-primary' : 'text-gray-700'}`}>
                     {program.title}
                   </h3>
-                  <div className="flex items-center text-sm text-gray-500 mt-1">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    <span>{program.time}</span>
-                  </div>
                 </div>
                 <ArrowRight className={`ml-auto transition-transform ${
                   activeProgram.id === program.id ? 'transform translate-x-1 text-kamp-primary' : 'text-gray-400'
@@ -93,9 +84,6 @@ export const Program: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 p-6 text-white">
-                  <span className="kamp-badge bg-kamp-primary text-white mb-2">
-                    {activeProgram.time}
-                  </span>
                   <h3 className="text-2xl font-bold">{activeProgram.title}</h3>
                 </div>
               </div>
