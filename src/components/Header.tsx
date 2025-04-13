@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
               }}
             >
               <img 
-                src="/lovable-uploads/1c75a68d-1c27-4260-b026-51f96824147f.png" 
+                src="/lovable-uploads/99ae4c5c-0227-4240-b061-0dc8c860a5a2.png" 
                 alt="КЭМП Логотип" 
                 className="h-8 md:h-12"
               />
