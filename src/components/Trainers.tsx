@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -37,12 +36,15 @@ export const Trainers: React.FC = () => {
   const [selectedTrainer, setSelectedTrainer] = useState<typeof trainers[0] | null>(null);
 
   return (
-    <section id="trainers" className="kamp-section">
+    <section 
+      id="trainers" 
+      className="kamp-section bg-black"
+    >
       <div className="kamp-container">
-        <div className="section-heading reveal-on-scroll">
+        <div className="section-heading reveal-on-scroll text-white">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Тренеры</span>
-          <h2 className="text-kamp-dark">Наша команда профессионалов</h2>
-          <p>
+          <h2 className="text-white">Наша команда профессионалов</h2>
+          <p className="text-gray-300">
             Опытные наставники, которые не только научат технике, но и помогут раскрыть весь потенциал.
             Каждый из них — эксперт в своей области.
           </p>
@@ -52,7 +54,7 @@ export const Trainers: React.FC = () => {
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
-              className="kamp-card overflow-hidden reveal-on-scroll hover-lift cursor-pointer"
+              className="kamp-card overflow-hidden reveal-on-scroll hover-lift cursor-pointer bg-gray-900"
               onClick={() => setSelectedTrainer(trainer)}
             >
               <div className="aspect-[3/4] overflow-hidden">
@@ -81,19 +83,18 @@ export const Trainers: React.FC = () => {
         </div>
       </div>
 
-      {/* Trainer Detail Modal */}
       {selectedTrainer && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div 
-            className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in"
+            className="bg-gray-900 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in text-white"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative">
               <button 
                 onClick={() => setSelectedTrainer(null)}
-                className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md z-10"
+                className="absolute top-4 right-4 bg-gray-800 text-white rounded-full p-2 shadow-md z-10"
               >
-                <X size={20} className="text-kamp-dark" />
+                <X size={20} />
               </button>
               
               <div className="flex flex-col md:flex-row">
