@@ -53,11 +53,11 @@ export const Header: React.FC = () => {
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
           ? 'bg-white shadow-soft py-0.5 md:py-1'
-          : 'bg-white/90 backdrop-blur-md py-1 md:py-2'
+          : 'bg-white/90 backdrop-blur-md py-0.5 md:py-2'
       }`}
     >
       <div className="kamp-container">
-        <div className="flex items-center justify-between h-14 md:h-16">
+        <div className="flex items-center justify-between h-12 md:h-16">
           <div className="flex items-center">
             <Logo onClick={handleLogoClick} />
           </div>

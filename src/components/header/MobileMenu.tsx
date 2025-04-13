@@ -24,8 +24,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent side="right" className="md:hidden w-full max-w-[85vw] pt-12 px-4 bg-white border-l border-gray-200">
-        <div className="flex items-center justify-between mb-8">
+      <SheetContent side="right" className="md:hidden w-full max-w-[85vw] pt-10 px-4 bg-white border-l border-gray-200 overflow-y-auto">
+        <div className="flex items-center justify-between mb-6">
           <span className="font-bold text-lg text-black">Меню</span>
           <button 
             onClick={() => setIsOpen(false)} 
