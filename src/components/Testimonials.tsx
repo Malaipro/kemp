@@ -10,7 +10,8 @@ export const Testimonials: React.FC = () => {
   // State to track which video has sound enabled
   const [mutedStatus, setMutedStatus] = useState<{[key: number]: boolean}>({
     1: true,
-    2: true
+    2: true,
+    3: true
   });
   // State to track if the dialog is open and which video is being viewed in the dialog
   const [openVideo, setOpenVideo] = useState<number | null>(null);
@@ -18,13 +19,15 @@ export const Testimonials: React.FC = () => {
   // References to video elements for controlling them
   const videoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({
     1: null,
-    2: null
+    2: null,
+    3: null
   });
   
   // References to video elements in the dialog
   const modalVideoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({
     1: null,
-    2: null
+    2: null,
+    3: null
   });
 
   // Video testimonial data
@@ -42,6 +45,13 @@ export const Testimonials: React.FC = () => {
       position: 'Выпускник 1 потока',
       videoUrl: 'https://i.imgur.com/r1Xdknj.mp4',
       thumbnailUrl: 'https://i.imgur.com/r1Xdknj.jpg',
+    },
+    {
+      id: 3,
+      name: 'Ренат',
+      position: 'Выпускник 1 потока',
+      videoUrl: 'https://i.imgur.com/GtLxhNZ.mp4',
+      thumbnailUrl: 'https://i.imgur.com/GtLxhNZ.jpg',
     }
   ];
 
@@ -118,7 +128,7 @@ export const Testimonials: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-8 mt-12">
+        <div className="grid md:grid-cols-3 gap-8 mt-12">
           {testimonials.map((testimonial) => (
             <Card 
               key={testimonial.id}
