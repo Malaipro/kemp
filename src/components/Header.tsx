@@ -19,13 +19,10 @@ export const Header: React.FC = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Desktop: only check if scrolled past threshold for styling
-      if (!isMobile) {
-        setIsScrolled(currentScrollY > 10);
-        return;
-      }
+      // Check if scrolled past threshold for styling
+      setIsScrolled(currentScrollY > 10);
       
-      // Mobile: handle header visibility based on scroll direction
+      // Handle header visibility based on scroll direction for both mobile and desktop
       if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
         // Scrolling down & past initial threshold - hide header
         setIsHeaderVisible(false);
@@ -40,7 +37,7 @@ export const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMobile]);
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -98,13 +95,15 @@ export const Header: React.FC = () => {
     );
   }
 
-  // Desktop header with full styling
+  // Desktop header with full styling and hide/show animation
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
           ? 'bg-white shadow-soft py-0.5 md:py-1'
           : 'bg-white/90 backdrop-blur-md py-0.5 md:py-2'
+      } ${
+        isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
       <div className="kamp-container">
