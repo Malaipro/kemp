@@ -17,8 +17,8 @@ export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Set target date for countdown timer (April 7, 2025)
-  const targetDate = new Date("2025-04-07T00:00:00");
+  // Set target date for countdown timer (April 21, 2025)
+  const targetDate = new Date("2025-04-21T00:00:00");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -108,7 +108,7 @@ export const ContactForm: React.FC = () => {
               <div className="flex-grow p-8">
                 <h3 className="text-xl font-bold mb-6">Не упусти свой шанс</h3>
                 <p className="text-white/80 mb-8">
-                  Следующий поток КЭМП стартует 7 апреля 2025 года. Количество мест ограничено, 
+                  Следующий поток КЭМП стартует 21 апреля 2025 года. Количество мест ограничено, 
                   чтобы мы могли уделить внимание каждому участнику.
                 </p>
 
