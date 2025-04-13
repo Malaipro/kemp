@@ -40,18 +40,18 @@ export const Testimonials: React.FC = () => {
       thumbnailUrl: 'https://i.imgur.com/VO8Habw.jpg',
     },
     {
-      id: 2,
-      name: 'Рустэм',
-      position: 'Выпускник 1 потока',
-      videoUrl: 'https://i.imgur.com/r1Xdknj.mp4',
-      thumbnailUrl: 'https://i.imgur.com/r1Xdknj.jpg',
-    },
-    {
       id: 3,
       name: 'Ренат',
       position: 'Выпускник 1 потока',
       videoUrl: 'https://i.imgur.com/GtLxhNZ.mp4',
       thumbnailUrl: 'https://i.imgur.com/GtLxhNZ.jpg',
+    },
+    {
+      id: 2,
+      name: 'Рустэм',
+      position: 'Выпускник 1 потока',
+      videoUrl: 'https://i.imgur.com/r1Xdknj.mp4',
+      thumbnailUrl: 'https://i.imgur.com/r1Xdknj.jpg',
     }
   ];
 
@@ -128,7 +128,7 @@ export const Testimonials: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8 mt-12">
+        <div className="grid md:grid-cols-2 gap-8 mt-12">
           {testimonials.map((testimonial) => (
             <Card 
               key={testimonial.id}
