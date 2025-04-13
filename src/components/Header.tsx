@@ -45,8 +45,8 @@ export const Header: React.FC = () => {
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white shadow-soft py-2' 
-          : 'bg-white backdrop-blur-md py-3 shadow-md'
+          ? 'bg-white shadow-soft py-1' // Reduced py from py-2 to py-1
+          : 'bg-white backdrop-blur-md py-1.5 shadow-md' // Reduced py from py-3 to py-1.5
       }`}
     >
       <div className="kamp-container">
@@ -146,3 +146,4 @@ export const Header: React.FC = () => {
     </header>
   );
 };
+
