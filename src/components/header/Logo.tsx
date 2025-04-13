@@ -15,7 +15,7 @@ export const Logo: React.FC<LogoProps> = ({ onClick }) => {
       <img 
         src="/lovable-uploads/99ae4c5c-0227-4240-b061-0dc8c860a5a2.png" 
         alt="КЭМП Логотип" 
-        className="h-16 md:h-24 lg:h-32 object-contain"
+        className="h-10 md:h-16 lg:h-24 object-contain"
       />
     </a>
   );
