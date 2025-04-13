@@ -1,9 +1,12 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Activity } from '@/types/leaderboard';
 import { getIconComponent } from './IconRenderer';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Video } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface ActivityListProps {
   activities: Activity[];
@@ -12,32 +15,62 @@ interface ActivityListProps {
 }
 
 export const ActivityList: React.FC<ActivityListProps> = ({ 
-  activities, 
+  activities: defaultActivities, 
   isPointsVisible, 
   togglePointsVisibility 
 }) => {
+  const { data: activities, isLoading } = useQuery({
+    queryKey: ['activities'],
+    queryFn: async (): Promise<Activity[]> => {
+      console.log('Fetching activities from Supabase...');
+      const { data, error } = await supabase
+        .from('activities')
+        .select('*')
+        .order('points', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching activities:', error);
+        throw new Error(error.message);
+      }
+      
+      console.log('Activities received:', data);
+      return data as Activity[];
+    },
+    // Используем статические данные как fallback при ошибке
+    initialData: defaultActivities
+  });
+
   return (
     <Card className="h-full border-gray-700 bg-black bg-opacity-60 text-gray-200">
       <CardHeader className="p-6 border-b border-gray-800">
         <h3 className="font-bold text-kamp-dark">Как заработать баллы?</h3>
       </CardHeader>
       <CardContent className="p-6 space-y-4">
-        {activities.map((activity) => (
-          <div 
-            key={activity.id} 
-            className="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
-          >
-            <div className="flex-shrink-0">
-              {getIconComponent(activity.icon)}
+        {isLoading ? (
+          <>
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </>
+        ) : (
+          (activities || []).map((activity) => (
+            <div 
+              key={activity.id} 
+              className="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
+            >
+              <div className="flex-shrink-0">
+                {getIconComponent(activity.icon)}
+              </div>
+              <div className="ml-4 flex-grow">
+                <span className="font-medium text-gray-300">{activity.title}</span>
+              </div>
+              <div className="text-kamp-accent font-bold">
+                +{activity.points} баллов
+              </div>
             </div>
-            <div className="ml-4 flex-grow">
-              <span className="font-medium text-gray-300">{activity.title}</span>
-            </div>
-            <div className="text-kamp-accent font-bold">
-              +{activity.points} баллов
-            </div>
-          </div>
-        ))}
+          ))
+        )}
         
         <div className="mt-8 pt-4 border-t border-gray-800 flex items-center text-sm text-gray-400">
           <Video className="w-4 h-4 mr-2 text-kamp-accent" />

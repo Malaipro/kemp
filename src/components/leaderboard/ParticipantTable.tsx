@@ -33,38 +33,46 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({ participants
               </TableRow>
             </TableHeader>
             <TableBody>
-              {participants.map((participant) => (
-                <TableRow 
-                  key={participant.id} 
-                  className="border-t border-gray-800 hover:bg-gray-900 transition-colors"
-                >
-                  <TableCell className="py-4 px-6">
-                    <div className="flex items-center">
-                      {participant.rank <= 3 ? (
-                        <span className={`flex items-center justify-center w-8 h-8 rounded-full ${
-                          participant.rank === 1 
-                            ? 'bg-yellow-900 text-yellow-400' 
-                            : participant.rank === 2 
-                              ? 'bg-gray-800 text-gray-300' 
-                              : 'bg-amber-900 text-amber-400'
-                        }`}>
-                          {participant.rank}
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 font-medium pl-2">
-                          {participant.rank}
-                        </span>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="py-4 px-6 font-medium text-kamp-dark">
-                    {participant.name}
-                  </TableCell>
-                  <TableCell className="py-4 px-6 text-right font-bold text-kamp-accent">
-                    {participant.points}
+              {participants.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center py-8 text-gray-400">
+                    Нет данных для отображения
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                participants.map((participant) => (
+                  <TableRow 
+                    key={participant.id} 
+                    className="border-t border-gray-800 hover:bg-gray-900 transition-colors"
+                  >
+                    <TableCell className="py-4 px-6">
+                      <div className="flex items-center">
+                        {participant.rank && participant.rank <= 3 ? (
+                          <span className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                            participant.rank === 1 
+                              ? 'bg-yellow-900 text-yellow-400' 
+                              : participant.rank === 2 
+                                ? 'bg-gray-800 text-gray-300' 
+                                : 'bg-amber-900 text-amber-400'
+                          }`}>
+                            {participant.rank}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 font-medium pl-2">
+                            {participant.rank}
+                          </span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-4 px-6 font-medium text-kamp-dark">
+                      {participant.name}
+                    </TableCell>
+                    <TableCell className="py-4 px-6 text-right font-bold text-kamp-accent">
+                      {participant.points}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>
