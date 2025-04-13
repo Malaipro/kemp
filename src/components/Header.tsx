@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Logo } from './header/Logo';
 import { DesktopNavigation } from './header/DesktopNavigation';
 import { MobileMenu } from './header/MobileMenu';
@@ -11,16 +11,36 @@ import { useIsMobile } from '@/hooks/use-mobile';
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const isMobile = useIsMobile();
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      
+      // Desktop: only check if scrolled past threshold for styling
+      if (!isMobile) {
+        setIsScrolled(currentScrollY > 10);
+        return;
+      }
+      
+      // Mobile: handle header visibility based on scroll direction
+      if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
+        // Scrolling down & past initial threshold - hide header
+        setIsHeaderVisible(false);
+      } else {
+        // Scrolling up or near top - show header
+        setIsHeaderVisible(true);
+      }
+      
+      // Update scroll position ref
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -53,7 +73,11 @@ export const Header: React.FC = () => {
   // For mobile: transparent header with just logo and menu button
   if (isMobile) {
     return (
-      <header className="fixed top-0 w-full z-50 bg-transparent">
+      <header 
+        className={`fixed top-0 w-full z-50 bg-transparent transition-transform duration-300 ${
+          isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
         <div className="kamp-container">
           <div className="flex items-center justify-between py-2">
             <Logo onClick={handleLogoClick} />
