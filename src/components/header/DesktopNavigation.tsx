@@ -13,21 +13,21 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
   scrollToSection 
 }) => {
   return (
-    <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+    <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
       {menuItems.map((item) => (
         <button
           key={item.id}
           onClick={() => scrollToSection(item.id)}
-          className="text-black font-medium hover:text-kamp-accent transition-colors text-sm lg:text-base"
+          className="text-black font-medium hover:text-kamp-accent transition-colors text-xs lg:text-sm"
         >
           {item.label}
         </button>
       ))}
       <button
         onClick={() => scrollToSection('contact')}
-        className="flex items-center text-black font-medium hover:text-kamp-accent transition-colors text-sm lg:text-base"
+        className="flex items-center text-black font-medium hover:text-kamp-accent transition-colors text-xs lg:text-sm"
       >
-        <MessageSquare size={16} className="mr-2" />
+        <MessageSquare size={14} className="mr-1" />
         Задать вопрос
       </button>
     </nav>

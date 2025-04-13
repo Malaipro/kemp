@@ -38,13 +38,6 @@ export const Header: React.FC = () => {
     }
   };
 
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsOpen(false);
-    document.body.style.overflow = 'auto';
-  };
-
   const menuItems: MenuItem[] = [
     { id: 'about', label: 'О нас' },
     { id: 'program', label: 'Программа' },
@@ -58,7 +51,7 @@ export const Header: React.FC = () => {
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
           ? 'bg-white shadow-soft py-0.5'
-          : 'bg-white backdrop-blur-md py-1 shadow-md'
+          : 'bg-white backdrop-blur-md py-0 shadow-md'
       }`}
     >
       <div className="kamp-container">
