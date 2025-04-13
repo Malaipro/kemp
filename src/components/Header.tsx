@@ -6,10 +6,12 @@ import { MobileMenu } from './header/MobileMenu';
 import { MobileMenuButton } from './header/MobileMenuButton';
 import { RegisterButton } from './header/RegisterButton';
 import { MenuItem } from './header/types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,6 +50,31 @@ export const Header: React.FC = () => {
     { id: 'contact', label: 'Контакты' }
   ];
 
+  // For mobile: transparent header with just logo and menu button
+  if (isMobile) {
+    return (
+      <header className="fixed top-0 w-full z-50 bg-transparent">
+        <div className="kamp-container">
+          <div className="flex items-center justify-between py-2">
+            <Logo onClick={handleLogoClick} />
+            <MobileMenuButton 
+              isOpen={isOpen} 
+              toggleMenu={toggleMenu} 
+            />
+          </div>
+        </div>
+
+        <MobileMenu 
+          isOpen={isOpen} 
+          menuItems={menuItems} 
+          scrollToSection={scrollToSection}
+          setIsOpen={setIsOpen}
+        />
+      </header>
+    );
+  }
+
+  // Desktop header with full styling
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${

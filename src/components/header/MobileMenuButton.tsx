@@ -13,7 +13,7 @@ export const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({
 }) => {
   return (
     <button 
-      className="md:hidden text-black focus:outline-none p-1.5 rounded-md hover:bg-gray-100"
+      className="text-black bg-white/80 backdrop-blur-sm focus:outline-none p-1.5 rounded-md hover:bg-white"
       onClick={toggleMenu}
       aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
     >
