@@ -45,8 +45,8 @@ export const Header: React.FC = () => {
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white shadow-soft py-1' // Reduced py from py-2 to py-1
-          : 'bg-white backdrop-blur-md py-1.5 shadow-md' // Reduced py from py-3 to py-1.5
+          ? 'bg-white shadow-soft py-0.5' // Further reduced from py-1 to py-0.5
+          : 'bg-white backdrop-blur-md py-1 shadow-md' // Further reduced from py-1.5 to py-1
       }`}
     >
       <div className="kamp-container">
@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
               <img 
                 src="/lovable-uploads/99ae4c5c-0227-4240-b061-0dc8c860a5a2.png" 
                 alt="КЭМП Логотип" 
-                className="h-16 md:h-24 lg:h-32 object-contain"  // Keep the larger logo size
+                className="h-16 md:h-24 lg:h-32 object-contain"  // Keeping the larger logo size
               />
             </a>
           </div>
@@ -93,7 +93,7 @@ export const Header: React.FC = () => {
           {/* Register Button - Desktop */}
           <div className="hidden md:block">
             <button 
-              className="kamp-button-accent text-sm py-2 px-4 lg:py-3 lg:px-6"
+              className="kamp-button-accent text-sm py-1.5 px-3 lg:py-2 lg:px-5" // Reduced button size
               onClick={() => scrollToSection('contact')}
             >
               Записаться
@@ -102,11 +102,11 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-black focus:outline-none p-2"
+            className="md:hidden text-black focus:outline-none p-1" // Reduced padding from p-2 to p-1
             onClick={toggleMenu}
             aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={22} /> : <Menu size={22} />} {/* Reduced icon size from 24 to 22 */}
           </button>
         </div>
       </div>
@@ -116,27 +116,27 @@ export const Header: React.FC = () => {
         className={`md:hidden fixed inset-0 bg-white z-40 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        style={{ top: '0', paddingTop: '5rem' }}
+        style={{ top: '0', paddingTop: '4rem' }} // Reduced paddingTop from 5rem to 4rem
       >
-        <nav className="flex flex-col space-y-4 p-6">
+        <nav className="flex flex-col space-y-3 p-5"> {/* Reduced space-y from 4 to 3 and p from 6 to 5 */}
           {menuItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className="text-lg text-black font-medium hover:text-kamp-accent transition-colors py-3 border-b border-gray-200"
+              className="text-base text-black font-medium hover:text-kamp-accent transition-colors py-2 border-b border-gray-200" // Reduced text-lg to text-base and py from 3 to 2
             >
               {item.label}
             </button>
           ))}
           <button
             onClick={() => scrollToSection('contact')}
-            className="flex items-center text-lg text-black font-medium hover:text-kamp-accent transition-colors py-3 border-b border-gray-200"
+            className="flex items-center text-base text-black font-medium hover:text-kamp-accent transition-colors py-2 border-b border-gray-200" // Reduced text-lg to text-base and py from 3 to 2
           >
-            <MessageSquare size={18} className="mr-2" />
+            <MessageSquare size={16} className="mr-2" /> {/* Reduced icon size from 18 to 16 */}
             Задать вопрос
           </button>
           <button 
-            className="kamp-button-accent mt-6 w-full"
+            className="kamp-button-accent mt-4 w-full py-2" // Reduced mt from 6 to 4 and added py-2 for smaller height
             onClick={() => scrollToSection('contact')}
           >
             Записаться
@@ -146,4 +146,3 @@ export const Header: React.FC = () => {
     </header>
   );
 };
-
