@@ -38,6 +38,13 @@ export const Header: React.FC = () => {
     }
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
   const menuItems: MenuItem[] = [
     { id: 'about', label: 'О нас' },
     { id: 'program', label: 'Программа' },
