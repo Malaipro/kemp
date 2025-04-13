@@ -13,7 +13,7 @@ export const Philosophy: React.FC = () => {
   };
 
   return (
-    <section id="philosophy" className="kamp-section bg-gradient-to-br from-slate-800 to-slate-900 text-white relative overflow-hidden py-12 md:py-24">
+    <section id="philosophy" className="kamp-section bg-black text-white relative overflow-hidden py-12 md:py-24">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -21,7 +21,7 @@ export const Philosophy: React.FC = () => {
 
       <div className="kamp-container relative z-10">
         <div className="text-center reveal-on-scroll">
-          <div className="max-w-3xl mx-auto bg-white/15 backdrop-blur-sm p-6 md:p-12 rounded-xl hover-lift">
+          <div className="max-w-3xl mx-auto bg-gray-900/60 backdrop-blur-sm p-6 md:p-12 rounded-xl hover-lift">
             <blockquote className="text-lg md:text-2xl italic font-light">
               "Сила не в том, чтобы никогда не падать, а в том, чтобы всегда подниматься."
             </blockquote>
@@ -40,3 +40,4 @@ export const Philosophy: React.FC = () => {
     </section>
   );
 };
+

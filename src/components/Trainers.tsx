@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -54,7 +55,7 @@ export const Trainers: React.FC = () => {
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
-              className="kamp-card overflow-hidden reveal-on-scroll hover-lift cursor-pointer bg-gray-900"
+              className="kamp-card overflow-hidden reveal-on-scroll hover-lift cursor-pointer bg-black border border-gray-800"
               onClick={() => setSelectedTrainer(trainer)}
             >
               <div className="aspect-[3/4] overflow-hidden">
@@ -64,8 +65,8 @@ export const Trainers: React.FC = () => {
                   className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
                 />
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-kamp-dark">{trainer.name}</h3>
+              <div className="p-6 bg-black">
+                <h3 className="text-xl font-bold text-white">{trainer.name}</h3>
                 <p className="text-kamp-primary font-medium text-sm mb-3">{trainer.role}</p>
                 <p className="text-gray-600 text-sm italic mb-4">"{trainer.quote}"</p>
                 <button 
@@ -86,13 +87,13 @@ export const Trainers: React.FC = () => {
       {selectedTrainer && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div 
-            className="bg-gray-900 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in text-white"
+            className="bg-black rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in text-white border border-gray-800"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative">
               <button 
                 onClick={() => setSelectedTrainer(null)}
-                className="absolute top-4 right-4 bg-gray-800 text-white rounded-full p-2 shadow-md z-10"
+                className="absolute top-4 right-4 bg-gray-900 text-white rounded-full p-2 shadow-md z-10"
               >
                 <X size={20} />
               </button>
@@ -107,22 +108,22 @@ export const Trainers: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div className="md:w-2/3 p-6 md:p-8">
+                <div className="md:w-2/3 p-6 md:p-8 bg-black">
                   <span className="text-kamp-primary font-semibold text-sm">{selectedTrainer.role}</span>
-                  <h3 className="text-2xl font-bold text-kamp-dark mt-1 mb-4">{selectedTrainer.name}</h3>
+                  <h3 className="text-2xl font-bold text-white mt-1 mb-4">{selectedTrainer.name}</h3>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                    <p className="italic text-gray-700">"{selectedTrainer.quote}"</p>
+                  <div className="bg-gray-900 p-4 rounded-lg mb-6">
+                    <p className="italic text-gray-300">"{selectedTrainer.quote}"</p>
                   </div>
                   
                   <div className="mb-6">
-                    <h4 className="font-bold text-kamp-dark mb-2">Опыт</h4>
-                    <p className="text-gray-700">{selectedTrainer.experience}</p>
+                    <h4 className="font-bold text-white mb-2">Опыт</h4>
+                    <p className="text-gray-300">{selectedTrainer.experience}</p>
                   </div>
                   
                   <div>
-                    <h4 className="font-bold text-kamp-dark mb-2">Профессиональный подход</h4>
-                    <p className="text-gray-700">{selectedTrainer.bio}</p>
+                    <h4 className="font-bold text-white mb-2">Профессиональный подход</h4>
+                    <p className="text-gray-300">{selectedTrainer.bio}</p>
                   </div>
                 </div>
               </div>
@@ -133,3 +134,4 @@ export const Trainers: React.FC = () => {
     </section>
   );
 };
+
