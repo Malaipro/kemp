@@ -1,7 +1,8 @@
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Play, Pause, Volume2, VolumeX, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 
 export const Testimonials: React.FC = () => {
   // State to track which video is playing
@@ -11,9 +12,17 @@ export const Testimonials: React.FC = () => {
     1: true,
     2: true
   });
+  // State to track if the dialog is open and which video is being viewed in the dialog
+  const [openVideo, setOpenVideo] = useState<number | null>(null);
   
   // References to video elements for controlling them
   const videoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({
+    1: null,
+    2: null
+  });
+  
+  // References to video elements in the dialog
+  const modalVideoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({
     1: null,
     2: null
   });
@@ -23,14 +32,14 @@ export const Testimonials: React.FC = () => {
     {
       id: 1,
       name: 'Резеда',
-      position: 'Выпускница спец. потока',
+      position: 'Выпускник 1 потока',
       videoUrl: 'https://i.imgur.com/VO8Habw.mp4',
       thumbnailUrl: 'https://i.imgur.com/VO8Habw.jpg',
     },
     {
       id: 2,
-      name: 'Ренат',
-      position: 'Выпускник спец. потока',
+      name: 'Рустэм',
+      position: 'Выпускник 1 потока',
       videoUrl: 'https://i.imgur.com/r1Xdknj.mp4',
       thumbnailUrl: 'https://i.imgur.com/r1Xdknj.jpg',
     }
@@ -73,6 +82,30 @@ export const Testimonials: React.FC = () => {
       ...prev,
       [id]: newMutedStatus
     }));
+  };
+
+  // Function to open the video dialog
+  const openVideoDialog = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the toggle play
+    setOpenVideo(id);
+    
+    // Pause the card video if it's playing
+    if (playingVideo === id) {
+      const videoElement = videoRefs.current[id];
+      if (videoElement) {
+        videoElement.pause();
+        setPlayingVideo(null);
+      }
+    }
+  };
+
+  // Function to handle the dialog closing
+  const handleDialogClose = () => {
+    // Pause the modal video when closing
+    if (openVideo !== null && modalVideoRefs.current[openVideo]) {
+      modalVideoRefs.current[openVideo]?.pause();
+    }
+    setOpenVideo(null);
   };
 
   return (
@@ -141,11 +174,17 @@ export const Testimonials: React.FC = () => {
                       </div>
                     </div>
                     
-                    {/* Status indicator */}
-                    <div className="self-end">
+                    {/* Open fullscreen button */}
+                    <div className="self-end flex items-center justify-between w-full">
                       <span className="text-white text-sm font-medium">
                         {playingVideo === testimonial.id ? 'Идет воспроизведение' : 'Нажмите для просмотра'}
                       </span>
+                      <button 
+                        className="ml-4 bg-kamp-primary hover:bg-opacity-80 text-white px-3 py-1 rounded-lg text-sm font-medium transition-all"
+                        onClick={(e) => openVideoDialog(testimonial.id, e)}
+                      >
+                        Смотреть полностью
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -154,6 +193,33 @@ export const Testimonials: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Video Modal Dialog */}
+      <Dialog open={openVideo !== null} onOpenChange={(open) => !open && handleDialogClose()}>
+        <DialogContent className="max-w-4xl p-0 border-gray-800 bg-black">
+          <DialogClose className="absolute right-4 top-4 z-20 bg-black/60 rounded-full p-1 text-white hover:bg-black/80 transition-all" />
+          
+          {openVideo && (
+            <div className="relative aspect-video w-full">
+              <video
+                ref={el => modalVideoRefs.current[openVideo] = el}
+                src={testimonials.find(t => t.id === openVideo)?.videoUrl}
+                autoPlay
+                controls
+                className="w-full h-full object-contain"
+              />
+              <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent w-full">
+                <h4 className="font-bold text-white text-xl">
+                  {testimonials.find(t => t.id === openVideo)?.name}
+                </h4>
+                <p className="text-gray-300 text-sm">
+                  {testimonials.find(t => t.id === openVideo)?.position}
+                </p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
