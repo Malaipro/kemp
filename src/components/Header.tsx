@@ -44,7 +44,9 @@ export const Header: React.FC = () => {
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black shadow-soft py-2' : 'bg-black/95 backdrop-blur-md py-3 shadow-md'
+        isScrolled 
+          ? 'bg-white shadow-soft py-2' 
+          : 'bg-white backdrop-blur-md py-3 shadow-md'
       }`}
     >
       <div className="kamp-container">
@@ -52,7 +54,7 @@ export const Header: React.FC = () => {
           <div className="flex items-center">
             <a 
               href="#" 
-              className="text-2xl font-display font-bold text-white"
+              className="text-2xl font-display font-bold text-black"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -74,14 +76,14 @@ export const Header: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-white font-medium hover:text-kamp-accent transition-colors text-sm lg:text-base"
+                className="text-black font-medium hover:text-kamp-accent transition-colors text-sm lg:text-base"
               >
                 {item.label}
               </button>
             ))}
             <button
               onClick={() => scrollToSection('contact')}
-              className="flex items-center text-white font-medium hover:text-kamp-accent transition-colors text-sm lg:text-base"
+              className="flex items-center text-black font-medium hover:text-kamp-accent transition-colors text-sm lg:text-base"
             >
               <MessageSquare size={16} className="mr-2" />
               Задать вопрос
@@ -100,7 +102,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-white focus:outline-none p-2"
+            className="md:hidden text-black focus:outline-none p-2"
             onClick={toggleMenu}
             aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
           >
@@ -111,7 +113,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       <div 
-        className={`md:hidden fixed inset-0 bg-black z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed inset-0 bg-white z-40 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{ top: '0', paddingTop: '5rem' }}
@@ -121,14 +123,14 @@ export const Header: React.FC = () => {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className="text-lg text-white font-medium hover:text-kamp-accent transition-colors py-3 border-b border-gray-800"
+              className="text-lg text-black font-medium hover:text-kamp-accent transition-colors py-3 border-b border-gray-200"
             >
               {item.label}
             </button>
           ))}
           <button
             onClick={() => scrollToSection('contact')}
-            className="flex items-center text-lg text-white font-medium hover:text-kamp-accent transition-colors py-3 border-b border-gray-800"
+            className="flex items-center text-lg text-black font-medium hover:text-kamp-accent transition-colors py-3 border-b border-gray-200"
           >
             <MessageSquare size={18} className="mr-2" />
             Задать вопрос
