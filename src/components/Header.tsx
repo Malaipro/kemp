@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
               <img 
                 src="/lovable-uploads/99ae4c5c-0227-4240-b061-0dc8c860a5a2.png" 
                 alt="КЭМП Логотип" 
-                className="h-12 md:h-16 lg:h-20"  // Increased logo size
+                className="h-16 md:h-24 lg:h-32 object-contain"  // Significantly larger logo with object-contain
               />
             </a>
           </div>
