@@ -21,15 +21,15 @@ export const Philosophy: React.FC = () => {
 
       <div className="kamp-container relative z-10">
         <div className="text-center reveal-on-scroll">
-          <div className="max-w-3xl mx-auto bg-gray-900/60 backdrop-blur-sm p-6 md:p-12 rounded-xl hover-lift">
+          <div className="max-w-3xl mx-auto bg-gray-900/60 backdrop-blur-sm p-4 md:p-12 rounded-xl hover-lift">
             <blockquote className="text-lg md:text-2xl italic font-light">
               "Сила не в том, чтобы никогда не падать, а в том, чтобы всегда подниматься."
             </blockquote>
-            <div className="mt-4 font-semibold">— Команда КЭМП</div>
-            <div className="mt-6 md:mt-8">
+            <div className="mt-3 md:mt-4 font-semibold">— Команда КЭМП</div>
+            <div className="mt-4 md:mt-8">
               <button
                 onClick={() => scrollToSection('contact')}
-                className="kamp-button-primary"
+                className="kamp-button-primary text-sm md:text-base py-2 px-4 md:py-3 md:px-6"
               >
                 Записаться на курс
               </button>
@@ -40,4 +40,3 @@ export const Philosophy: React.FC = () => {
     </section>
   );
 };
-

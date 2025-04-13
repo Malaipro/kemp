@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const trainers = [
   {
@@ -35,6 +36,7 @@ const trainers = [
 
 export const Trainers: React.FC = () => {
   const [selectedTrainer, setSelectedTrainer] = useState<typeof trainers[0] | null>(null);
+  const isMobile = useIsMobile();
 
   return (
     <section 
@@ -44,14 +46,14 @@ export const Trainers: React.FC = () => {
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll text-white">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Тренеры</span>
-          <h2 className="text-white">Наша команда профессионалов</h2>
-          <p className="text-gray-300">
+          <h2 className="text-white text-2xl md:text-4xl">Наша команда профессионалов</h2>
+          <p className="text-gray-300 text-sm md:text-base mt-2">
             Опытные наставники, которые не только научат технике, но и помогут раскрыть весь потенциал.
             Каждый из них — эксперт в своей области.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-16">
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
@@ -65,16 +67,16 @@ export const Trainers: React.FC = () => {
                   className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
                 />
               </div>
-              <div className="p-6 bg-black">
-                <h3 className="text-xl font-bold text-white">{trainer.name}</h3>
-                <p className="text-kamp-primary font-medium text-sm mb-3">{trainer.role}</p>
-                <p className="text-gray-600 text-sm italic mb-4">"{trainer.quote}"</p>
+              <div className="p-4 md:p-6 bg-black">
+                <h3 className="text-lg md:text-xl font-bold text-white">{trainer.name}</h3>
+                <p className="text-kamp-primary font-medium text-xs md:text-sm mb-2 md:mb-3">{trainer.role}</p>
+                <p className="text-gray-600 text-xs md:text-sm italic mb-3 md:mb-4">"{trainer.quote}"</p>
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedTrainer(trainer);
                   }}
-                  className="text-kamp-primary font-medium text-sm hover:underline"
+                  className="text-kamp-primary font-medium text-xs md:text-sm hover:underline"
                 >
                   Подробнее
                 </button>
@@ -85,22 +87,22 @@ export const Trainers: React.FC = () => {
       </div>
 
       {selectedTrainer && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4">
           <div 
-            className="bg-black rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-scale-in text-white border border-gray-800"
+            className="bg-black rounded-xl w-full max-w-3xl max-h-[90vh] overflow-auto animate-scale-in text-white border border-gray-800"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative">
               <button 
                 onClick={() => setSelectedTrainer(null)}
-                className="absolute top-4 right-4 bg-gray-900 text-white rounded-full p-2 shadow-md z-10"
+                className="absolute top-2 md:top-4 right-2 md:right-4 bg-gray-900 text-white rounded-full p-2 shadow-md z-10"
               >
-                <X size={20} />
+                <X size={isMobile ? 16 : 20} />
               </button>
               
               <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/3 h-auto">
-                  <div className="h-64 md:h-full">
+                <div className="w-full md:w-1/3">
+                  <div className="h-48 md:h-full">
                     <img 
                       src={selectedTrainer.image} 
                       alt={selectedTrainer.name}
@@ -108,22 +110,22 @@ export const Trainers: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div className="md:w-2/3 p-6 md:p-8 bg-black">
-                  <span className="text-kamp-primary font-semibold text-sm">{selectedTrainer.role}</span>
-                  <h3 className="text-2xl font-bold text-white mt-1 mb-4">{selectedTrainer.name}</h3>
+                <div className="w-full md:w-2/3 p-4 md:p-8 bg-black">
+                  <span className="text-kamp-primary font-semibold text-xs md:text-sm">{selectedTrainer.role}</span>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mt-1 mb-3 md:mb-4">{selectedTrainer.name}</h3>
                   
-                  <div className="bg-gray-900 p-4 rounded-lg mb-6">
-                    <p className="italic text-gray-300">"{selectedTrainer.quote}"</p>
+                  <div className="bg-gray-900 p-3 md:p-4 rounded-lg mb-4 md:mb-6">
+                    <p className="italic text-gray-300 text-sm md:text-base">"{selectedTrainer.quote}"</p>
                   </div>
                   
-                  <div className="mb-6">
-                    <h4 className="font-bold text-white mb-2">Опыт</h4>
-                    <p className="text-gray-300">{selectedTrainer.experience}</p>
+                  <div className="mb-4 md:mb-6">
+                    <h4 className="font-bold text-white text-sm md:text-base mb-1 md:mb-2">Опыт</h4>
+                    <p className="text-gray-300 text-xs md:text-sm">{selectedTrainer.experience}</p>
                   </div>
                   
                   <div>
-                    <h4 className="font-bold text-white mb-2">Профессиональный подход</h4>
-                    <p className="text-gray-300">{selectedTrainer.bio}</p>
+                    <h4 className="font-bold text-white text-sm md:text-base mb-1 md:mb-2">Профессиональный подход</h4>
+                    <p className="text-gray-300 text-xs md:text-sm">{selectedTrainer.bio}</p>
                   </div>
                 </div>
               </div>
@@ -134,4 +136,3 @@ export const Trainers: React.FC = () => {
     </section>
   );
 };
-

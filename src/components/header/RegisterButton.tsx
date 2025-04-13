@@ -9,7 +9,7 @@ export const RegisterButton: React.FC<RegisterButtonProps> = ({ onClick }) => {
   return (
     <div className="hidden md:block">
       <button 
-        className="kamp-button-accent text-xs py-1 px-2 lg:py-1.5 lg:px-4"
+        className="kamp-button-accent text-xs py-1 px-3 lg:py-1.5 lg:px-4"
         onClick={onClick}
       >
         Записаться

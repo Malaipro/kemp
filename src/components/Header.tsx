@@ -22,8 +22,6 @@ export const Header: React.FC = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    // Prevent background scrolling when menu is open
-    document.body.style.overflow = isOpen ? 'auto' : 'hidden';
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -33,8 +31,6 @@ export const Header: React.FC = () => {
         top: section.offsetTop - 80,
         behavior: 'smooth'
       });
-      setIsOpen(false);
-      document.body.style.overflow = 'auto'; // Re-enable scrolling
     }
   };
 
@@ -42,7 +38,6 @@ export const Header: React.FC = () => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsOpen(false);
-    document.body.style.overflow = 'auto';
   };
 
   const menuItems: MenuItem[] = [
@@ -57,12 +52,12 @@ export const Header: React.FC = () => {
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white shadow-soft py-0.5'
-          : 'bg-white backdrop-blur-md py-0 shadow-md'
+          ? 'bg-white shadow-soft py-0.5 md:py-1'
+          : 'bg-white/90 backdrop-blur-md py-1 md:py-2'
       }`}
     >
       <div className="kamp-container">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between h-14 md:h-16">
           <div className="flex items-center">
             <Logo onClick={handleLogoClick} />
           </div>
@@ -72,19 +67,21 @@ export const Header: React.FC = () => {
             scrollToSection={scrollToSection} 
           />
 
-          <RegisterButton onClick={() => scrollToSection('contact')} />
-
-          <MobileMenuButton 
-            isOpen={isOpen} 
-            toggleMenu={toggleMenu} 
-          />
+          <div className="flex items-center space-x-2">
+            <RegisterButton onClick={() => scrollToSection('contact')} />
+            <MobileMenuButton 
+              isOpen={isOpen} 
+              toggleMenu={toggleMenu} 
+            />
+          </div>
         </div>
       </div>
 
       <MobileMenu 
         isOpen={isOpen} 
         menuItems={menuItems} 
-        scrollToSection={scrollToSection} 
+        scrollToSection={scrollToSection}
+        setIsOpen={setIsOpen}
       />
     </header>
   );
