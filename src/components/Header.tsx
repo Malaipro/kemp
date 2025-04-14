@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Logo } from './header/Logo';
 import { DesktopNavigation } from './header/DesktopNavigation';
@@ -22,7 +21,7 @@ export const Header: React.FC = () => {
       // Check if scrolled past threshold for styling
       setIsScrolled(currentScrollY > 10);
       
-      // Handle header visibility based on scroll direction for both mobile and desktop
+      // Handle header visibility based on scroll direction
       if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
         // Scrolling down & past initial threshold - hide header
         setIsHeaderVisible(false);
@@ -46,8 +45,9 @@ export const Header: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
+      const offset = isMobile ? 60 : 80; // Smaller offset on mobile
       window.scrollTo({
-        top: section.offsetTop - 80,
+        top: section.offsetTop - offset,
         behavior: 'smooth'
       });
     }
@@ -67,11 +67,11 @@ export const Header: React.FC = () => {
     { id: 'contact', label: 'Контакты' }
   ];
 
-  // For mobile: transparent header with just logo and menu button
+  // Mobile header styling
   if (isMobile) {
     return (
       <header 
-        className={`fixed top-0 w-full z-50 bg-transparent transition-transform duration-300 ${
+        className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
           isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
@@ -95,7 +95,7 @@ export const Header: React.FC = () => {
     );
   }
 
-  // Desktop header with full styling and hide/show animation
+  // Desktop header
   return (
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${

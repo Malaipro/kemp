@@ -1,8 +1,9 @@
+
 import React, { useEffect, useRef } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useIsMobile } from '@/hooks/use-mobile';
 
-// Updated photos array without the yuqrv6P.jpeg image
+// Updated photos array
 const photos = [
   {
     id: 1,
@@ -31,6 +32,7 @@ export const PhotoGallery: React.FC = () => {
   const animationRef = useRef<number | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollPosition = useRef<number>(0);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
@@ -48,7 +50,7 @@ export const PhotoGallery: React.FC = () => {
     
     // Create a seamless scrolling animation
     const scroll = () => {
-      const speed = 0.5;
+      const speed = isMobile ? 0.3 : 0.5; // Slower on mobile
       const totalWidth = calculateTotalWidth();
       
       if (totalWidth > 0) {
@@ -72,43 +74,47 @@ export const PhotoGallery: React.FC = () => {
     // Start scrolling animation
     animationRef.current = requestAnimationFrame(scroll);
     
-    // Pause animation on hover
-    const handleMouseEnter = () => {
+    // Pause animation on hover or touch
+    const handlePause = () => {
       if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
         animationRef.current = null;
       }
     };
     
-    // Resume animation on mouse leave
-    const handleMouseLeave = () => {
+    // Resume animation on mouse leave or touch end
+    const handleResume = () => {
       if (animationRef.current === null) {
         animationRef.current = requestAnimationFrame(scroll);
       }
     };
     
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    scrollContainer.addEventListener('mouseenter', handlePause);
+    scrollContainer.addEventListener('mouseleave', handleResume);
+    scrollContainer.addEventListener('touchstart', handlePause);
+    scrollContainer.addEventListener('touchend', handleResume);
     
     return () => {
       if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
       }
-      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+      scrollContainer.removeEventListener('mouseenter', handlePause);
+      scrollContainer.removeEventListener('mouseleave', handleResume);
+      scrollContainer.removeEventListener('touchstart', handlePause);
+      scrollContainer.removeEventListener('touchend', handleResume);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section id="gallery" className="kamp-section bg-kamp-light">
       <div className="kamp-container">
-        <div className="section-heading mb-10">
+        <div className="section-heading mb-6 md:mb-10">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <GalleryHorizontal className="text-kamp-primary h-6 w-6" />
+            <GalleryHorizontal className="text-kamp-primary h-5 w-5 md:h-6 md:w-6" />
             <span className="text-kamp-primary font-semibold">Галерея</span>
           </div>
-          <h2 className="text-kamp-dark">Моменты КЭМП</h2>
-          <p>
+          <h2 className="text-kamp-dark text-2xl md:text-3xl lg:text-4xl">Моменты КЭМП</h2>
+          <p className="text-sm md:text-base">
             Путешествие преображения: реальные моменты из жизни участников нашего курса
           </p>
         </div>
@@ -117,7 +123,7 @@ export const PhotoGallery: React.FC = () => {
         <div className="relative overflow-hidden" ref={galleryRef}>
           <div 
             ref={scrollContainerRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide py-4 whitespace-nowrap"
+            className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll"
             style={{ scrollBehavior: 'auto' }}
           >
             {/* We display each photo multiple times in sequence to create infinite scroll effect */}
@@ -126,7 +132,7 @@ export const PhotoGallery: React.FC = () => {
                 {photos.map((photo) => (
                   <div
                     key={`${repeatIndex}-${photo.id}`}
-                    className="flex-none w-72 h-80 relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
+                    className={`flex-none ${isMobile ? 'w-60 h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105`}
                   >
                     <img
                       src={photo.src}

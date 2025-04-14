@@ -1,7 +1,9 @@
+
 import React, { useState, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, X } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Testimonials: React.FC = () => {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
@@ -11,6 +13,7 @@ export const Testimonials: React.FC = () => {
     3: true
   });
   const [openVideo, setOpenVideo] = useState<number | null>(null);
+  const isMobile = useIsMobile();
   
   const videoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({
     1: null,
@@ -101,16 +104,16 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <section id="testimonials" className="kamp-section bg-black">
+    <section id="testimonials" className="kamp-section bg-black py-10 md:py-16">
       <div className="kamp-container">
-        <div className="section-heading">
-          <h2 className="text-white">Отзывы участников</h2>
-          <p className="text-gray-300">
+        <div className="section-heading mb-8 md:mb-12">
+          <h2 className="text-white text-2xl md:text-3xl lg:text-4xl mb-2">Отзывы участников</h2>
+          <p className="text-gray-300 text-sm md:text-base">
             Узнайте, что говорят наши выпускники о программе КЭМП и как она изменила их жизнь
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
           {testimonials.map((testimonial) => (
             <Card 
               key={testimonial.id}
@@ -128,44 +131,45 @@ export const Testimonials: React.FC = () => {
                     preload="metadata"
                     className="w-full h-full object-cover"
                   />
-                  <div className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-300 
+                  <div className={`absolute inset-0 flex flex-col justify-between p-3 md:p-6 transition-opacity duration-300 
                     ${playingVideo === testimonial.id ? 'bg-black/20 opacity-100' : 'bg-black/60 opacity-100'}`}>
                     
                     <div className="flex justify-between items-start z-10">
                       <div>
-                        <h4 className="font-bold text-white text-xl">{testimonial.name}</h4>
-                        <p className="text-gray-300 text-sm">{testimonial.position}</p>
+                        <h4 className="font-bold text-white text-base md:text-xl">{testimonial.name}</h4>
+                        <p className="text-gray-300 text-xs md:text-sm">{testimonial.position}</p>
                       </div>
                       
                       <button 
-                        className="bg-black/80 hover:bg-black p-2 rounded-full text-white transition-all"
+                        className="bg-black/80 hover:bg-black p-1.5 md:p-2 rounded-full text-white transition-all"
                         onClick={(e) => toggleMute(testimonial.id, e)}
                       >
                         {mutedStatus[testimonial.id] ? 
-                          <VolumeX size={18} /> : 
-                          <Volume2 size={18} />
+                          <VolumeX size={isMobile ? 16 : 18} /> : 
+                          <Volume2 size={isMobile ? 16 : 18} />
                         }
                       </button>
                     </div>
                     
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-                      <div className={`flex items-center justify-center h-20 w-20 rounded-full 
+                      <div className={`flex items-center justify-center 
+                        ${isMobile ? 'h-14 w-14' : 'h-20 w-20'} rounded-full 
                         ${playingVideo === testimonial.id ? 'bg-kamp-primary scale-90' : 'bg-white/20 scale-100'} 
                         transition-all duration-300 backdrop-blur-sm`}
                       >
                         {playingVideo === testimonial.id ? 
-                          <Pause className="text-white" size={32} /> : 
-                          <Play className="text-white" size={32} />
+                          <Pause className="text-white" size={isMobile ? 24 : 32} /> : 
+                          <Play className="text-white" size={isMobile ? 24 : 32} />
                         }
                       </div>
                     </div>
                     
                     <div className="self-end flex items-center justify-between w-full">
-                      <span className="text-white text-sm font-medium">
+                      <span className="text-white text-xs md:text-sm font-medium">
                         {playingVideo === testimonial.id ? 'Идет воспроизведение' : 'Нажмите для просмотра'}
                       </span>
                       <button 
-                        className="ml-4 bg-kamp-primary hover:bg-opacity-80 text-white px-3 py-1 rounded-lg text-sm font-medium transition-all"
+                        className="ml-2 md:ml-4 bg-kamp-primary hover:bg-opacity-80 text-white px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium transition-all"
                         onClick={(e) => openVideoDialog(testimonial.id, e)}
                       >
                         Смотреть полностью
@@ -180,8 +184,8 @@ export const Testimonials: React.FC = () => {
       </div>
 
       <Dialog open={openVideo !== null} onOpenChange={(open) => !open && handleDialogClose()}>
-        <DialogContent className="max-w-4xl p-0 border-gray-800 bg-black">
-          <DialogClose className="absolute right-4 top-4 z-20 bg-black/60 rounded-full p-1 text-white hover:bg-black/80 transition-all" />
+        <DialogContent className="max-w-4xl p-0 border-gray-800 bg-black w-[95vw]">
+          <DialogClose className="absolute right-2 top-2 md:right-4 md:top-4 z-20 bg-black/60 rounded-full p-1 text-white hover:bg-black/80 transition-all" />
           
           {openVideo && (
             <div className="relative aspect-video w-full">
@@ -192,11 +196,11 @@ export const Testimonials: React.FC = () => {
                 controls
                 className="w-full h-full object-contain"
               />
-              <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent w-full">
-                <h4 className="font-bold text-white text-xl">
+              <div className="absolute bottom-0 left-0 p-2 md:p-4 bg-gradient-to-t from-black to-transparent w-full">
+                <h4 className="font-bold text-white text-base md:text-xl">
                   {testimonials.find(t => t.id === openVideo)?.name}
                 </h4>
-                <p className="text-gray-300 text-sm">
+                <p className="text-gray-300 text-xs md:text-sm">
                   {testimonials.find(t => t.id === openVideo)?.position}
                 </p>
               </div>

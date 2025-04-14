@@ -56,12 +56,12 @@ export const Program: React.FC = () => {
   };
 
   return (
-    <section id="program" className="kamp-section bg-gray-50">
+    <section id="program" className="kamp-section bg-gray-50 py-10 md:py-16">
       <div className="kamp-container">
-        <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-kamp-primary font-semibold mb-2">Программа курса</span>
-          <h2 className="text-black">Интенсивные тренировки для тела и духа</h2>
-          <p>
+        <div className="section-heading reveal-on-scroll mb-6 md:mb-8">
+          <span className="inline-block text-kamp-primary font-semibold mb-1 md:mb-2 text-sm md:text-base">Программа курса</span>
+          <h2 className="text-black text-2xl md:text-3xl lg:text-4xl mb-2">Интенсивные тренировки для тела и духа</h2>
+          <p className="text-sm md:text-base">
             Наша программа разработана для всестороннего развития. 
             Каждая тренировка — это шаг к совершенству, каждое испытание — возможность стать сильнее.
           </p>
@@ -69,54 +69,54 @@ export const Program: React.FC = () => {
 
         {isMobile ? (
           // Mobile layout - vertical with scroll to content
-          <div className="mt-8 space-y-6 reveal-on-scroll">
-            <div className="space-y-3">
+          <div className="mt-6 space-y-4 reveal-on-scroll">
+            <div className="space-y-2">
               {programs.map((program) => (
                 <button
                   key={program.id}
                   onClick={() => handleProgramClick(program)}
-                  className={`w-full text-left p-4 rounded-lg transition-all duration-300 flex items-center justify-between ${
+                  className={`w-full text-left p-3 rounded-lg transition-all duration-300 flex items-center justify-between ${
                     activeProgram.id === program.id 
                     ? 'bg-white shadow-soft border-l-4 border-kamp-primary' 
                     : 'bg-white/50 hover:bg-white hover:shadow-soft'
                   }`}
                 >
                   <div>
-                    <h3 className={`font-bold ${activeProgram.id === program.id ? 'text-kamp-primary' : 'text-gray-700'}`}>
+                    <h3 className={`font-bold text-sm ${activeProgram.id === program.id ? 'text-kamp-primary' : 'text-gray-700'}`}>
                       {program.title}
                     </h3>
                   </div>
                   {activeProgram.id === program.id ? (
-                    <ChevronDown className="text-kamp-primary" size={18} />
+                    <ChevronDown className="text-kamp-primary" size={16} />
                   ) : (
-                    <ArrowRight className="text-gray-400" size={18} />
+                    <ArrowRight className="text-gray-400" size={16} />
                   )}
                 </button>
               ))}
             </div>
             
-            <div ref={contentRef} className="pt-2 scroll-mt-24">
+            <div ref={contentRef} className="pt-1 scroll-mt-16">
               <div className="bg-white rounded-xl shadow-soft overflow-hidden">
-                <div className="h-64 relative">
+                <div className="h-48 relative">
                   <img 
                     src={activeProgram.image} 
                     alt={activeProgram.title}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 p-6 text-white">
-                    <h3 className="text-2xl font-bold">{activeProgram.title}</h3>
+                  <div className="absolute bottom-0 left-0 p-4 text-white">
+                    <h3 className="text-lg font-bold">{activeProgram.title}</h3>
                   </div>
                 </div>
-                <div className="p-6">
-                  <p className="text-gray-700">{activeProgram.description}</p>
+                <div className="p-4">
+                  <p className="text-gray-700 text-sm">{activeProgram.description}</p>
                 </div>
               </div>
             </div>
           </div>
         ) : (
           // Desktop layout - side by side
-          <div className="mt-16 grid md:grid-cols-3 gap-8 reveal-on-scroll">
+          <div className="mt-12 grid md:grid-cols-3 gap-8 reveal-on-scroll">
             <div className="md:col-span-1 space-y-4">
               {programs.map((program) => (
                 <button
