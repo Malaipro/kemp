@@ -4,6 +4,7 @@ import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Button } from '@/components/ui/button';
 
 export const Testimonials: React.FC = () => {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
@@ -131,37 +132,42 @@ export const Testimonials: React.FC = () => {
                     preload="metadata"
                     className="w-full h-full object-cover"
                   />
-                  <div className={`absolute inset-0 flex flex-col justify-between ${isMobile ? 'p-3' : 'p-3 md:p-6'} transition-opacity duration-300 
+                  <div className={`absolute inset-0 flex flex-col justify-between ${isMobile ? 'p-3' : 'p-3 md:p-5'} transition-opacity duration-300 
                     ${playingVideo === testimonial.id ? 'bg-black/20 opacity-100' : 'bg-black/60 opacity-100'}`}>
                     
                     <div className="flex justify-between items-start z-10">
                       <div>
-                        <h4 className={`font-bold text-white ${isMobile ? 'text-sm' : 'text-base md:text-xl'}`}>{testimonial.name}</h4>
+                        <h4 className={`font-bold text-white ${isMobile ? 'text-sm' : 'text-base md:text-lg'}`}>{testimonial.name}</h4>
                         <p className={`text-gray-300 ${isMobile ? 'text-xs' : 'text-xs md:text-sm'}`}>{testimonial.position}</p>
                       </div>
                       
-                      <button 
-                        className="bg-black/80 hover:bg-black p-1 rounded-full text-white transition-all"
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        className="h-7 w-7 bg-black/50 hover:bg-black/80 rounded-full text-white p-1.5"
                         onClick={(e) => toggleMute(testimonial.id, e)}
                       >
                         {mutedStatus[testimonial.id] ? 
-                          <VolumeX size={isMobile ? 16 : 16} /> : 
-                          <Volume2 size={isMobile ? 16 : 16} />
+                          <VolumeX size={isMobile ? 14 : 14} /> : 
+                          <Volume2 size={isMobile ? 14 : 14} />
                         }
-                      </button>
+                      </Button>
                     </div>
                     
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-                      <div className={`flex items-center justify-center 
-                        ${isMobile ? 'h-12 w-12' : 'h-14 w-14 md:h-20 md:w-20'} rounded-full 
-                        ${playingVideo === testimonial.id ? 'bg-kamp-primary scale-90' : 'bg-white/20 scale-100'} 
-                        transition-all duration-300 backdrop-blur-sm`}
+                      <Button
+                        variant="ghost" 
+                        size="icon"
+                        className={`flex items-center justify-center 
+                          ${isMobile ? 'h-10 w-10' : 'h-12 w-12 md:h-16 md:w-16'} rounded-full 
+                          ${playingVideo === testimonial.id ? 'bg-kamp-primary/90' : 'bg-white/20'} 
+                          transition-all duration-300 backdrop-blur-sm p-0`}
                       >
                         {playingVideo === testimonial.id ? 
-                          <Pause className="text-white" size={isMobile ? 20 : 24} /> : 
-                          <Play className="text-white" size={isMobile ? 20 : 24} />
+                          <Pause className="text-white" size={isMobile ? 16 : 20} /> : 
+                          <Play className="text-white" size={isMobile ? 16 : 20} />
                         }
-                      </div>
+                      </Button>
                     </div>
                     
                     <div className="self-end flex items-center justify-between w-full">
@@ -170,12 +176,14 @@ export const Testimonials: React.FC = () => {
                           {playingVideo === testimonial.id ? 'Идет воспроизведение' : 'Нажмите для просмотра'}
                         </span>
                       )}
-                      <button 
-                        className={`${isMobile ? 'text-xs py-1 px-2 ml-auto' : 'ml-2 md:ml-4 text-xs md:text-sm py-1 px-2 md:px-3'} bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
+                      <Button 
+                        variant="default"
+                        size="sm"
+                        className={`${isMobile ? 'text-xs py-1 px-2 h-7 ml-auto' : 'ml-2 md:ml-4 text-xs md:text-sm py-1 px-2 md:px-3 h-7 md:h-8'} bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
                         onClick={(e) => openVideoDialog(testimonial.id, e)}
                       >
                         {isMobile ? 'Смотреть' : 'Смотреть полностью'}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
