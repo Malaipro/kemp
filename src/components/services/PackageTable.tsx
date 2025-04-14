@@ -23,74 +23,78 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
 
   return (
     <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
-      <div className={`overflow-x-auto ${isMobile ? 'text-sm' : ''}`}>
+      <div className={`overflow-x-auto ${isMobile ? 'text-xs' : 'text-sm'}`}>
         <Table>
           <TableHeader className="bg-gray-100">
             <TableRow>
-              <TableHead className="text-left p-2 md:p-4 border-b text-black font-semibold">Услуга</TableHead>
-              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold">
+              <TableHead className={`text-left ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-semibold`}>Услуга</TableHead>
+              <TableHead className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-semibold`}>
                 <span>Демо</span>
               </TableHead>
-              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold">
+              <TableHead className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-semibold`}>
                 <span>Базовый</span>
               </TableHead>
-              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold">
+              <TableHead className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-semibold`}>
                 <span>Премиум</span>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow className="bg-white">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Стоимость</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">{formatPrice(600)} ₽</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">{formatPrice(20400)} ₽</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">{formatPrice(34900)} ₽</TableCell>
+              <TableCell className={`${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-medium`}>Стоимость</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>{formatPrice(600)} ₽</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>{formatPrice(20400)} ₽</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>{formatPrice(34900)} ₽</TableCell>
             </TableRow>
             <TableRow className="bg-gray-50">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Тренировки по кикбоксингу</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">1</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">10</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">10</TableCell>
+              <TableCell className={`${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-medium`}>Тренировки по кикбоксингу</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>1</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>10</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>10</TableCell>
             </TableRow>
             <TableRow className="bg-white">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Функциональные тренировки</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">8</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">8</TableCell>
+              <TableCell className={`${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black font-medium`}>Функциональные тренировки</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>-</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>8</TableCell>
+              <TableCell className={`text-center ${isMobile ? 'p-1' : 'p-2 md:p-4'} border-b text-black`}>8</TableCell>
             </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Выездные мероприятия</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">2</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">4</TableCell>
-            </TableRow>
-            <TableRow className="bg-white">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Индивидуальное сопровождение</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">
-                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mx-auto" />
-              </TableCell>
-            </TableRow>
-            <TableRow className="bg-gray-50">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">План питания</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">
-                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mx-auto" />
-              </TableCell>
-            </TableRow>
+            {!isMobile && (
+              <>
+                <TableRow className="bg-gray-50">
+                  <TableCell className="p-2 md:p-4 border-b text-black font-medium">Выездные мероприятия</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">2</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">4</TableCell>
+                </TableRow>
+                <TableRow className="bg-white">
+                  <TableCell className="p-2 md:p-4 border-b text-black font-medium">Индивидуальное сопровождение</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">
+                    <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+                <TableRow className="bg-gray-50">
+                  <TableCell className="p-2 md:p-4 border-b text-black font-medium">План питания</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
+                  <TableCell className="text-center p-2 md:p-4 border-b text-black">
+                    <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mx-auto" />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
             <TableRow>
-              <TableCell colSpan={4} className="p-2 md:p-4">
+              <TableCell colSpan={4} className={`${isMobile ? 'p-1' : 'p-2 md:p-4'}`}>
                 {isMobile ? (
-                  <div className="flex flex-col gap-2 mt-2">
+                  <div className="flex flex-row gap-1 mt-1 justify-between">
                     {packages.map((pkg) => (
                       <Button 
                         key={pkg.id}
-                        className="w-full bg-kamp-primary hover:bg-kamp-accent text-white text-sm py-1.5" 
+                        className="w-full bg-kamp-primary hover:bg-kamp-accent text-white text-xs py-1" 
                         onClick={() => onSelectPackage(pkg)}
                       >
-                        Выбрать {pkg.title}
+                        {pkg.title}
                       </Button>
                     ))}
                   </div>

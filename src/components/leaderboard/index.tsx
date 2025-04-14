@@ -7,9 +7,11 @@ import { activities } from './data';
 import { supabase } from '@/integrations/supabase/client';
 import { Participant } from '@/types/leaderboard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Leaderboard: React.FC = () => {
   const [isPointsVisible, setIsPointsVisible] = useState(false);
+  const isMobile = useIsMobile();
 
   const { data: participants, isLoading, error } = useQuery({
     queryKey: ['leaderboard'],
@@ -36,7 +38,7 @@ export const Leaderboard: React.FC = () => {
   };
 
   return (
-    <section id="leaderboard" className="kamp-section bg-kamp-secondary">
+    <section id="leaderboard" className="kamp-section bg-kamp-secondary py-6 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-accent font-semibold mb-2">Лидерборд</span>
@@ -47,20 +49,18 @@ export const Leaderboard: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid md:grid-cols-5 gap-8">
+        <div className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-8">
           {/* Leaderboard Table */}
-          <div className="md:col-span-3 reveal-on-scroll">
+          <div className="reveal-on-scroll">
             {isLoading ? (
-              <div className="space-y-4">
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
+              <div className="space-y-2 md:space-y-4">
+                <Skeleton className="h-8 md:h-12 w-full" />
+                <Skeleton className="h-6 md:h-10 w-full" />
+                <Skeleton className="h-6 md:h-10 w-full" />
+                <Skeleton className="h-6 md:h-10 w-full" />
               </div>
             ) : error ? (
-              <div className="p-4 text-red-500 bg-red-50 rounded-md">
+              <div className="p-2 md:p-4 text-red-500 bg-red-50 rounded-md text-xs md:text-base">
                 Произошла ошибка при загрузке данных. Пожалуйста, попробуйте позже.
               </div>
             ) : (
@@ -69,7 +69,7 @@ export const Leaderboard: React.FC = () => {
           </div>
 
           {/* How to earn points */}
-          <div className="md:col-span-2 reveal-on-scroll">
+          <div className="reveal-on-scroll">
             <ActivityList 
               activities={activities}
               isPointsVisible={isPointsVisible}

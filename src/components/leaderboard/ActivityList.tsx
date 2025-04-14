@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Video } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ActivityListProps {
   activities: Activity[];
@@ -19,6 +20,8 @@ export const ActivityList: React.FC<ActivityListProps> = ({
   isPointsVisible, 
   togglePointsVisibility 
 }) => {
+  const isMobile = useIsMobile();
+  
   const { data: activities, isLoading } = useQuery({
     queryKey: ['activities'],
     queryFn: async (): Promise<Activity[]> => {
@@ -40,29 +43,31 @@ export const ActivityList: React.FC<ActivityListProps> = ({
     initialData: defaultActivities
   });
 
+  // Limit to top 3 for mobile
+  const displayedActivities = isMobile ? (activities || []).slice(0, 3) : activities;
+
   return (
     <Card className="h-full border-gray-700 bg-black bg-opacity-60 text-gray-200">
-      <CardHeader className="p-6 border-b border-gray-800">
-        <h3 className="font-bold text-kamp-dark">Как заработать баллы?</h3>
+      <CardHeader className={`${isMobile ? 'p-2' : 'p-6'} border-b border-gray-800`}>
+        <h3 className={`font-bold text-kamp-dark ${isMobile ? 'text-sm' : 'text-base'}`}>Как заработать баллы?</h3>
       </CardHeader>
-      <CardContent className="p-6 space-y-4">
+      <CardContent className={`${isMobile ? 'p-2' : 'p-6'} space-y-2 md:space-y-4`}>
         {isLoading ? (
           <>
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className={`${isMobile ? 'h-6' : 'h-10'} w-full`} />
+            <Skeleton className={`${isMobile ? 'h-6' : 'h-10'} w-full`} />
+            <Skeleton className={`${isMobile ? 'h-6' : 'h-10'} w-full`} />
           </>
         ) : (
-          (activities || []).map((activity) => (
+          displayedActivities.map((activity) => (
             <div 
               key={activity.id} 
-              className="flex items-center p-3 rounded-lg hover:bg-gray-900 transition-colors"
+              className={`flex items-center ${isMobile ? 'p-1 text-xs' : 'p-3 text-sm'} rounded-lg hover:bg-gray-900 transition-colors`}
             >
               <div className="flex-shrink-0">
-                {getIconComponent(activity.icon)}
+                {getIconComponent(activity.icon, isMobile ? 14 : 20)}
               </div>
-              <div className="ml-4 flex-grow">
+              <div className="ml-2 md:ml-4 flex-grow">
                 <span className="font-medium text-gray-300">{activity.title}</span>
               </div>
               <div className="text-kamp-accent font-bold">
@@ -72,20 +77,20 @@ export const ActivityList: React.FC<ActivityListProps> = ({
           ))
         )}
         
-        <div className="mt-8 pt-4 border-t border-gray-800 flex items-center text-sm text-gray-400">
-          <Video className="w-4 h-4 mr-2 text-kamp-accent" />
+        <div className={`mt-2 md:mt-8 pt-2 md:pt-4 border-t border-gray-800 flex items-center ${isMobile ? 'text-xs' : 'text-sm'} text-gray-400`}>
+          <Video className={`${isMobile ? 'w-3 h-3 mr-1' : 'w-4 h-4 mr-2'} text-kamp-accent`} />
           <p>Некоторым пунктам необходимо видео подтверждение</p>
         </div>
       </CardContent>
 
-      <div className="p-6 bg-gradient-to-r from-kamp-primary to-kamp-accent text-white">
-        <h3 className="font-bold mb-3">Что в конце курса?</h3>
+      <div className={`${isMobile ? 'p-2' : 'p-6'} bg-gradient-to-r from-kamp-primary to-kamp-accent text-white`}>
+        <h3 className={`font-bold mb-2 ${isMobile ? 'text-sm' : 'text-base'}`}>Что в конце курса?</h3>
         <div 
           className={`relative overflow-hidden transition-all duration-500 ${
-            isPointsVisible ? 'max-h-96' : 'max-h-20'
+            isPointsVisible ? 'max-h-48 md:max-h-96' : 'max-h-10 md:max-h-20'
           }`}
         >
-          <p className="mb-4">
+          <p className={`mb-2 md:mb-4 ${isMobile ? 'text-xs' : 'text-sm'}`}>
             Участники, занявшие призовые места, получат ценные призы и особое признание.
             Но главная награда — это преображение, которое происходит с каждым участником КЭМП.
           </p>
@@ -95,7 +100,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({
         
         <button 
           onClick={togglePointsVisibility}
-          className="mt-3 text-sm font-medium hover:underline focus:outline-none"
+          className={`mt-1 md:mt-3 ${isMobile ? 'text-xs' : 'text-sm'} font-medium hover:underline focus:outline-none`}
         >
           {isPointsVisible ? 'Скрыть детали' : 'Узнать подробнее'}
         </button>

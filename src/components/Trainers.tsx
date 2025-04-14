@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -49,28 +48,30 @@ export const Trainers: React.FC = () => {
           <h2 className="text-white text-2xl md:text-4xl">Наша команда профессионалов</h2>
           <p className="text-gray-300 text-sm md:text-base mt-2">
             Опытные наставники, которые не только научат технике, но и помогут раскрыть весь потенциал.
-            Каждый из них — эксперт в своей области.
+            Каждый из них — эк��перт в своей области.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-16">
+        <div className="grid grid-cols-3 gap-2 md:gap-8 mt-4 md:mt-16">
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
               className="kamp-card overflow-hidden reveal-on-scroll hover-lift cursor-pointer bg-black border border-gray-800"
               onClick={() => setSelectedTrainer(trainer)}
             >
-              <div className="aspect-[3/4] overflow-hidden">
+              <div className={`${isMobile ? 'aspect-square' : 'aspect-[3/4]'} overflow-hidden`}>
                 <img 
                   src={trainer.image} 
                   alt={trainer.name}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
                 />
               </div>
-              <div className="p-4 md:p-6 bg-black">
-                <h3 className="text-lg md:text-xl font-bold text-white">{trainer.name}</h3>
-                <p className="text-kamp-primary font-medium text-xs md:text-sm mb-2 md:mb-3">{trainer.role}</p>
-                <p className="text-gray-600 text-xs md:text-sm italic mb-3 md:mb-4">"{trainer.quote}"</p>
+              <div className={`${isMobile ? 'p-2' : 'p-4 md:p-6'} bg-black`}>
+                <h3 className={`${isMobile ? 'text-sm' : 'text-lg md:text-xl'} font-bold text-white`}>{trainer.name}</h3>
+                <p className={`text-kamp-primary font-medium ${isMobile ? 'text-xs' : 'text-xs md:text-sm'} mb-2 md:mb-3`}>{trainer.role}</p>
+                {!isMobile && (
+                  <p className="text-gray-600 text-xs md:text-sm italic mb-3 md:mb-4">"{trainer.quote}"</p>
+                )}
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
@@ -78,7 +79,7 @@ export const Trainers: React.FC = () => {
                   }}
                   className="text-kamp-primary font-medium text-xs md:text-sm hover:underline"
                 >
-                  Подробнее
+                  {isMobile ? 'Подробнее' : 'Подробнее'}
                 </button>
               </div>
             </div>

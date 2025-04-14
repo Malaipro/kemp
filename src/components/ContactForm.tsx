@@ -7,6 +7,7 @@ import { CountdownTimer } from './contact/CountdownTimer';
 import { CourseInfo } from './contact/CourseInfo';
 import { SubmissionSuccess } from './contact/SubmissionSuccess';
 import { saveContactSubmission, FormData } from './contact/supabaseActions';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -16,6 +17,7 @@ export const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const isMobile = useIsMobile();
 
   // Set target date for countdown timer (April 21, 2025)
   const targetDate = new Date("2025-04-21T00:00:00");
@@ -68,7 +70,7 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="kamp-section bg-black text-white">
+    <section id="contact" className="kamp-section bg-black text-white py-6 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Записаться на курс</span>
@@ -79,11 +81,11 @@ export const ContactForm: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid md:grid-cols-2 gap-12">
+        <div className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-12">
           {/* Contact Form */}
           <div className="reveal-on-scroll">
-            <div id="contact-form" className="bg-[#111] rounded-xl shadow-soft p-8 border border-gray-800">
-              <h3 className="text-xl font-bold text-white mb-6">Оставить заявку</h3>
+            <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-3' : 'p-8'} border border-gray-800`}>
+              <h3 className={`${isMobile ? 'text-base' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
               {submitted ? (
                 <SubmissionSuccess onReset={() => setSubmitted(false)} />
@@ -99,33 +101,35 @@ export const ContactForm: React.FC = () => {
             </div>
             
             {/* Ask a Question Button */}
-            <AskQuestion />
+            {!isMobile && <AskQuestion />}
           </div>
 
           {/* Timer and Info */}
           <div className="reveal-on-scroll">
             <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
-              <div className="flex-grow p-8">
-                <h3 className="text-xl font-bold mb-6">Не упусти свой шанс</h3>
-                <p className="text-white/80 mb-8">
-                  Следующий поток КЭМП стартует 21 апреля 2025 года. Количество мест ограничено, 
-                  чтобы мы могли уделить внимание каждому участнику.
-                </p>
+              <div className={`flex-grow ${isMobile ? 'p-3' : 'p-8'}`}>
+                <h3 className={`${isMobile ? 'text-base mb-2' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
+                {!isMobile && (
+                  <p className="text-white/80 mb-8">
+                    Следующий поток КЭМП стартует 21 апреля 2025 года. Количество мест ограничено, 
+                    чтобы мы могли уделить внимание каждому участнику.
+                  </p>
+                )}
 
                 <CountdownTimer targetDate={targetDate} />
                 
-                <CourseInfo />
+                {!isMobile && <CourseInfo />}
               </div>
               
-              <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/10">
+              <div className={`${isMobile ? 'p-2' : 'p-6'} bg-black/20 backdrop-blur-sm border-t border-white/10`}>
                 <div className="flex items-center">
                   <div className="flex-grow">
-                    <div className="text-xl font-bold">Ограниченный набор</div>
-                    <div className="text-white/70 text-sm">Запишись прямо сейчас</div>
+                    <div className={`${isMobile ? 'text-sm' : 'text-xl'} font-bold`}>Ограниченный набор</div>
+                    {!isMobile && <div className="text-white/70 text-sm">Запишись прямо сейчас</div>}
                   </div>
                   <button 
                     onClick={scrollToContactForm}
-                    className="kamp-button text-kamp-primary bg-white hover:bg-white/90"
+                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-2 py-1' : ''}`}
                   >
                     Записаться
                   </button>

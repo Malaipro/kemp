@@ -17,42 +17,49 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
   const isMobile = useIsMobile();
   
   return (
-    <div className={`grid ${isMobile ? 'grid-cols-1' : 'md:grid-cols-3'} gap-4 md:gap-6 reveal-on-scroll`}>
+    <div className={`grid ${isMobile ? 'grid-cols-3 gap-2' : 'md:grid-cols-3 gap-4 md:gap-6'} reveal-on-scroll overflow-x-auto`}>
       {packages.map((pkg) => (
         <Card 
           key={pkg.id} 
           className={`border-2 ${pkg.highlight ? 'border-kamp-primary shadow-lg' : 'border-gray-300'} 
-            shadow-md overflow-hidden transition-all hover:shadow-xl hover:border-kamp-accent flex flex-col`}
+            shadow-md overflow-hidden transition-all hover:shadow-xl hover:border-kamp-accent flex flex-col 
+            ${isMobile ? 'min-w-[110px]' : ''}`}
         >
-          <CardHeader className={`bg-white ${isMobile ? 'p-4' : 'p-6'}`}>
-            <CardTitle className="text-black font-bold">
+          <CardHeader className={`bg-white ${isMobile ? 'p-2 pb-1' : 'p-6'}`}>
+            <CardTitle className={`text-black font-bold ${isMobile ? 'text-xs' : ''}`}>
               {pkg.title}
             </CardTitle>
-            <div className="mt-2 mb-1 text-2xl md:text-3xl font-bold text-kamp-primary">{formatPrice(pkg.price)} ₽</div>
-            <CardDescription className="text-black/70">{pkg.description}</CardDescription>
-            {pkg.date && (
+            <div className={`mt-1 mb-1 ${isMobile ? 'text-sm' : 'text-2xl md:text-3xl'} font-bold text-kamp-primary`}>{formatPrice(pkg.price)} ₽</div>
+            {!isMobile && <CardDescription className="text-black/70">{pkg.description}</CardDescription>}
+            {pkg.date && !isMobile && (
               <div className="text-xs md:text-sm font-medium text-black/70 mt-2 flex items-center">
                 <Calendar className="h-3 w-3 md:h-4 md:w-4 mr-1" />
                 {format(pkg.date, "d MMMM yyyy 'в' HH:mm", { locale: ru })}
               </div>
             )}
           </CardHeader>
-          <CardContent className={`${isMobile ? 'pt-4 pb-3 px-4' : 'pt-6 pb-4 px-6'} flex-grow bg-white`}>
-            <ul className="space-y-1 md:space-y-2">
-              {pkg.features.map((feature, index) => (
-                <li key={index} className="flex items-start text-black text-sm md:text-base">
-                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary shrink-0 mr-2 mt-0.5" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
+          <CardContent className={`${isMobile ? 'pt-1 pb-1 px-2' : 'pt-6 pb-4 px-6'} flex-grow bg-white`}>
+            {isMobile ? (
+              <div className="text-center text-xs text-black/70">
+                {pkg.shortFeature || pkg.features[0]}
+              </div>
+            ) : (
+              <ul className="space-y-1 md:space-y-2">
+                {pkg.features.map((feature, index) => (
+                  <li key={index} className="flex items-start text-black text-sm md:text-base">
+                    <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary shrink-0 mr-2 mt-0.5" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </CardContent>
-          <CardFooter className="mt-auto bg-white p-4 md:p-6">
+          <CardFooter className="mt-auto bg-white p-2 md:p-6">
             <Button 
-              className="w-full bg-kamp-primary hover:bg-kamp-accent text-white font-medium shadow-md py-1.5 md:py-2.5" 
+              className={`w-full bg-kamp-primary hover:bg-kamp-accent text-white font-medium shadow-md ${isMobile ? 'text-xs py-1' : 'py-1.5 md:py-2.5'}`}
               onClick={() => onSelectPackage(pkg)}
             >
-              Выбрать
+              {isMobile ? 'Выбрать' : 'Выбрать'}
             </Button>
           </CardFooter>
         </Card>

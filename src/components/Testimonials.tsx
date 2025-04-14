@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -104,16 +103,16 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <section id="testimonials" className="kamp-section bg-black py-10 md:py-16">
+    <section id="testimonials" className="kamp-section bg-black py-6 md:py-16">
       <div className="kamp-container">
-        <div className="section-heading mb-8 md:mb-12">
+        <div className="section-heading mb-4 md:mb-12">
           <h2 className="text-white text-2xl md:text-3xl lg:text-4xl mb-2">Отзывы участников</h2>
           <p className="text-gray-300 text-sm md:text-base">
             Узнайте, что говорят наши выпускники о программе КЭМП и как она изменила их жизнь
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+        <div className="grid grid-cols-3 gap-2 md:gap-8">
           {testimonials.map((testimonial) => (
             <Card 
               key={testimonial.id}
@@ -131,48 +130,50 @@ export const Testimonials: React.FC = () => {
                     preload="metadata"
                     className="w-full h-full object-cover"
                   />
-                  <div className={`absolute inset-0 flex flex-col justify-between p-3 md:p-6 transition-opacity duration-300 
+                  <div className={`absolute inset-0 flex flex-col justify-between ${isMobile ? 'p-2' : 'p-3 md:p-6'} transition-opacity duration-300 
                     ${playingVideo === testimonial.id ? 'bg-black/20 opacity-100' : 'bg-black/60 opacity-100'}`}>
                     
                     <div className="flex justify-between items-start z-10">
                       <div>
-                        <h4 className="font-bold text-white text-base md:text-xl">{testimonial.name}</h4>
-                        <p className="text-gray-300 text-xs md:text-sm">{testimonial.position}</p>
+                        <h4 className={`font-bold text-white ${isMobile ? 'text-xs' : 'text-base md:text-xl'}`}>{testimonial.name}</h4>
+                        <p className={`text-gray-300 ${isMobile ? 'text-[10px]' : 'text-xs md:text-sm'}`}>{testimonial.position}</p>
                       </div>
                       
                       <button 
-                        className="bg-black/80 hover:bg-black p-1.5 md:p-2 rounded-full text-white transition-all"
+                        className="bg-black/80 hover:bg-black p-1 rounded-full text-white transition-all"
                         onClick={(e) => toggleMute(testimonial.id, e)}
                       >
                         {mutedStatus[testimonial.id] ? 
-                          <VolumeX size={isMobile ? 16 : 18} /> : 
-                          <Volume2 size={isMobile ? 16 : 18} />
+                          <VolumeX size={isMobile ? 12 : 16} /> : 
+                          <Volume2 size={isMobile ? 12 : 16} />
                         }
                       </button>
                     </div>
                     
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                       <div className={`flex items-center justify-center 
-                        ${isMobile ? 'h-14 w-14' : 'h-20 w-20'} rounded-full 
+                        ${isMobile ? 'h-8 w-8' : 'h-14 w-14 md:h-20 md:w-20'} rounded-full 
                         ${playingVideo === testimonial.id ? 'bg-kamp-primary scale-90' : 'bg-white/20 scale-100'} 
                         transition-all duration-300 backdrop-blur-sm`}
                       >
                         {playingVideo === testimonial.id ? 
-                          <Pause className="text-white" size={isMobile ? 24 : 32} /> : 
-                          <Play className="text-white" size={isMobile ? 24 : 32} />
+                          <Pause className="text-white" size={isMobile ? 16 : 24} /> : 
+                          <Play className="text-white" size={isMobile ? 16 : 24} />
                         }
                       </div>
                     </div>
                     
                     <div className="self-end flex items-center justify-between w-full">
-                      <span className="text-white text-xs md:text-sm font-medium">
-                        {playingVideo === testimonial.id ? 'Идет воспроизведение' : 'Нажмите для просмотра'}
-                      </span>
+                      {!isMobile && (
+                        <span className="text-white text-xs md:text-sm font-medium">
+                          {playingVideo === testimonial.id ? 'Идет воспроизведение' : 'Нажмите для просмотра'}
+                        </span>
+                      )}
                       <button 
-                        className="ml-2 md:ml-4 bg-kamp-primary hover:bg-opacity-80 text-white px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium transition-all"
+                        className={`${isMobile ? 'text-[10px] py-0.5 px-1 ml-auto' : 'ml-2 md:ml-4 text-xs md:text-sm py-1 px-2 md:px-3'} bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
                         onClick={(e) => openVideoDialog(testimonial.id, e)}
                       >
-                        Смотреть полностью
+                        {isMobile ? 'Смотреть' : 'Смотреть полностью'}
                       </button>
                     </div>
                   </div>
