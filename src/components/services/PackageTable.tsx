@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Table,
@@ -9,8 +8,8 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
-import { Star, Diamond, Flame, CheckCircle } from 'lucide-react';
-import { ServicePackage, formatPrice } from './servicePackagesData';
+import { CheckCircle } from 'lucide-react';
+import { servicePackages, ServicePackage, formatPrice } from './servicePackagesData';
 
 interface PackageTableProps {
   packages: ServicePackage[];
@@ -25,22 +24,13 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
           <TableRow>
             <TableHead className="text-left p-4 border-b text-black font-semibold">Услуга</TableHead>
             <TableHead className="text-center p-4 border-b text-black font-semibold">
-              <div className="flex flex-col items-center">
-                <Star className="h-5 w-5 text-gray-600 mb-1" />
-                <span>Демо</span>
-              </div>
+              <span>Демо</span>
             </TableHead>
             <TableHead className="text-center p-4 border-b text-black font-semibold">
-              <div className="flex flex-col items-center">
-                <Flame className="h-5 w-5 text-gray-600 mb-1" />
-                <span>Базовый</span>
-              </div>
+              <span>Базовый</span>
             </TableHead>
             <TableHead className="text-center p-4 border-b text-black font-semibold">
-              <div className="flex flex-col items-center">
-                <Diamond className="h-5 w-5 text-gray-600 mb-1" />
-                <span>Премиум</span>
-              </div>
+              <span>Премиум</span>
             </TableHead>
           </TableRow>
         </TableHeader>
