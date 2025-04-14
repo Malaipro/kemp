@@ -1,13 +1,8 @@
 
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Activity } from '@/types/leaderboard';
-import { getIconComponent } from './IconRenderer';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Video } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { Skeleton } from '@/components/ui/skeleton';
+import React from 'react';
+import { ChevronDown, ChevronUp, Eye, EyeOff } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Activity } from './data';
 
 interface ActivityListProps {
   activities: Activity[];
@@ -15,95 +10,76 @@ interface ActivityListProps {
   togglePointsVisibility: () => void;
 }
 
-export const ActivityList: React.FC<ActivityListProps> = ({ 
-  activities: defaultActivities, 
-  isPointsVisible, 
-  togglePointsVisibility 
+export const ActivityList: React.FC<ActivityListProps> = ({
+  activities,
+  isPointsVisible,
+  togglePointsVisibility
 }) => {
   const isMobile = useIsMobile();
   
-  const { data: activities, isLoading } = useQuery({
-    queryKey: ['activities'],
-    queryFn: async (): Promise<Activity[]> => {
-      console.log('Fetching activities from Supabase...');
-      const { data, error } = await supabase
-        .from('activities')
-        .select('*')
-        .order('points', { ascending: false });
-      
-      if (error) {
-        console.error('Error fetching activities:', error);
-        throw new Error(error.message);
-      }
-      
-      console.log('Activities received:', data);
-      return data as Activity[];
-    },
-    initialData: defaultActivities
-  });
-
-  // Display more activities on mobile (before it was showing fewer)
-  const displayedActivities = isMobile ? (activities || []).slice(0, 5) : activities;
-
   return (
-    <Card className="h-full border-gray-700 bg-black bg-opacity-60 text-gray-200">
-      <CardHeader className={`${isMobile ? 'p-2' : 'p-6'} border-b border-gray-800`}>
-        <h3 className={`font-bold text-kamp-dark ${isMobile ? 'text-sm' : 'text-base'}`}>Как заработать баллы?</h3>
-      </CardHeader>
-      <CardContent className={`${isMobile ? 'p-2' : 'p-6'} space-y-2 md:space-y-4`}>
-        {isLoading ? (
-          <>
-            <Skeleton className={`${isMobile ? 'h-6' : 'h-10'} w-full`} />
-            <Skeleton className={`${isMobile ? 'h-6' : 'h-10'} w-full`} />
-            <Skeleton className={`${isMobile ? 'h-6' : 'h-10'} w-full`} />
-          </>
-        ) : (
-          displayedActivities.map((activity) => (
-            <div 
-              key={activity.id} 
-              className={`flex items-center ${isMobile ? 'p-1 text-xs' : 'p-3 text-sm'} rounded-lg hover:bg-gray-900 transition-colors`}
-            >
-              <div className="flex-shrink-0">
-                {getIconComponent(activity.icon, isMobile ? 14 : 20)}
-              </div>
-              <div className="ml-2 md:ml-4 flex-grow">
-                <span className="font-medium text-gray-300">{activity.title}</span>
-              </div>
-              <div className="text-kamp-accent font-bold">
-                +{activity.points} баллов
-              </div>
-            </div>
-          ))
-        )}
-        
-        <div className={`mt-2 md:mt-8 pt-2 md:pt-4 border-t border-gray-800 flex items-center ${isMobile ? 'text-xs' : 'text-sm'} text-gray-400`}>
-          <Video className={`${isMobile ? 'w-3 h-3 mr-1' : 'w-4 h-4 mr-2'} text-kamp-accent`} />
-          <p>Некоторым пунктам необходимо видео подтверждение</p>
-        </div>
-      </CardContent>
-
-      <div className={`${isMobile ? 'p-2' : 'p-6'} bg-gradient-to-r from-kamp-primary to-kamp-accent text-white`}>
-        <h3 className={`font-bold mb-2 ${isMobile ? 'text-sm' : 'text-base'}`}>Что в конце курса?</h3>
-        <div 
-          className={`relative overflow-hidden transition-all duration-500 ${
-            isPointsVisible ? 'max-h-48 md:max-h-96' : 'max-h-20 md:max-h-20'
-          }`}
-        >
-          <p className={`mb-2 md:mb-4 ${isMobile ? 'text-xs' : 'text-sm'}`}>
-            Участники, занявшие призовые места, получат ценные призы и особое признание.
-            Но главная награда — это преображение, которое происходит с каждым участником КЭМП.
-          </p>
-          
-          <div className={`absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-kamp-primary to-transparent ${isPointsVisible ? 'hidden' : 'block'}`}></div>
-        </div>
-        
+    <div className="bg-white rounded-lg p-2 md:p-6 shadow-md border border-gray-200">
+      <div className="flex justify-between items-center mb-2 md:mb-4">
+        <h3 className="text-kamp-dark text-base md:text-xl font-bold">Как заработать баллы?</h3>
         <button 
           onClick={togglePointsVisibility}
-          className={`mt-1 md:mt-3 ${isMobile ? 'text-xs' : 'text-sm'} font-medium hover:underline focus:outline-none`}
+          className="flex items-center justify-center text-xs md:text-sm text-gray-500 hover:text-kamp-primary transition-colors"
         >
-          {isPointsVisible ? 'Скрыть детали' : 'Узнать подробнее'}
+          {isPointsVisible ? (
+            <>
+              <EyeOff className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+              <span className="hidden md:inline">Скрыть</span>
+            </>
+          ) : (
+            <>
+              <Eye className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+              <span className="hidden md:inline">Показать</span>
+            </>
+          )}
+          <span className="md:hidden">
+            {isPointsVisible ? "Скрыть" : "Показать"}
+          </span>
+          {isPointsVisible ? 
+            <ChevronUp className="h-3 w-3 md:h-4 md:w-4 ml-1" /> : 
+            <ChevronDown className="h-3 w-3 md:h-4 md:w-4 ml-1" />
+          }
         </button>
       </div>
-    </Card>
+      
+      <div className="space-y-2 md:space-y-4">
+        {activities.map((activity, index) => (
+          <div 
+            key={index}
+            className="flex justify-between items-center py-1 px-2 md:p-2 rounded-md bg-gray-50 hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center">
+              {activity.icon && (
+                <div className="mr-2 text-kamp-primary">
+                  {React.createElement(activity.icon, { 
+                    size: isMobile ? 14 : 18,
+                    className: "text-kamp-primary"
+                  })}
+                </div>
+              )}
+              <span className="text-kamp-dark text-xs md:text-sm font-medium">
+                {activity.name}
+              </span>
+            </div>
+            
+            <div className={`text-xs md:text-sm font-semibold ${!isPointsVisible ? 'blur-sm hover:blur-none cursor-pointer' : ''} transition-all duration-200 px-2 py-1 bg-kamp-primary/10 rounded-full text-kamp-primary`}>
+              {isPointsVisible ? `+${activity.points}` : "??? баллов"}
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="mt-3 md:mt-6 text-center">
+        <p className="text-xs md:text-sm text-gray-500 italic">
+          {isMobile 
+            ? "Побеждай в испытаниях и получай баллы!" 
+            : "Побеждай в испытаниях, участвуй в мероприятиях и получай баллы!"}
+        </p>
+      </div>
+    </div>
   );
 };

@@ -9,7 +9,7 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
 import { servicePackages, ServicePackage, formatPrice } from './servicePackagesData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -44,15 +44,63 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
               </TableRow>
               <TableRow className="bg-gray-50">
                 <TableCell className="p-1 border-b text-black font-medium text-xs">Тренировки</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">1</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">10</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">10</TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
               </TableRow>
               <TableRow className="bg-white">
                 <TableCell className="p-1 border-b text-black font-medium text-xs">Функциональные</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">-</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">8</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">8</TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <XCircle className="h-3 w-3 text-gray-300 mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+              </TableRow>
+              <TableRow className="bg-gray-50">
+                <TableCell className="p-1 border-b text-black font-medium text-xs">Выездные</TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <XCircle className="h-3 w-3 text-gray-300 mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+              </TableRow>
+              <TableRow className="bg-white">
+                <TableCell className="p-1 border-b text-black font-medium text-xs">Индивидуальное</TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <XCircle className="h-3 w-3 text-gray-300 mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <XCircle className="h-3 w-3 text-gray-300 mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
+              </TableRow>
+              <TableRow className="bg-gray-50">
+                <TableCell className="p-1 border-b text-black font-medium text-xs">План питания</TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <XCircle className="h-3 w-3 text-gray-300 mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <XCircle className="h-3 w-3 text-gray-300 mx-auto" />
+                </TableCell>
+                <TableCell className="text-center p-1 border-b">
+                  <CheckCircle className="h-3 w-3 text-kamp-primary mx-auto" />
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell colSpan={4} className="p-1">
@@ -60,7 +108,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
                     {packages.map((pkg) => (
                       <Button 
                         key={pkg.id}
-                        className="w-full bg-kamp-primary hover:bg-kamp-accent text-white text-xs py-0.5" 
+                        className={`w-full text-white text-xs py-0.5 ${pkg.highlight ? 'bg-kamp-primary hover:bg-kamp-primary/90' : 'bg-gray-700 hover:bg-gray-600'}`}
                         onClick={() => onSelectPackage(pkg)}
                       >
                         {pkg.title === "Демо" ? "Демо" : pkg.title === "Базовый" ? "Баз." : "Прем."}
@@ -142,7 +190,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
                   {packages.map((pkg) => (
                     <div key={pkg.id} className="text-center">
                       <Button 
-                        className="w-full bg-kamp-primary hover:bg-kamp-accent text-white" 
+                        className={`w-full text-white ${pkg.highlight ? 'bg-kamp-primary hover:bg-kamp-primary/90' : 'bg-gray-700 hover:bg-gray-600'}`}
                         onClick={() => onSelectPackage(pkg)}
                       >
                         Выбрать {pkg.title}

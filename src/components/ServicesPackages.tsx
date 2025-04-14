@@ -49,7 +49,7 @@ export const ServicesPackages: React.FC = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="cards">
+            <TabsContent value="cards" className="reveal-on-scroll px-1 md:px-0">
               <PackageCards packages={servicePackages} onSelectPackage={handleSelectPackage} />
             </TabsContent>
             

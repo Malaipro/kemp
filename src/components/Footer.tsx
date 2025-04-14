@@ -1,8 +1,10 @@
-
 import React from 'react';
-import { Instagram, Facebook, Twitter, Phone, MapPin } from 'lucide-react';
+import { Instagram, Facebook, Phone, MapPin } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Footer: React.FC = () => {
+  const isMobile = useIsMobile();
+  
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -29,6 +31,112 @@ export const Footer: React.FC = () => {
     { label: 'Реабилитация' },
     { label: 'Пробежки и закаливание' }
   ];
+
+  if (isMobile) {
+    return (
+      <footer className="bg-gray-900 text-white text-xs">
+        <div className="kamp-container py-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2">
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }} 
+                className="text-xl font-display font-bold"
+              >
+                КЭМП
+              </a>
+              <p className="mt-2 text-gray-400 text-xs">
+                Курс Эффективного Мужского Прогресса — интенсивная программа для тех, 
+                кто готов пройти испытания и стать сильнее.
+              </p>
+              <div className="flex space-x-2 mt-3">
+                <a 
+                  href="https://t.me/KEMPRYX" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                  aria-label="Telegram"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send">
+                    <path d="m22 2-7 20-4-9-9-4Z"></path>
+                    <path d="M22 2 11 13"></path>
+                  </svg>
+                </a>
+                <a 
+                  href="https://www.instagram.com/cemp_kazan" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={14} />
+                </a>
+                <a 
+                  href="https://vk.com/kemp_ryx" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                  aria-label="VKontakte"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-sm font-bold mt-3 mb-1.5">Навигация</h3>
+              <ul className="grid grid-cols-2 gap-x-1 gap-y-0.5">
+                {menuItems.map((item) => (
+                  <li key={item.id} className="text-xs">
+                    <button 
+                      onClick={() => scrollToSection(item.id)} 
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-sm font-bold mt-3 mb-1.5">Контакты</h3>
+              <ul className="space-y-1.5">
+                <li className="flex">
+                  <Phone size={12} className="mr-1.5 text-gray-400 flex-shrink-0" />
+                  <span className="text-gray-400">+7 927 444 1844</span>
+                </li>
+                <li className="flex">
+                  <MapPin size={12} className="mr-1.5 text-gray-400 flex-shrink-0" />
+                  <span className="text-gray-400">ул. Павлюхина 108б к2, г. Казань</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-4 pt-3 flex flex-col items-center">
+            <p className="text-gray-500 text-[10px]">
+              © {new Date().getFullYear()} КЭМП. Все права защищены.
+            </p>
+            <div className="mt-1.5 flex space-x-4">
+              <a href="#" className="text-gray-500 hover:text-gray-300 text-[10px]">
+                Политика конфиденциальности
+              </a>
+              <a href="#" className="text-gray-500 hover:text-gray-300 text-[10px]">
+                Условия использования
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className="bg-gray-900 text-white">

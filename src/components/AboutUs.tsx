@@ -28,8 +28,8 @@ export const AboutUs: React.FC = () => {
 
         <div className="mt-8 md:mt-20 reveal-on-scroll">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center">
-            {/* Text Content - Left Side on Desktop, Bottom on Mobile */}
-            <div className={`text-left mb-8 md:mb-0 ${isMobile ? 'order-2' : 'order-1'} bg-[#222226] border border-gray-700 p-4 md:p-10 rounded-md`}>
+            {/* Text Content - Left Side on both Mobile and Desktop */}
+            <div className="text-left mb-8 md:mb-0 order-1 bg-[#222226] border border-gray-700 p-4 md:p-10 rounded-md">
               <h3 className="text-xl font-bold mb-4 md:mb-6 text-white border-l-4 border-kamp-primary pl-4">Что тебя ждет?</h3>
               {isMobile ? (
                 <div>
@@ -81,28 +81,26 @@ export const AboutUs: React.FC = () => {
               </Button>
             </div>
             
-            {/* iPhone Frame with Video - Right Side on Desktop, Top on Mobile */}
-            <div className={`flex justify-center ${isMobile ? 'order-1' : 'order-2'} p-2 md:p-0`}>
+            {/* iPhone Frame with Video - Right Side on both Mobile and Desktop */}
+            <div className="flex justify-center order-2 p-2 md:p-0">
               <div className="relative">
-                {/* iPhone Frame - Better proportioned */}
-                <div className={`relative ${isMobile ? 'w-[200px] h-[400px]' : 'w-[320px] h-[650px]'} bg-[#111111] rounded-[45px] p-4 shadow-2xl border-4 border-gray-800`}>
-                  {/* iPhone Notch */}
+                {/* iPhone Frame - Reduced size for mobile */}
+                <div className={`relative ${isMobile ? 'w-[180px] h-[360px]' : 'w-[320px] h-[650px]'} bg-[#111111] rounded-[40px] p-2 md:p-4 shadow-2xl border-[3px] border-gray-800`}>
+                  {/* iPhone Notch - Smaller for mobile */}
                   <div className="absolute top-0 left-0 right-0 flex justify-center z-10">
-                    <div className={`${isMobile ? 'w-[90px] h-[25px]' : 'w-[130px] h-[35px]'} bg-[#111111] rounded-b-[16px] flex items-center justify-center`}>
-                      <div className={`${isMobile ? 'w-[6px] h-[6px]' : 'w-[8px] h-[8px]'} bg-gray-600 rounded-full mr-2`}></div>
-                      <div className={`${isMobile ? 'w-[30px] h-[4px]' : 'w-[40px] h-[6px]'} bg-gray-600 rounded-full`}></div>
+                    <div className={`${isMobile ? 'w-[60px] h-[16px]' : 'w-[130px] h-[35px]'} bg-[#111111] rounded-b-[14px] flex items-center justify-center`}>
+                      <div className={`${isMobile ? 'w-[4px] h-[4px]' : 'w-[8px] h-[8px]'} bg-gray-600 rounded-full mr-2`}></div>
+                      <div className={`${isMobile ? 'w-[20px] h-[3px]' : 'w-[40px] h-[6px]'} bg-gray-600 rounded-full`}></div>
                     </div>
                   </div>
                   
-                  {/* Power Button */}
-                  <div className={`absolute top-[80px] right-[-8px] w-[4px] ${isMobile ? 'h-[40px]' : 'h-[60px]'} bg-gray-700 rounded-r-md`}></div>
-                  
-                  {/* Volume Buttons */}
-                  <div className={`absolute top-[80px] left-[-8px] w-[4px] ${isMobile ? 'h-[20px]' : 'h-[30px]'} bg-gray-700 rounded-l-md`}></div>
-                  <div className={`absolute top-[110px] left-[-8px] w-[4px] ${isMobile ? 'h-[40px]' : 'h-[60px]'} bg-gray-700 rounded-l-md`}></div>
+                  {/* Smaller buttons for mobile */}
+                  <div className={`absolute top-[60px] right-[-6px] w-[3px] ${isMobile ? 'h-[30px]' : 'h-[60px]'} bg-gray-700 rounded-r-md`}></div>
+                  <div className={`absolute top-[60px] left-[-6px] w-[3px] ${isMobile ? 'h-[15px]' : 'h-[30px]'} bg-gray-700 rounded-l-md`}></div>
+                  <div className={`absolute top-[85px] left-[-6px] w-[3px] ${isMobile ? 'h-[30px]' : 'h-[60px]'} bg-gray-700 rounded-l-md`}></div>
                   
                   {/* Screen with Video */}
-                  <div className="relative h-full w-full rounded-[38px] overflow-hidden bg-black">
+                  <div className="relative h-full w-full rounded-[34px] overflow-hidden bg-black">
                     <video 
                       className="w-full h-full object-cover"
                       autoPlay 
@@ -117,11 +115,11 @@ export const AboutUs: React.FC = () => {
                 </div>
                 
                 {/* Reflection effect */}
-                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-white/10 to-transparent rounded-[45px] pointer-events-none"></div>
+                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-white/10 to-transparent rounded-[40px] pointer-events-none"></div>
                 
-                {/* Additional iPhone details for more realism */}
-                <div className="absolute bottom-[12px] left-0 right-0 flex justify-center">
-                  <div className="w-[40%] h-[4px] bg-gray-700 rounded-full"></div>
+                {/* Home indicator - Smaller for mobile */}
+                <div className="absolute bottom-[8px] left-0 right-0 flex justify-center">
+                  <div className={`${isMobile ? 'w-[30%] h-[3px]' : 'w-[40%] h-[4px]'} bg-gray-700 rounded-full`}></div>
                 </div>
               </div>
             </div>
