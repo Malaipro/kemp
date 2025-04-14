@@ -13,23 +13,14 @@ interface PackageCardsProps {
 }
 
 export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) => {
-  const PackageIcon = ({ icon: Icon }: { icon: typeof CheckCircle }) => (
-    <div className="inline-flex items-center justify-center p-2 bg-gray-200 rounded-full mb-2">
-      <Icon className="h-6 w-6 text-gray-600" />
-    </div>
-  );
-
   return (
     <div className="grid md:grid-cols-3 gap-6 reveal-on-scroll">
       {packages.map((pkg) => (
         <Card key={pkg.id} className={`border shadow-lg overflow-hidden transition-all hover:shadow-xl ${pkg.highlight ? 'ring-2 ring-gray-400' : ''} flex flex-col`}>
           <CardHeader className={`${pkg.color} text-black`}>
-            <div className="flex items-center mb-2">
-              <PackageIcon icon={pkg.icon} />
-              <CardTitle className="ml-2 text-black font-bold">
-                {pkg.title}
-              </CardTitle>
-            </div>
+            <CardTitle className="text-black font-bold">
+              {pkg.title}
+            </CardTitle>
             <div className="mt-2 mb-1 text-3xl font-bold text-black">{formatPrice(pkg.price)} ₽</div>
             <CardDescription className="text-black/70">{pkg.description}</CardDescription>
             {pkg.date && (
@@ -51,7 +42,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
           </CardContent>
           <CardFooter className="mt-auto">
             <Button 
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium shadow-md" 
+              className="w-full bg-kamp-primary hover:bg-kamp-accent text-white font-medium shadow-md" 
               onClick={() => onSelectPackage(pkg)}
             >
               Выбрать
