@@ -14,7 +14,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
   const isMobile = useIsMobile();
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 pb-4 overflow-x-auto">
+    <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 pb-4 ${isMobile ? 'overflow-x-auto mobile-snap-scroll' : ''}`}>
       {packages.map((pkg) => (
         <Card 
           key={pkg.id} 
@@ -24,8 +24,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
         >
           <CardHeader className={`${pkg.color} py-4 px-4 md:py-6 md:px-8 relative overflow-hidden`}>
             <div className="flex justify-between items-start mb-1">
-              <h3 className={`${pkg.titleColor} text-lg md:text-xl font-bold flex items-center`}>
-                <pkg.icon className="h-5 w-5 md:h-6 md:w-6 mr-2 text-kamp-primary" />
+              <h3 className={`${pkg.titleColor} text-lg md:text-xl font-bold`}>
                 {pkg.title}
               </h3>
               {pkg.highlight && (
