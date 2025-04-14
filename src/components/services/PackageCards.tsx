@@ -24,17 +24,17 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
         >
           <CardHeader className={`${pkg.color} py-4 px-4 md:py-6 md:px-8 relative overflow-hidden`}>
             <div className="flex justify-between items-start mb-1">
-              <h3 className={`text-black text-lg md:text-xl font-bold`}>
+              <h3 className={`text-black text-lg md:text-xl font-bold truncate max-w-[170px] md:max-w-full`}>
                 {pkg.title.replace(/\s*\(.*\)/, '')}
               </h3>
               {pkg.highlight && (
-                <span className="bg-kamp-primary text-white text-[10px] md:text-xs font-medium py-0.5 px-1.5 md:px-2 rounded-full uppercase tracking-wide">
+                <span className="bg-kamp-primary text-white text-[10px] md:text-xs font-medium py-0.5 px-1.5 md:px-2 rounded-full uppercase tracking-wide shrink-0 ml-1">
                   Лучший выбор
                 </span>
               )}
             </div>
             
-            <p className="text-gray-700 text-sm mb-3">{pkg.description}</p>
+            <p className="text-gray-700 text-sm mb-3 line-clamp-2 h-10">{pkg.description}</p>
             
             <div className="flex items-end">
               <span className="text-black text-2xl md:text-3xl font-bold">
@@ -43,7 +43,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
             </div>
             
             {pkg.date && (
-              <div className="text-gray-600 text-xs mt-1">
+              <div className="text-gray-600 text-xs mt-1 truncate">
                 Ближайшая тренировка: {pkg.date.toLocaleDateString('ru-RU')}
               </div>
             )}
@@ -56,7 +56,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
                   <svg className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mr-2 flex-shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  {feature}
+                  <span className="break-words">{feature}</span>
                 </li>
               ))}
             </ul>
