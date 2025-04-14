@@ -121,6 +121,39 @@ export type Database = {
         }
         Relationships: []
       }
+      service_bookings: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          package_id: string
+          package_price: number
+          package_title: string
+          phone: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          package_id: string
+          package_price: number
+          package_title: string
+          phone: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          package_id?: string
+          package_price?: number
+          package_title?: string
+          phone?: string
+          status?: string
+        }
+        Relationships: []
+      }
       КЭМП: {
         Row: {
           created_at: string

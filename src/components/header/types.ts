@@ -5,6 +5,11 @@ export interface NavigationItem {
   href: string;
 }
 
+export interface MenuItem {
+  id: string;
+  label: string;
+}
+
 export const navigationItems: NavigationItem[] = [
   { id: 'about', title: 'О нас', href: '#about' },
   { id: 'philosophy', title: 'Философия', href: '#philosophy' },
