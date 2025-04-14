@@ -37,7 +37,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
             <p className="text-gray-700 text-sm mb-3">{pkg.description}</p>
             
             <div className="flex items-end">
-              <span className="text-black text-2xl md:text-3xl font-bold text-black/90 dark:text-white/90">
+              <span className="text-black text-2xl md:text-3xl font-bold">
                 {formatPrice(pkg.price)} ₽
               </span>
             </div>
