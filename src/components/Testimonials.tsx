@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -179,10 +178,12 @@ export const Testimonials: React.FC = () => {
                       <Button 
                         variant="default"
                         size="xs"
-                        className={`${isMobile ? 'text-xs py-1 px-2 h-7 ml-auto' : 'ml-2 md:ml-4 text-xs py-1 px-2 md:px-3 h-7'} bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
+                        className={`
+                          ${isMobile ? 'text-[10px] py-1 px-2 h-7 ml-auto' : 'ml-2 md:ml-4 text-[10px] py-1 px-2 md:px-3 h-7'}
+                          bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
                         onClick={(e) => openVideoDialog(testimonial.id, e)}
                       >
-                        {isMobile ? 'Смотреть' : 'Смотреть полностью'}
+                        {isMobile ? 'Смотреть' : 'Смотреть'}
                       </Button>
                     </div>
                   </div>
