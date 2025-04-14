@@ -14,11 +14,11 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
   const isMobile = useIsMobile();
   
   return (
-    <div className="mobile-snap-scroll grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 pb-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 pb-4 overflow-x-auto">
       {packages.map((pkg) => (
         <Card 
           key={pkg.id} 
-          className={`snap-item w-[280px] md:w-full mx-auto rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 border border-gray-200 
+          className={`w-[280px] md:w-full mx-auto rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 border border-gray-200 
             ${pkg.highlight ? 'ring-2 ring-kamp-primary' : ''}
           `}
         >

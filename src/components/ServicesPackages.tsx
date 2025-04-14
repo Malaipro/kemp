@@ -50,7 +50,15 @@ export const ServicesPackages: React.FC = () => {
             </TabsList>
             
             <TabsContent value="cards" className="reveal-on-scroll px-1 md:px-0">
-              <PackageCards packages={servicePackages} onSelectPackage={handleSelectPackage} />
+              {isMobile ? (
+                <div className="overflow-x-auto pb-4 scrollbar-hide touch-scroll">
+                  <div className="inline-flex space-x-4 px-4">
+                    <PackageCards packages={servicePackages} onSelectPackage={handleSelectPackage} />
+                  </div>
+                </div>
+              ) : (
+                <PackageCards packages={servicePackages} onSelectPackage={handleSelectPackage} />
+              )}
             </TabsContent>
             
             <TabsContent value="table" className="reveal-on-scroll">
