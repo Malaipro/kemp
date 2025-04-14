@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
 import { Star, Diamond, Flame, CheckCircle } from 'lucide-react';
-import { ServicePackage } from './servicePackagesData';
+import { ServicePackage, formatPrice } from './servicePackagesData';
 
 interface PackageTableProps {
   packages: ServicePackage[];
@@ -21,25 +21,25 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
   return (
     <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
       <Table>
-        <TableHeader className="bg-gradient-to-r from-gray-100 to-gray-200">
+        <TableHeader className="bg-gray-100">
           <TableRow>
             <TableHead className="text-left p-4 border-b text-black font-semibold">Услуга</TableHead>
-            <TableHead className="text-center p-4 border-b">
+            <TableHead className="text-center p-4 border-b text-black font-semibold">
               <div className="flex flex-col items-center">
-                <Star className="h-5 w-5 text-yellow-500 mb-1" />
-                <span className="text-yellow-600 font-semibold">Демо</span>
+                <Star className="h-5 w-5 text-gray-600 mb-1" />
+                <span>Демо</span>
               </div>
             </TableHead>
-            <TableHead className="text-center p-4 border-b">
+            <TableHead className="text-center p-4 border-b text-black font-semibold">
               <div className="flex flex-col items-center">
-                <Flame className="h-5 w-5 text-blue-500 mb-1" />
-                <span className="text-blue-600 font-semibold">Базовый</span>
+                <Flame className="h-5 w-5 text-gray-600 mb-1" />
+                <span>Базовый</span>
               </div>
             </TableHead>
-            <TableHead className="text-center p-4 border-b">
+            <TableHead className="text-center p-4 border-b text-black font-semibold">
               <div className="flex flex-col items-center">
-                <Diamond className="h-5 w-5 text-purple-500 mb-1" />
-                <span className="text-purple-600 font-semibold">Премиум</span>
+                <Diamond className="h-5 w-5 text-gray-600 mb-1" />
+                <span>Премиум</span>
               </div>
             </TableHead>
           </TableRow>
@@ -47,9 +47,9 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
         <TableBody>
           <TableRow className="bg-white">
             <TableCell className="p-4 border-b text-black font-medium">Стоимость</TableCell>
-            <TableCell className="text-center p-4 border-b text-black">600 ₽</TableCell>
-            <TableCell className="text-center p-4 border-b text-black">20 400 ₽</TableCell>
-            <TableCell className="text-center p-4 border-b text-black">34 900 ₽</TableCell>
+            <TableCell className="text-center p-4 border-b text-black">{formatPrice(600)} ₽</TableCell>
+            <TableCell className="text-center p-4 border-b text-black">{formatPrice(20400)} ₽</TableCell>
+            <TableCell className="text-center p-4 border-b text-black">{formatPrice(34900)} ₽</TableCell>
           </TableRow>
           <TableRow className="bg-gray-50">
             <TableCell className="p-4 border-b text-black font-medium">Тренировки по кикбоксингу</TableCell>
@@ -74,7 +74,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">
-              <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+              <CheckCircle className="h-5 w-5 text-gray-600 mx-auto" />
             </TableCell>
           </TableRow>
           <TableRow className="bg-gray-50">
@@ -82,7 +82,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">
-              <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+              <CheckCircle className="h-5 w-5 text-gray-600 mx-auto" />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -91,9 +91,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
                 {packages.map((pkg) => (
                   <div key={pkg.id} className="text-center">
                     <Button 
-                      className={`w-full ${pkg.id === 'premium' 
-                        ? 'bg-gradient-to-r from-kamp-accent to-kamp-primary hover:bg-kamp-accent-hover' 
-                        : 'bg-black hover:bg-gray-800'}`}
+                      className="w-full bg-gray-800 hover:bg-gray-700 text-white" 
                       onClick={() => onSelectPackage(pkg)}
                     >
                       Выбрать {pkg.title}

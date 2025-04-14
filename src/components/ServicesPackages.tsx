@@ -20,7 +20,7 @@ export const ServicesPackages: React.FC = () => {
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-black font-semibold mb-2">Пакеты услуг</span>
-          <h2 className="relative inline-block bg-gradient-to-r from-kamp-accent via-purple-600 to-blue-600 bg-clip-text text-transparent font-bold after:content-[''] after:absolute after:w-full after:h-[8px] after:left-0 after:bottom-1 after:bg-kamp-accent/20 after:-z-10">
+          <h2 className="text-black font-bold">
             Выберите подходящий вариант
           </h2>
           <p className="text-black/70">

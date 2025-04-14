@@ -30,7 +30,7 @@ export const servicePackages: ServicePackage[] = [
     highlight: false,
     color: 'bg-gray-100',
     icon: Star,
-    titleColor: 'text-yellow-600'
+    titleColor: 'text-black'
   },
   {
     id: 'basic',
@@ -45,9 +45,9 @@ export const servicePackages: ServicePackage[] = [
       'Методические материалы'
     ],
     highlight: false,
-    color: 'bg-blue-50',
+    color: 'bg-gray-50',
     icon: Flame,
-    titleColor: 'text-blue-600'
+    titleColor: 'text-black'
   },
   {
     id: 'premium',
@@ -63,9 +63,9 @@ export const servicePackages: ServicePackage[] = [
       'Сессии с психологом'
     ],
     highlight: true,
-    color: 'bg-amber-50',
+    color: 'bg-gray-100',
     icon: Diamond,
-    titleColor: 'text-purple-600'
+    titleColor: 'text-black'
   }
 ];
 
