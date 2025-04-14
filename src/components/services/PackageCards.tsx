@@ -24,7 +24,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
         >
           <CardHeader className={`${pkg.color} py-4 px-4 md:py-6 md:px-8 relative overflow-hidden`}>
             <div className="flex justify-between items-start mb-1">
-              <h3 className={`${pkg.titleColor} text-lg md:text-xl font-bold`}>
+              <h3 className={`text-black text-lg md:text-xl font-bold`}>
                 {pkg.title}
               </h3>
               {pkg.highlight && (
@@ -37,7 +37,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
             <p className="text-gray-700 text-sm mb-3">{pkg.description}</p>
             
             <div className="flex items-end">
-              <span className="text-kamp-dark text-2xl md:text-3xl font-bold">{formatPrice(pkg.price)} ₽</span>
+              <span className="text-black text-2xl md:text-3xl font-bold">{formatPrice(pkg.price)} ₽</span>
             </div>
             
             {pkg.date && (
@@ -60,7 +60,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
             </ul>
           </CardContent>
           
-          <CardFooter className="p-3 md:p-4">
+          <CardFooter className="p-3 md:p-4 mt-auto">
             <Button 
               onClick={() => onSelectPackage(pkg)}
               className="w-full bg-kamp-primary hover:bg-kamp-accent text-white font-medium text-sm md:text-base"

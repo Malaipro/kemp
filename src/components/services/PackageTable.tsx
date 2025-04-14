@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Table,
@@ -124,64 +123,64 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
     );
   }
 
-  // Desktop view
+  // Desktop view with smaller text
   return (
     <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
-      <div className="overflow-x-auto text-sm">
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-gray-100">
             <TableRow>
-              <TableHead className="text-left p-2 md:p-4 border-b text-black font-semibold">Услуга</TableHead>
-              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold">
+              <TableHead className="text-left p-2 md:p-4 border-b text-black font-semibold text-xs md:text-sm">Услуга</TableHead>
+              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold text-xs md:text-sm">
                 <span>Демо</span>
               </TableHead>
-              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold">
+              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold text-xs md:text-sm">
                 <span>Базовый</span>
               </TableHead>
-              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold">
+              <TableHead className="text-center p-2 md:p-4 border-b text-black font-semibold text-xs md:text-sm">
                 <span>Премиум</span>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow className="bg-white">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Стоимость</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">{formatPrice(600)} ₽</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">{formatPrice(20400)} ₽</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">{formatPrice(34900)} ₽</TableCell>
+              <TableCell className="p-2 md:p-4 border-b text-black font-medium text-xs md:text-sm">Стоимость</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">{formatPrice(600)} ₽</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">{formatPrice(20400)} ₽</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">{formatPrice(34900)} ₽</TableCell>
             </TableRow>
             <TableRow className="bg-gray-50">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Тренировки по кикбоксингу</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">1</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">10</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">10</TableCell>
+              <TableCell className="p-2 md:p-4 border-b text-black font-medium text-xs md:text-sm">Тренировки по кикбоксингу</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">1</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">10</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">10</TableCell>
             </TableRow>
             <TableRow className="bg-white">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Функциональные тренировки</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">8</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">8</TableCell>
+              <TableCell className="p-2 md:p-4 border-b text-black font-medium text-xs md:text-sm">Функциональные тренировки</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">-</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">8</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">8</TableCell>
             </TableRow>
             <TableRow className="bg-gray-50">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Выездные мероприятия</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">2</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">4</TableCell>
+              <TableCell className="p-2 md:p-4 border-b text-black font-medium text-xs md:text-sm">Выездные мероприятия</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">-</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">2</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">4</TableCell>
             </TableRow>
             <TableRow className="bg-white">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">Индивидуальное сопровождение</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">
-                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mx-auto" />
+              <TableCell className="p-2 md:p-4 border-b text-black font-medium text-xs md:text-sm">Индивидуальное сопровождение</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">-</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">-</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">
+                <CheckCircle className="h-4 w-4 text-kamp-primary mx-auto" />
               </TableCell>
             </TableRow>
             <TableRow className="bg-gray-50">
-              <TableCell className="p-2 md:p-4 border-b text-black font-medium">План питания</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">-</TableCell>
-              <TableCell className="text-center p-2 md:p-4 border-b text-black">
-                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-kamp-primary mx-auto" />
+              <TableCell className="p-2 md:p-4 border-b text-black font-medium text-xs md:text-sm">План питания</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">-</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">-</TableCell>
+              <TableCell className="text-center p-2 md:p-4 border-b text-black text-xs md:text-sm">
+                <CheckCircle className="h-4 w-4 text-kamp-primary mx-auto" />
               </TableCell>
             </TableRow>
             <TableRow>
@@ -190,7 +189,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
                   {packages.map((pkg) => (
                     <div key={pkg.id} className="text-center">
                       <Button 
-                        className={`w-full text-white ${pkg.highlight ? 'bg-kamp-primary hover:bg-kamp-primary/90' : 'bg-gray-700 hover:bg-gray-600'}`}
+                        className={`w-full text-white text-xs md:text-sm ${pkg.highlight ? 'bg-kamp-primary hover:bg-kamp-primary/90' : 'bg-gray-700 hover:bg-gray-600'}`}
                         onClick={() => onSelectPackage(pkg)}
                       >
                         Выбрать {pkg.title}
