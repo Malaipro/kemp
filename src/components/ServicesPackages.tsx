@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,7 +35,8 @@ const servicePackages = [
     date: new Date(2025, 3, 19, 10, 0), // 19 апреля 2025, 10:00
     highlight: false,
     color: 'bg-gray-100',
-    icon: Star
+    icon: Star,
+    titleColor: 'text-yellow-600'
   },
   {
     id: 'basic',
@@ -50,7 +52,8 @@ const servicePackages = [
     ],
     highlight: false,
     color: 'bg-blue-50',
-    icon: Flame
+    icon: Flame,
+    titleColor: 'text-blue-600'
   },
   {
     id: 'premium',
@@ -67,7 +70,8 @@ const servicePackages = [
     ],
     highlight: true,
     color: 'bg-amber-50',
-    icon: Diamond
+    icon: Diamond,
+    titleColor: 'text-purple-600'
   }
 ];
 
@@ -144,7 +148,7 @@ export const ServicesPackages: React.FC = () => {
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-black font-semibold mb-2">Пакеты услуг</span>
-          <h2 className="text-black relative inline-block after:content-[''] after:absolute after:w-full after:h-[8px] after:left-0 after:bottom-1 after:bg-kamp-accent/20 after:-z-10">
+          <h2 className="relative inline-block bg-gradient-to-r from-kamp-accent via-purple-600 to-blue-600 bg-clip-text text-transparent font-bold after:content-[''] after:absolute after:w-full after:h-[8px] after:left-0 after:bottom-1 after:bg-kamp-accent/20 after:-z-10">
             Выберите подходящий вариант
           </h2>
           <p className="text-black/70">
@@ -167,7 +171,7 @@ export const ServicesPackages: React.FC = () => {
                     <CardHeader className={`${pkg.color} text-black`}>
                       <div className="flex items-center mb-2">
                         <PackageIcon icon={pkg.icon} />
-                        <CardTitle className="text-black ml-2 bg-gradient-to-r from-kamp-accent to-kamp-primary bg-clip-text text-transparent">
+                        <CardTitle className={`ml-2 ${pkg.titleColor} font-bold`}>
                           {pkg.title}
                         </CardTitle>
                       </div>
@@ -209,22 +213,22 @@ export const ServicesPackages: React.FC = () => {
                   <TableHeader className="bg-gradient-to-r from-gray-100 to-gray-200">
                     <TableRow>
                       <TableHead className="text-left p-4 border-b text-black font-semibold">Услуга</TableHead>
-                      <TableHead className="text-center p-4 border-b text-black font-semibold">
+                      <TableHead className="text-center p-4 border-b">
                         <div className="flex flex-col items-center">
                           <Star className="h-5 w-5 text-yellow-500 mb-1" />
-                          <span>Демо</span>
+                          <span className="text-yellow-600 font-semibold">Демо</span>
                         </div>
                       </TableHead>
-                      <TableHead className="text-center p-4 border-b text-black font-semibold">
+                      <TableHead className="text-center p-4 border-b">
                         <div className="flex flex-col items-center">
-                          <Flame className="h-5 w-5 text-orange-500 mb-1" />
-                          <span>Базовый</span>
+                          <Flame className="h-5 w-5 text-blue-500 mb-1" />
+                          <span className="text-blue-600 font-semibold">Базовый</span>
                         </div>
                       </TableHead>
-                      <TableHead className="text-center p-4 border-b text-black font-semibold">
+                      <TableHead className="text-center p-4 border-b">
                         <div className="flex flex-col items-center">
                           <Diamond className="h-5 w-5 text-purple-500 mb-1" />
-                          <span>Премиум</span>
+                          <span className="text-purple-600 font-semibold">Премиум</span>
                         </div>
                       </TableHead>
                     </TableRow>
