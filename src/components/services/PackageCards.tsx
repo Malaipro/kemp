@@ -17,15 +17,15 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
   const isMobile = useIsMobile();
   
   return (
-    <div className={`grid ${isMobile ? 'grid-cols-3 gap-2' : 'md:grid-cols-3 gap-4 md:gap-6'} reveal-on-scroll overflow-x-auto`}>
+    <div className={`grid ${isMobile ? 'grid-cols-3 gap-1' : 'md:grid-cols-3 gap-4 md:gap-6'} reveal-on-scroll overflow-x-auto pb-2 snap-x`}>
       {packages.map((pkg) => (
         <Card 
           key={pkg.id} 
           className={`border-2 ${pkg.highlight ? 'border-kamp-primary shadow-lg' : 'border-gray-300'} 
             shadow-md overflow-hidden transition-all hover:shadow-xl hover:border-kamp-accent flex flex-col 
-            ${isMobile ? 'min-w-[110px]' : ''}`}
+            ${isMobile ? 'min-w-[90px] snap-center scale-95' : ''}`}
         >
-          <CardHeader className={`bg-white ${isMobile ? 'p-2 pb-1' : 'p-6'}`}>
+          <CardHeader className={`bg-white ${isMobile ? 'p-1.5' : 'p-6'}`}>
             <CardTitle className={`text-black font-bold ${isMobile ? 'text-xs' : ''}`}>
               {pkg.title}
             </CardTitle>
@@ -38,10 +38,10 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
               </div>
             )}
           </CardHeader>
-          <CardContent className={`${isMobile ? 'pt-1 pb-1 px-2' : 'pt-6 pb-4 px-6'} flex-grow bg-white`}>
+          <CardContent className={`${isMobile ? 'pt-0 pb-1 px-1.5' : 'pt-6 pb-4 px-6'} flex-grow bg-white`}>
             {isMobile ? (
               <div className="text-center text-xs text-black/70">
-                {pkg.shortFeature || pkg.features[0]}
+                {pkg.features && pkg.features[0]}
               </div>
             ) : (
               <ul className="space-y-1 md:space-y-2">
@@ -54,9 +54,9 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
               </ul>
             )}
           </CardContent>
-          <CardFooter className="mt-auto bg-white p-2 md:p-6">
+          <CardFooter className="mt-auto bg-white p-1.5 md:p-6">
             <Button 
-              className={`w-full bg-kamp-primary hover:bg-kamp-accent text-white font-medium shadow-md ${isMobile ? 'text-xs py-1' : 'py-1.5 md:py-2.5'}`}
+              className={`w-full bg-kamp-primary hover:bg-kamp-accent text-white font-medium shadow-md ${isMobile ? 'text-xs py-0.5' : 'py-1.5 md:py-2.5'}`}
               onClick={() => onSelectPackage(pkg)}
             >
               {isMobile ? 'Выбрать' : 'Выбрать'}

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Activity } from '@/types/leaderboard';
 import { getIconComponent } from './IconRenderer';
@@ -39,11 +39,10 @@ export const ActivityList: React.FC<ActivityListProps> = ({
       console.log('Activities received:', data);
       return data as Activity[];
     },
-    // Используем статические данные как fallback при ошибке
     initialData: defaultActivities
   });
 
-  // Limit to top 3 for mobile
+  // Display fewer activities on mobile
   const displayedActivities = isMobile ? (activities || []).slice(0, 3) : activities;
 
   return (

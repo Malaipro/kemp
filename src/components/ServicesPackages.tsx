@@ -18,26 +18,26 @@ export const ServicesPackages: React.FC = () => {
   };
 
   return (
-    <section id="services" className="kamp-section bg-kamp-dark text-black py-6 md:py-16">
+    <section id="services" className="kamp-section bg-kamp-dark text-black py-4 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-kamp-primary font-semibold mb-2">Пакеты услуг</span>
-          <h2 className="text-black font-bold">
+          <span className="inline-block text-kamp-primary font-semibold mb-1 text-sm md:text-base">Пакеты услуг</span>
+          <h2 className="text-black font-bold text-xl md:text-3xl">
             Выберите подходящий вариант
           </h2>
           {!isMobile && (
-            <p className="text-black/70">
+            <p className="text-black/70 text-sm md:text-base">
               Мы предлагаем различные варианты участия в программе КЭМП,
               от пробной тренировки до полного премиум-курса с индивидуальным сопровождением.
             </p>
           )}
         </div>
 
-        <div className="mt-8 md:mt-16">
+        <div className="mt-4 md:mt-16">
           <Tabs defaultValue="cards" className="w-full">
-            <TabsList className={`grid w-full ${isMobile ? 'max-w-[280px]' : 'md:w-[400px]'} mx-auto grid-cols-2 mb-4 md:mb-8`}>
-              <TabsTrigger value="cards" className={`text-black font-medium ${isMobile ? 'text-xs' : ''}`}>Карточки</TabsTrigger>
-              <TabsTrigger value="table" className={`text-black font-medium ${isMobile ? 'text-xs' : ''}`}>Сравнение</TabsTrigger>
+            <TabsList className={`grid w-full ${isMobile ? 'max-w-[220px]' : 'md:w-[400px]'} mx-auto grid-cols-2 mb-2 md:mb-8`}>
+              <TabsTrigger value="cards" className={`text-black font-medium ${isMobile ? 'text-xs py-1' : ''}`}>Карточки</TabsTrigger>
+              <TabsTrigger value="table" className={`text-black font-medium ${isMobile ? 'text-xs py-1' : ''}`}>Сравнение</TabsTrigger>
             </TabsList>
             
             <TabsContent value="cards">

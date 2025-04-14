@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -40,35 +41,35 @@ export const Trainers: React.FC = () => {
   return (
     <section 
       id="trainers" 
-      className="kamp-section bg-black"
+      className="kamp-section bg-black py-4 md:py-16"
     >
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll text-white">
-          <span className="inline-block text-kamp-primary font-semibold mb-2">Тренеры</span>
-          <h2 className="text-white text-2xl md:text-4xl">Наша команда профессионалов</h2>
-          <p className="text-gray-300 text-sm md:text-base mt-2">
+          <span className="inline-block text-kamp-primary font-semibold mb-1 text-sm">Тренеры</span>
+          <h2 className="text-white text-xl md:text-4xl">Наша команда профессионалов</h2>
+          <p className="text-gray-300 text-xs md:text-base mt-2">
             Опытные наставники, которые не только научат технике, но и помогут раскрыть весь потенциал.
-            Каждый из них — эк��перт в своей области.
+            Каждый из них — эксперт в своей области.
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 md:gap-8 mt-4 md:mt-16">
+        <div className="grid grid-cols-3 gap-1 md:gap-8 mt-3 md:mt-16">
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
               className="kamp-card overflow-hidden reveal-on-scroll hover-lift cursor-pointer bg-black border border-gray-800"
               onClick={() => setSelectedTrainer(trainer)}
             >
-              <div className={`${isMobile ? 'aspect-square' : 'aspect-[3/4]'} overflow-hidden`}>
+              <div className={`${isMobile ? 'aspect-[3/4]' : 'aspect-[3/4]'} overflow-hidden`}>
                 <img 
                   src={trainer.image} 
                   alt={trainer.name}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
                 />
               </div>
-              <div className={`${isMobile ? 'p-2' : 'p-4 md:p-6'} bg-black`}>
-                <h3 className={`${isMobile ? 'text-sm' : 'text-lg md:text-xl'} font-bold text-white`}>{trainer.name}</h3>
-                <p className={`text-kamp-primary font-medium ${isMobile ? 'text-xs' : 'text-xs md:text-sm'} mb-2 md:mb-3`}>{trainer.role}</p>
+              <div className={`${isMobile ? 'p-1.5' : 'p-4 md:p-6'} bg-black`}>
+                <h3 className={`${isMobile ? 'text-xs' : 'text-lg md:text-xl'} font-bold text-white`}>{trainer.name}</h3>
+                <p className={`text-kamp-primary font-medium ${isMobile ? 'text-[10px]' : 'text-xs md:text-sm'} mb-1 md:mb-3`}>{trainer.role}</p>
                 {!isMobile && (
                   <p className="text-gray-600 text-xs md:text-sm italic mb-3 md:mb-4">"{trainer.quote}"</p>
                 )}
@@ -77,9 +78,9 @@ export const Trainers: React.FC = () => {
                     e.stopPropagation();
                     setSelectedTrainer(trainer);
                   }}
-                  className="text-kamp-primary font-medium text-xs md:text-sm hover:underline"
+                  className="text-kamp-primary font-medium text-[10px] md:text-sm hover:underline"
                 >
-                  {isMobile ? 'Подробнее' : 'Подробнее'}
+                  Подробнее
                 </button>
               </div>
             </div>

@@ -38,18 +38,20 @@ export const Leaderboard: React.FC = () => {
   };
 
   return (
-    <section id="leaderboard" className="kamp-section bg-kamp-secondary py-6 md:py-16">
+    <section id="leaderboard" className="kamp-section bg-kamp-secondary py-4 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-kamp-accent font-semibold mb-2">Лидерборд</span>
-          <h2 className="text-kamp-dark">Соревнуйся и побеждай</h2>
-          <p className="text-gray-400">
-            КЭМП — это не только саморазвитие, но и соревнование. 
-            Зарабатывай баллы, поднимайся в рейтинге и получи награду в конце курса.
-          </p>
+          <span className="inline-block text-kamp-accent font-semibold mb-1 text-sm md:text-base">Лидерборд</span>
+          <h2 className="text-kamp-dark text-xl md:text-3xl">Соревнуйся и побеждай</h2>
+          {!isMobile && (
+            <p className="text-gray-400 text-sm md:text-base">
+              КЭМП — это не только саморазвитие, но и соревнование. 
+              Зарабатывай баллы, поднимайся в рейтинге и получи награду в конце курса.
+            </p>
+          )}
         </div>
 
-        <div className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-8">
+        <div className="mt-4 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8">
           {/* Leaderboard Table */}
           <div className="reveal-on-scroll">
             {isLoading ? (

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Logo } from './header/Logo';
 import { DesktopNavigation } from './header/DesktopNavigation';
@@ -13,6 +14,7 @@ export const Header: React.FC = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const isMobile = useIsMobile();
   const lastScrollY = useRef(0);
+  const scrollThreshold = isMobile ? 30 : 60; // Lower threshold on mobile
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +24,7 @@ export const Header: React.FC = () => {
       setIsScrolled(currentScrollY > 10);
       
       // Handle header visibility based on scroll direction
-      if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > scrollThreshold) {
         // Scrolling down & past initial threshold - hide header
         setIsHeaderVisible(false);
       } else {
@@ -36,7 +38,7 @@ export const Header: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [scrollThreshold]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -45,7 +47,10 @@ export const Header: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      const offset = isMobile ? 60 : 80; // Smaller offset on mobile
+      // Close mobile menu when navigating
+      setIsOpen(false);
+      
+      const offset = isMobile ? 50 : 80; // Smaller offset on mobile
       window.scrollTo({
         top: section.offsetTop - offset,
         behavior: 'smooth'
@@ -71,12 +76,14 @@ export const Header: React.FC = () => {
   if (isMobile) {
     return (
       <header 
-        className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-white shadow-md' : 'bg-white/90 backdrop-blur-md'
+        } ${
           isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
         <div className="kamp-container">
-          <div className="flex items-center justify-between py-2">
+          <div className="flex items-center justify-between py-1.5">
             <Logo onClick={handleLogoClick} />
             <MobileMenuButton 
               isOpen={isOpen} 
