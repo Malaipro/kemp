@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -123,12 +122,12 @@ export const ServicesPackages: React.FC = () => {
   };
 
   return (
-    <section id="services" className="kamp-section bg-kamp-dark text-white">
+    <section id="services" className="kamp-section bg-kamp-dark text-black">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-kamp-accent font-semibold mb-2">Пакеты услуг</span>
-          <h2 className="text-white">Выберите подходящий вариант</h2>
-          <p className="text-gray-400">
+          <span className="inline-block text-black font-semibold mb-2">Пакеты услуг</span>
+          <h2 className="text-black">Выберите подходящий вариант</h2>
+          <p className="text-black/70">
             Мы предлагаем различные варианты участия в программе КЭМП,
             от пробной тренировки до полного премиум-курса с индивидуальным сопровождением.
           </p>
@@ -141,25 +140,22 @@ export const ServicesPackages: React.FC = () => {
               <TabsTrigger value="table">Сравнение</TabsTrigger>
             </TabsList>
             
-            {/* Вид "Карточки" */}
             <TabsContent value="cards">
               <div className="grid md:grid-cols-3 gap-6 reveal-on-scroll">
                 {servicePackages.map((pkg) => (
                   <Card key={pkg.id} className={`border-0 shadow-lg overflow-hidden transition-all hover:shadow-xl ${pkg.highlight ? 'ring-2 ring-kamp-accent' : ''} flex flex-col`}>
-                    <CardHeader className={`${pkg.color} text-gray-800`}>
-                      <CardTitle className="text-gray-900">{pkg.title}</CardTitle>
-                      <div className="mt-2 mb-1 text-3xl font-bold text-gray-900">{formatPrice(pkg.price)} ₽</div>
-                      <CardDescription className="text-gray-700">{pkg.description}</CardDescription>
+                    <CardHeader className={`${pkg.color} text-black`}>
+                      <CardTitle className="text-black">{pkg.title}</CardTitle>
+                      <div className="mt-2 mb-1 text-3xl font-bold text-black">{formatPrice(pkg.price)} ₽</div>
+                      <CardDescription className="text-black/70">{pkg.description}</CardDescription>
                       {pkg.date && (
-                        <div className="text-sm font-medium text-gray-700 mt-2 flex items-center">
-                          <span className="inline-block mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
-                              <line x1="16" x2="16" y1="2" y2="6"></line>
-                              <line x1="8" x2="8" y1="2" y2="6"></line>
-                              <line x1="3" x2="21" y1="10" y2="10"></line>
-                            </svg>
-                          </span>
+                        <div className="text-sm font-medium text-black/70 mt-2 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                            <line x1="16" x2="16" y1="2" y2="6"></line>
+                            <line x1="8" x2="8" y1="2" y2="6"></line>
+                            <line x1="3" x2="21" y1="10" y2="10"></line>
+                          </svg>
                           {format(pkg.date, "d MMMM yyyy 'в' HH:mm", { locale: ru })}
                         </div>
                       )}
@@ -167,7 +163,7 @@ export const ServicesPackages: React.FC = () => {
                     <CardContent className="pt-6 pb-4 flex-grow">
                       <ul className="space-y-2">
                         {pkg.features.map((feature, index) => (
-                          <li key={index} className="flex items-start text-gray-300">
+                          <li key={index} className="flex items-start text-black">
                             <svg className="h-5 w-5 text-green-500 shrink-0 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
@@ -189,54 +185,53 @@ export const ServicesPackages: React.FC = () => {
               </div>
             </TabsContent>
             
-            {/* Вид "Сравнение" */}
             <TabsContent value="table" className="reveal-on-scroll">
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr>
-                      <th className="text-left p-4 border-b text-white">Услуга</th>
-                      <th className="text-center p-4 border-b text-white">Демо</th>
-                      <th className="text-center p-4 border-b text-white">Базовый</th>
-                      <th className="text-center p-4 border-b text-white">Премиум</th>
+                      <th className="text-left p-4 border-b text-black">Услуга</th>
+                      <th className="text-center p-4 border-b text-black">Демо</th>
+                      <th className="text-center p-4 border-b text-black">Базовый</th>
+                      <th className="text-center p-4 border-b text-black">Премиум</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="p-4 border-b text-white">Стоимость</td>
-                      <td className="text-center p-4 border-b text-white">600 ₽</td>
-                      <td className="text-center p-4 border-b text-white">20 400 ₽</td>
-                      <td className="text-center p-4 border-b text-white">34 900 ₽</td>
+                      <td className="p-4 border-b text-black">Стоимость</td>
+                      <td className="text-center p-4 border-b text-black">600 ₽</td>
+                      <td className="text-center p-4 border-b text-black">20 400 ₽</td>
+                      <td className="text-center p-4 border-b text-black">34 900 ₽</td>
                     </tr>
                     <tr>
-                      <td className="p-4 border-b text-white">Тренировки по кикбоксингу</td>
-                      <td className="text-center p-4 border-b text-white">1</td>
-                      <td className="text-center p-4 border-b text-white">10</td>
-                      <td className="text-center p-4 border-b text-white">10</td>
+                      <td className="p-4 border-b text-black">Тренировки по кикбоксингу</td>
+                      <td className="text-center p-4 border-b text-black">1</td>
+                      <td className="text-center p-4 border-b text-black">10</td>
+                      <td className="text-center p-4 border-b text-black">10</td>
                     </tr>
                     <tr>
-                      <td className="p-4 border-b text-white">Функциональные тренировки</td>
-                      <td className="text-center p-4 border-b text-white">-</td>
-                      <td className="text-center p-4 border-b text-white">8</td>
-                      <td className="text-center p-4 border-b text-white">8</td>
+                      <td className="p-4 border-b text-black">Функциональные тренировки</td>
+                      <td className="text-center p-4 border-b text-black">-</td>
+                      <td className="text-center p-4 border-b text-black">8</td>
+                      <td className="text-center p-4 border-b text-black">8</td>
                     </tr>
                     <tr>
-                      <td className="p-4 border-b text-white">Выездные мероприятия</td>
-                      <td className="text-center p-4 border-b text-white">-</td>
-                      <td className="text-center p-4 border-b text-white">2</td>
-                      <td className="text-center p-4 border-b text-white">4</td>
+                      <td className="p-4 border-b text-black">Выездные мероприятия</td>
+                      <td className="text-center p-4 border-b text-black">-</td>
+                      <td className="text-center p-4 border-b text-black">2</td>
+                      <td className="text-center p-4 border-b text-black">4</td>
                     </tr>
                     <tr>
-                      <td className="p-4 border-b text-white">Индивидуальное сопровождение</td>
-                      <td className="text-center p-4 border-b text-white">-</td>
-                      <td className="text-center p-4 border-b text-white">-</td>
-                      <td className="text-center p-4 border-b text-white">✓</td>
+                      <td className="p-4 border-b text-black">Индивидуальное сопровождение</td>
+                      <td className="text-center p-4 border-b text-black">-</td>
+                      <td className="text-center p-4 border-b text-black">-</td>
+                      <td className="text-center p-4 border-b text-black">✓</td>
                     </tr>
                     <tr>
-                      <td className="p-4 border-b text-white">План питания</td>
-                      <td className="text-center p-4 border-b text-white">-</td>
-                      <td className="text-center p-4 border-b text-white">-</td>
-                      <td className="text-center p-4 border-b text-white">✓</td>
+                      <td className="p-4 border-b text-black">План питания</td>
+                      <td className="text-center p-4 border-b text-black">-</td>
+                      <td className="text-center p-4 border-b text-black">-</td>
+                      <td className="text-center p-4 border-b text-black">✓</td>
                     </tr>
                     <tr>
                       <td colSpan={4} className="p-4">
@@ -261,43 +256,44 @@ export const ServicesPackages: React.FC = () => {
           </Tabs>
         </div>
 
-        {/* Диалог подтверждения */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>
+              <DialogTitle className="text-black">
                 {selectedPackage?.title || "Выбор пакета"}
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-black/70">
                 Заполните форму, чтобы забронировать выбранный пакет услуг. Мы свяжемся с вами для подтверждения.
               </DialogDescription>
             </DialogHeader>
             
             <div className="grid gap-4 py-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Ваше имя</Label>
+                <Label htmlFor="name" className="text-black">Ваше имя</Label>
                 <Input 
                   id="name" 
                   placeholder="Иванов Иван" 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="text-black"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="phone">Телефон</Label>
+                <Label htmlFor="phone" className="text-black">Телефон</Label>
                 <Input 
                   id="phone" 
                   placeholder="+7 (XXX) XXX-XX-XX" 
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  className="text-black"
                 />
               </div>
               
               {selectedPackage && (
-                <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-md mt-2">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">{selectedPackage.title} - {formatPrice(selectedPackage.price)} ₽</div>
+                <div className="bg-gray-100 p-3 rounded-md mt-2">
+                  <div className="font-medium text-black">{selectedPackage.title} - {formatPrice(selectedPackage.price)} ₽</div>
                   {selectedPackage.date && (
-                    <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                    <div className="text-sm text-black/70 mt-1">
                       Дата: {format(selectedPackage.date, "d MMMM yyyy 'в' HH:mm", { locale: ru })}
                     </div>
                   )}
@@ -309,12 +305,14 @@ export const ServicesPackages: React.FC = () => {
               <Button 
                 variant="outline" 
                 onClick={() => setIsDialogOpen(false)}
+                className="text-black"
               >
                 Отмена
               </Button>
               <Button 
                 onClick={handleSubmit}
                 disabled={isSubmitting}
+                className="text-white"
               >
                 {isSubmitting ? 'Отправка...' : 'Забронировать'}
               </Button>
