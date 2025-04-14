@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ParticipantTable } from './ParticipantTable';
 import { ActivityList } from './ActivityList';
@@ -10,7 +10,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Leaderboard: React.FC = () => {
-  const [isPointsVisible, setIsPointsVisible] = useState(false);
   const isMobile = useIsMobile();
 
   const { data: participants, isLoading, error } = useQuery({
@@ -32,10 +31,6 @@ export const Leaderboard: React.FC = () => {
       return data as Participant[];
     }
   });
-
-  const togglePointsVisibility = () => {
-    setIsPointsVisible(!isPointsVisible);
-  };
 
   return (
     <section id="leaderboard" className="kamp-section bg-kamp-secondary py-4 md:py-16">
@@ -72,11 +67,7 @@ export const Leaderboard: React.FC = () => {
 
           {/* How to earn points */}
           <div className="reveal-on-scroll">
-            <ActivityList 
-              activities={activities}
-              isPointsVisible={isPointsVisible}
-              togglePointsVisibility={togglePointsVisibility}
-            />
+            <ActivityList activities={activities} />
           </div>
         </div>
       </div>
