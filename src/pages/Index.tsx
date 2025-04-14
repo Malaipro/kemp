@@ -10,6 +10,7 @@ import { Leaderboard } from '@/components/Leaderboard';
 import { Testimonials } from '@/components/Testimonials';
 import { PhotoGallery } from '@/components/PhotoGallery';
 import { ContactForm } from '@/components/ContactForm';
+import { ServicesPackages } from '@/components/ServicesPackages';
 
 const Index = () => {
   useEffect(() => {
@@ -36,6 +37,7 @@ const Index = () => {
       <Philosophy />
       <Program />
       <Trainers />
+      <ServicesPackages />
       <PhotoGallery />
       <Leaderboard />
       <Testimonials />
