@@ -3,18 +3,13 @@ import React from 'react';
 import { ChevronDown, ChevronUp, Eye, EyeOff } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Activity } from '@/types/leaderboard';
+import { getIconComponent } from './IconRenderer';
 
 interface ActivityListProps {
   activities: Activity[];
-  isPointsVisible: boolean;
-  togglePointsVisibility: () => void;
 }
 
-export const ActivityList: React.FC<ActivityListProps> = ({
-  activities,
-  isPointsVisible,
-  togglePointsVisibility
-}) => {
+export const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
   const isMobile = useIsMobile();
   
   return (
@@ -32,7 +27,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({
             <div className="flex items-center">
               {activity.icon && (
                 <div className="mr-2 text-kamp-primary">
-                  {React.createElement(activity.icon, { 
+                  {React.createElement(getIconComponent(activity.icon).type, { 
                     size: isMobile ? 14 : 18,
                     className: "text-kamp-primary"
                   })}
@@ -60,3 +55,4 @@ export const ActivityList: React.FC<ActivityListProps> = ({
     </div>
   );
 };
+
