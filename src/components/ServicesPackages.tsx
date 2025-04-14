@@ -9,6 +9,15 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Star, Diamond, Flame, CheckCircle, Calendar } from 'lucide-react';
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 
 const servicePackages = [
   {
@@ -24,7 +33,8 @@ const servicePackages = [
     ],
     date: new Date(2025, 3, 19, 10, 0), // 19 апреля 2025, 10:00
     highlight: false,
-    color: 'bg-gray-100'
+    color: 'bg-gray-100',
+    icon: Star
   },
   {
     id: 'basic',
@@ -39,7 +49,8 @@ const servicePackages = [
       'Методические материалы'
     ],
     highlight: false,
-    color: 'bg-blue-50'
+    color: 'bg-blue-50',
+    icon: Flame
   },
   {
     id: 'premium',
@@ -55,7 +66,8 @@ const servicePackages = [
       'Сессии с психологом'
     ],
     highlight: true,
-    color: 'bg-amber-50'
+    color: 'bg-amber-50',
+    icon: Diamond
   }
 ];
 
@@ -121,12 +133,20 @@ export const ServicesPackages: React.FC = () => {
     }
   };
 
+  const PackageIcon = ({ icon: Icon }: { icon: typeof Star }) => (
+    <div className="inline-flex items-center justify-center p-2 bg-kamp-accent/10 rounded-full mb-2">
+      <Icon className="h-6 w-6 text-kamp-accent" />
+    </div>
+  );
+
   return (
     <section id="services" className="kamp-section bg-kamp-dark text-black">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-black font-semibold mb-2">Пакеты услуг</span>
-          <h2 className="text-black">Выберите подходящий вариант</h2>
+          <h2 className="text-black relative inline-block after:content-[''] after:absolute after:w-full after:h-[8px] after:left-0 after:bottom-1 after:bg-kamp-accent/20 after:-z-10">
+            Выберите подходящий вариант
+          </h2>
           <p className="text-black/70">
             Мы предлагаем различные варианты участия в программе КЭМП,
             от пробной тренировки до полного премиум-курса с индивидуальным сопровождением.
@@ -136,8 +156,8 @@ export const ServicesPackages: React.FC = () => {
         <div className="mt-16">
           <Tabs defaultValue="cards" className="w-full">
             <TabsList className="grid w-full md:w-[400px] mx-auto grid-cols-2 mb-8">
-              <TabsTrigger value="cards">Карточки</TabsTrigger>
-              <TabsTrigger value="table">Сравнение</TabsTrigger>
+              <TabsTrigger value="cards" className="text-black font-medium">Карточки</TabsTrigger>
+              <TabsTrigger value="table" className="text-black font-medium">Сравнение</TabsTrigger>
             </TabsList>
             
             <TabsContent value="cards">
@@ -145,17 +165,17 @@ export const ServicesPackages: React.FC = () => {
                 {servicePackages.map((pkg) => (
                   <Card key={pkg.id} className={`border-0 shadow-lg overflow-hidden transition-all hover:shadow-xl ${pkg.highlight ? 'ring-2 ring-kamp-accent' : ''} flex flex-col`}>
                     <CardHeader className={`${pkg.color} text-black`}>
-                      <CardTitle className="text-black">{pkg.title}</CardTitle>
+                      <div className="flex items-center mb-2">
+                        <PackageIcon icon={pkg.icon} />
+                        <CardTitle className="text-black ml-2 bg-gradient-to-r from-kamp-accent to-kamp-primary bg-clip-text text-transparent">
+                          {pkg.title}
+                        </CardTitle>
+                      </div>
                       <div className="mt-2 mb-1 text-3xl font-bold text-black">{formatPrice(pkg.price)} ₽</div>
                       <CardDescription className="text-black/70">{pkg.description}</CardDescription>
                       {pkg.date && (
                         <div className="text-sm font-medium text-black/70 mt-2 flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
-                            <line x1="16" x2="16" y1="2" y2="6"></line>
-                            <line x1="8" x2="8" y1="2" y2="6"></line>
-                            <line x1="3" x2="21" y1="10" y2="10"></line>
-                          </svg>
+                          <Calendar className="h-4 w-4 mr-1" />
                           {format(pkg.date, "d MMMM yyyy 'в' HH:mm", { locale: ru })}
                         </div>
                       )}
@@ -164,9 +184,7 @@ export const ServicesPackages: React.FC = () => {
                       <ul className="space-y-2">
                         {pkg.features.map((feature, index) => (
                           <li key={index} className="flex items-start text-black">
-                            <svg className="h-5 w-5 text-green-500 shrink-0 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
+                            <CheckCircle className="h-5 w-5 text-green-500 shrink-0 mr-2" />
                             <span>{feature}</span>
                           </li>
                         ))}
@@ -174,7 +192,7 @@ export const ServicesPackages: React.FC = () => {
                     </CardContent>
                     <CardFooter className="mt-auto">
                       <Button 
-                        className="w-full bg-kamp-accent hover:bg-kamp-accent-hover text-white" 
+                        className="w-full bg-gradient-to-r from-kamp-accent to-kamp-primary hover:bg-kamp-accent-hover text-white font-medium shadow-md hover:shadow-lg transition-all" 
                         onClick={() => handleSelectPackage(pkg)}
                       >
                         Выбрать
@@ -186,60 +204,81 @@ export const ServicesPackages: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="table" className="reveal-on-scroll">
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr>
-                      <th className="text-left p-4 border-b text-black">Услуга</th>
-                      <th className="text-center p-4 border-b text-black">Демо</th>
-                      <th className="text-center p-4 border-b text-black">Базовый</th>
-                      <th className="text-center p-4 border-b text-black">Премиум</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-4 border-b text-black">Стоимость</td>
-                      <td className="text-center p-4 border-b text-black">600 ₽</td>
-                      <td className="text-center p-4 border-b text-black">20 400 ₽</td>
-                      <td className="text-center p-4 border-b text-black">34 900 ₽</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 border-b text-black">Тренировки по кикбоксингу</td>
-                      <td className="text-center p-4 border-b text-black">1</td>
-                      <td className="text-center p-4 border-b text-black">10</td>
-                      <td className="text-center p-4 border-b text-black">10</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 border-b text-black">Функциональные тренировки</td>
-                      <td className="text-center p-4 border-b text-black">-</td>
-                      <td className="text-center p-4 border-b text-black">8</td>
-                      <td className="text-center p-4 border-b text-black">8</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 border-b text-black">Выездные мероприятия</td>
-                      <td className="text-center p-4 border-b text-black">-</td>
-                      <td className="text-center p-4 border-b text-black">2</td>
-                      <td className="text-center p-4 border-b text-black">4</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 border-b text-black">Индивидуальное сопровождение</td>
-                      <td className="text-center p-4 border-b text-black">-</td>
-                      <td className="text-center p-4 border-b text-black">-</td>
-                      <td className="text-center p-4 border-b text-black">✓</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4 border-b text-black">План питания</td>
-                      <td className="text-center p-4 border-b text-black">-</td>
-                      <td className="text-center p-4 border-b text-black">-</td>
-                      <td className="text-center p-4 border-b text-black">✓</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={4} className="p-4">
+              <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                <Table>
+                  <TableHeader className="bg-gradient-to-r from-gray-100 to-gray-200">
+                    <TableRow>
+                      <TableHead className="text-left p-4 border-b text-black font-semibold">Услуга</TableHead>
+                      <TableHead className="text-center p-4 border-b text-black font-semibold">
+                        <div className="flex flex-col items-center">
+                          <Star className="h-5 w-5 text-yellow-500 mb-1" />
+                          <span>Демо</span>
+                        </div>
+                      </TableHead>
+                      <TableHead className="text-center p-4 border-b text-black font-semibold">
+                        <div className="flex flex-col items-center">
+                          <Flame className="h-5 w-5 text-orange-500 mb-1" />
+                          <span>Базовый</span>
+                        </div>
+                      </TableHead>
+                      <TableHead className="text-center p-4 border-b text-black font-semibold">
+                        <div className="flex flex-col items-center">
+                          <Diamond className="h-5 w-5 text-purple-500 mb-1" />
+                          <span>Премиум</span>
+                        </div>
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow className="bg-white">
+                      <TableCell className="p-4 border-b text-black font-medium">Стоимость</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">600 ₽</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">20 400 ₽</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">34 900 ₽</TableCell>
+                    </TableRow>
+                    <TableRow className="bg-gray-50">
+                      <TableCell className="p-4 border-b text-black font-medium">Тренировки по кикбоксингу</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">1</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">10</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">10</TableCell>
+                    </TableRow>
+                    <TableRow className="bg-white">
+                      <TableCell className="p-4 border-b text-black font-medium">Функциональные тренировки</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">-</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">8</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">8</TableCell>
+                    </TableRow>
+                    <TableRow className="bg-gray-50">
+                      <TableCell className="p-4 border-b text-black font-medium">Выездные мероприятия</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">-</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">2</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">4</TableCell>
+                    </TableRow>
+                    <TableRow className="bg-white">
+                      <TableCell className="p-4 border-b text-black font-medium">Индивидуальное сопровождение</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">-</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">-</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">
+                        <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="bg-gray-50">
+                      <TableCell className="p-4 border-b text-black font-medium">План питания</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">-</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">-</TableCell>
+                      <TableCell className="text-center p-4 border-b text-black">
+                        <CheckCircle className="h-5 w-5 text-green-500 mx-auto" />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={4} className="p-4">
                         <div className="grid grid-cols-3 gap-4 mt-4">
                           {servicePackages.map((pkg) => (
                             <div key={pkg.id} className="text-center">
                               <Button 
-                                className={`w-full ${pkg.id === 'premium' ? 'bg-kamp-accent hover:bg-kamp-accent-hover' : ''}`}
+                                className={`w-full ${pkg.id === 'premium' 
+                                  ? 'bg-gradient-to-r from-kamp-accent to-kamp-primary hover:bg-kamp-accent-hover' 
+                                  : 'bg-black hover:bg-gray-800'}`}
                                 onClick={() => handleSelectPackage(pkg)}
                               >
                                 Выбрать {pkg.title}
@@ -247,10 +286,10 @@ export const ServicesPackages: React.FC = () => {
                             </div>
                           ))}
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
             </TabsContent>
           </Tabs>
@@ -312,7 +351,7 @@ export const ServicesPackages: React.FC = () => {
               <Button 
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="text-white"
+                className="bg-gradient-to-r from-kamp-accent to-kamp-primary hover:bg-kamp-accent-hover text-white"
               >
                 {isSubmitting ? 'Отправка...' : 'Забронировать'}
               </Button>
