@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Instagram, Facebook, Phone, MapPin } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -58,7 +57,7 @@ export const Footer: React.FC = () => {
                   href="https://t.me/KEMPRYX" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors"
+                  className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors flex items-center justify-center"
                   aria-label="Telegram"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send">
@@ -70,7 +69,7 @@ export const Footer: React.FC = () => {
                   href="https://www.instagram.com/cemp_kazan" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors"
+                  className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors flex items-center justify-center"
                   aria-label="Instagram"
                 >
                   <Instagram size={12} />
@@ -79,7 +78,7 @@ export const Footer: React.FC = () => {
                   href="https://vk.com/kemp_ryx" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors"
+                  className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors flex items-center justify-center"
                   aria-label="VKontakte"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -163,7 +162,7 @@ export const Footer: React.FC = () => {
                 href="https://t.me/KEMPRYX" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors flex items-center justify-center"
                 aria-label="Telegram"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send">
@@ -175,7 +174,7 @@ export const Footer: React.FC = () => {
                 href="https://www.instagram.com/cemp_kazan" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors flex items-center justify-center"
                 aria-label="Instagram"
               >
                 <Instagram size={16} />
@@ -184,7 +183,7 @@ export const Footer: React.FC = () => {
                 href="https://vk.com/kemp_ryx" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+                className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors flex items-center justify-center"
                 aria-label="VKontakte"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
