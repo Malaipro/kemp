@@ -28,7 +28,7 @@ export const servicePackages: ServicePackage[] = [
     ],
     date: new Date(2025, 3, 19, 10, 0), // 19 апреля 2025, 10:00
     highlight: false,
-    color: 'bg-kamp-dark',
+    color: 'bg-white',
     icon: Star,
     titleColor: 'text-black'
   },
@@ -45,7 +45,7 @@ export const servicePackages: ServicePackage[] = [
       'Методические материалы'
     ],
     highlight: false,
-    color: 'bg-kamp-dark',
+    color: 'bg-white',
     icon: Flame,
     titleColor: 'text-black'
   },
@@ -63,7 +63,7 @@ export const servicePackages: ServicePackage[] = [
       'Сессии с психологом'
     ],
     highlight: true,
-    color: 'bg-kamp-dark',
+    color: 'bg-white',
     icon: Diamond,
     titleColor: 'text-black'
   }

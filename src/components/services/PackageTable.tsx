@@ -74,7 +74,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">
-              <CheckCircle className="h-5 w-5 text-gray-600 mx-auto" />
+              <CheckCircle className="h-5 w-5 text-kamp-primary mx-auto" />
             </TableCell>
           </TableRow>
           <TableRow className="bg-gray-50">
@@ -82,7 +82,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">-</TableCell>
             <TableCell className="text-center p-4 border-b text-black">
-              <CheckCircle className="h-5 w-5 text-gray-600 mx-auto" />
+              <CheckCircle className="h-5 w-5 text-kamp-primary mx-auto" />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -91,7 +91,7 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
                 {packages.map((pkg) => (
                   <div key={pkg.id} className="text-center">
                     <Button 
-                      className="w-full bg-gray-800 hover:bg-gray-700 text-white" 
+                      className="w-full bg-kamp-primary hover:bg-kamp-accent text-white" 
                       onClick={() => onSelectPackage(pkg)}
                     >
                       Выбрать {pkg.title}

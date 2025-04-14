@@ -19,7 +19,7 @@ export const ServicesPackages: React.FC = () => {
     <section id="services" className="kamp-section bg-kamp-dark text-black">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-black font-semibold mb-2">Пакеты услуг</span>
+          <span className="inline-block text-kamp-primary font-semibold mb-2">Пакеты услуг</span>
           <h2 className="text-black font-bold">
             Выберите подходящий вариант
           </h2>
