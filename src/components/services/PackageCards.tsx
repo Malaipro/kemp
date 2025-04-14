@@ -25,7 +25,7 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
           <CardHeader className={`${pkg.color} py-4 px-4 md:py-6 md:px-8 relative overflow-hidden`}>
             <div className="flex justify-between items-start mb-1">
               <h3 className={`text-black text-lg md:text-xl font-bold`}>
-                {pkg.title}
+                {pkg.title.replace(/\s*\(.*\)/, '')}
               </h3>
               {pkg.highlight && (
                 <span className="bg-kamp-primary text-white text-[10px] md:text-xs font-medium py-0.5 px-1.5 md:px-2 rounded-full uppercase tracking-wide">

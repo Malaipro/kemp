@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   Table,
@@ -37,9 +38,9 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
             <TableBody>
               <TableRow className="bg-white">
                 <TableCell className="p-1 border-b text-black font-medium text-xs">Стоимость</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">{formatPrice(600)}</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">{formatPrice(20400)}</TableCell>
-                <TableCell className="text-center p-1 border-b text-black text-xs">{formatPrice(34900)}</TableCell>
+                <TableCell className="text-center p-1 border-b text-black text-xs">{formatPrice(600)} ₽</TableCell>
+                <TableCell className="text-center p-1 border-b text-black text-xs">{formatPrice(20400)} ₽</TableCell>
+                <TableCell className="text-center p-1 border-b text-black text-xs">{formatPrice(34900)} ₽</TableCell>
               </TableRow>
               <TableRow className="bg-gray-50">
                 <TableCell className="p-1 border-b text-black font-medium text-xs">Тренировки</TableCell>
@@ -103,11 +104,11 @@ export const PackageTable = ({ packages, onSelectPackage }: PackageTableProps) =
               </TableRow>
               <TableRow>
                 <TableCell colSpan={4} className="p-1">
-                  <div className="flex flex-row gap-1 mt-1 justify-between">
+                  <div className="flex space-x-1 mt-1 justify-between">
                     {packages.map((pkg) => (
                       <Button 
                         key={pkg.id}
-                        className={`w-full text-white text-xs py-0.5 ${pkg.highlight ? 'bg-kamp-primary hover:bg-kamp-primary/90' : 'bg-gray-700 hover:bg-gray-600'}`}
+                        className={`w-full text-white text-[10px] py-1 ${pkg.highlight ? 'bg-kamp-primary hover:bg-kamp-primary/90' : 'bg-gray-700 hover:bg-gray-600'}`}
                         onClick={() => onSelectPackage(pkg)}
                       >
                         {pkg.title === "Демо" ? "Демо" : pkg.title === "Базовый" ? "Баз." : "Прем."}
