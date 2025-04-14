@@ -253,9 +253,21 @@
     @apply min-h-[44px] min-w-[44px];
   }
   
-  /* Horizontal snap scrolling for mobile */
-  .snap-x {
-    @apply snap-x snap-mandatory overflow-x-auto scrollbar-hide touch-scroll;
+  /* Horizontal snap scrolling for mobile - FIXED to avoid circular dependency */
+  .mobile-snap-scroll {
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-snap-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .snap-item {
+    scroll-snap-align: start;
   }
   
   /* Prevent content from being too wide on mobile */

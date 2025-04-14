@@ -123,7 +123,7 @@ export const PhotoGallery: React.FC = () => {
         <div className="relative overflow-hidden" ref={galleryRef}>
           <div 
             ref={scrollContainerRef}
-            className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll"
+            className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll mobile-snap-scroll"
             style={{ scrollBehavior: 'auto' }}
           >
             {/* We display each photo multiple times in sequence to create infinite scroll effect */}
@@ -132,7 +132,7 @@ export const PhotoGallery: React.FC = () => {
                 {photos.map((photo) => (
                   <div
                     key={`${repeatIndex}-${photo.id}`}
-                    className={`flex-none ${isMobile ? 'w-60 h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105`}
+                    className={`flex-none ${isMobile ? 'w-60 h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
                   >
                     <img
                       src={photo.src}

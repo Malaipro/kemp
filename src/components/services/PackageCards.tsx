@@ -17,13 +17,13 @@ export const PackageCards = ({ packages, onSelectPackage }: PackageCardsProps) =
   const isMobile = useIsMobile();
   
   return (
-    <div className={`grid ${isMobile ? 'grid-cols-3 gap-1' : 'md:grid-cols-3 gap-4 md:gap-6'} reveal-on-scroll overflow-x-auto pb-2 snap-x`}>
+    <div className={`grid ${isMobile ? 'grid-cols-3 gap-1' : 'md:grid-cols-3 gap-4 md:gap-6'} reveal-on-scroll overflow-x-auto pb-2 mobile-snap-scroll`}>
       {packages.map((pkg) => (
         <Card 
           key={pkg.id} 
           className={`border-2 ${pkg.highlight ? 'border-kamp-primary shadow-lg' : 'border-gray-300'} 
             shadow-md overflow-hidden transition-all hover:shadow-xl hover:border-kamp-accent flex flex-col 
-            ${isMobile ? 'min-w-[90px] snap-center scale-95' : ''}`}
+            ${isMobile ? 'min-w-[90px] snap-item scale-95' : ''}`}
         >
           <CardHeader className={`bg-white ${isMobile ? 'p-1.5' : 'p-6'}`}>
             <CardTitle className={`text-black font-bold ${isMobile ? 'text-xs' : ''}`}>
