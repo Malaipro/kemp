@@ -25,7 +25,12 @@ export const ServicesPackages: React.FC = () => {
           <h2 className="text-black font-bold text-xl md:text-3xl">
             Выберите подходящий вариант
           </h2>
-          {!isMobile && (
+          {isMobile ? (
+            <p className="text-black/70 text-xs px-6 mt-1">
+              Мы предлагаем различные варианты участия в программе КЭМП,
+              от пробной тренировки до полного курса.
+            </p>
+          ) : (
             <p className="text-black/70 text-sm md:text-base">
               Мы предлагаем различные варианты участия в программе КЭМП,
               от пробной тренировки до полного премиум-курса с индивидуальным сопровождением.
@@ -35,9 +40,13 @@ export const ServicesPackages: React.FC = () => {
 
         <div className="mt-4 md:mt-16">
           <Tabs defaultValue="cards" className="w-full">
-            <TabsList className={`grid w-full ${isMobile ? 'max-w-[220px]' : 'md:w-[400px]'} mx-auto grid-cols-2 mb-2 md:mb-8`}>
-              <TabsTrigger value="cards" className={`text-black font-medium ${isMobile ? 'text-xs py-1' : ''}`}>Карточки</TabsTrigger>
-              <TabsTrigger value="table" className={`text-black font-medium ${isMobile ? 'text-xs py-1' : ''}`}>Сравнение</TabsTrigger>
+            <TabsList className={`grid w-full ${isMobile ? 'max-w-[220px]' : 'md:w-[400px]'} mx-auto grid-cols-2 mb-6`}>
+              <TabsTrigger value="cards" className={`text-black font-medium ${isMobile ? 'text-xs py-2' : ''}`}>
+                Карточки
+              </TabsTrigger>
+              <TabsTrigger value="table" className={`text-black font-medium ${isMobile ? 'text-xs py-2' : ''}`}>
+                Сравнение
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="cards">

@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -112,7 +113,7 @@ export const Testimonials: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-3 gap-2 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
           {testimonials.map((testimonial) => (
             <Card 
               key={testimonial.id}
@@ -130,13 +131,13 @@ export const Testimonials: React.FC = () => {
                     preload="metadata"
                     className="w-full h-full object-cover"
                   />
-                  <div className={`absolute inset-0 flex flex-col justify-between ${isMobile ? 'p-2' : 'p-3 md:p-6'} transition-opacity duration-300 
+                  <div className={`absolute inset-0 flex flex-col justify-between ${isMobile ? 'p-3' : 'p-3 md:p-6'} transition-opacity duration-300 
                     ${playingVideo === testimonial.id ? 'bg-black/20 opacity-100' : 'bg-black/60 opacity-100'}`}>
                     
                     <div className="flex justify-between items-start z-10">
                       <div>
-                        <h4 className={`font-bold text-white ${isMobile ? 'text-xs' : 'text-base md:text-xl'}`}>{testimonial.name}</h4>
-                        <p className={`text-gray-300 ${isMobile ? 'text-[10px]' : 'text-xs md:text-sm'}`}>{testimonial.position}</p>
+                        <h4 className={`font-bold text-white ${isMobile ? 'text-sm' : 'text-base md:text-xl'}`}>{testimonial.name}</h4>
+                        <p className={`text-gray-300 ${isMobile ? 'text-xs' : 'text-xs md:text-sm'}`}>{testimonial.position}</p>
                       </div>
                       
                       <button 
@@ -144,21 +145,21 @@ export const Testimonials: React.FC = () => {
                         onClick={(e) => toggleMute(testimonial.id, e)}
                       >
                         {mutedStatus[testimonial.id] ? 
-                          <VolumeX size={isMobile ? 12 : 16} /> : 
-                          <Volume2 size={isMobile ? 12 : 16} />
+                          <VolumeX size={isMobile ? 16 : 16} /> : 
+                          <Volume2 size={isMobile ? 16 : 16} />
                         }
                       </button>
                     </div>
                     
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                       <div className={`flex items-center justify-center 
-                        ${isMobile ? 'h-8 w-8' : 'h-14 w-14 md:h-20 md:w-20'} rounded-full 
+                        ${isMobile ? 'h-12 w-12' : 'h-14 w-14 md:h-20 md:w-20'} rounded-full 
                         ${playingVideo === testimonial.id ? 'bg-kamp-primary scale-90' : 'bg-white/20 scale-100'} 
                         transition-all duration-300 backdrop-blur-sm`}
                       >
                         {playingVideo === testimonial.id ? 
-                          <Pause className="text-white" size={isMobile ? 16 : 24} /> : 
-                          <Play className="text-white" size={isMobile ? 16 : 24} />
+                          <Pause className="text-white" size={isMobile ? 20 : 24} /> : 
+                          <Play className="text-white" size={isMobile ? 20 : 24} />
                         }
                       </div>
                     </div>
@@ -170,7 +171,7 @@ export const Testimonials: React.FC = () => {
                         </span>
                       )}
                       <button 
-                        className={`${isMobile ? 'text-[10px] py-0.5 px-1 ml-auto' : 'ml-2 md:ml-4 text-xs md:text-sm py-1 px-2 md:px-3'} bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
+                        className={`${isMobile ? 'text-xs py-1 px-2 ml-auto' : 'ml-2 md:ml-4 text-xs md:text-sm py-1 px-2 md:px-3'} bg-kamp-primary hover:bg-opacity-80 text-white rounded-lg font-medium transition-all`}
                         onClick={(e) => openVideoDialog(testimonial.id, e)}
                       >
                         {isMobile ? 'Смотреть' : 'Смотреть полностью'}

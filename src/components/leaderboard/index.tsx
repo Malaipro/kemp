@@ -51,7 +51,7 @@ export const Leaderboard: React.FC = () => {
           )}
         </div>
 
-        <div className="mt-4 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8">
+        <div className="mt-4 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
           {/* Leaderboard Table */}
           <div className="reveal-on-scroll">
             {isLoading ? (

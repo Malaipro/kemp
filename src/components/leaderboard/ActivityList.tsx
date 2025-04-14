@@ -42,8 +42,8 @@ export const ActivityList: React.FC<ActivityListProps> = ({
     initialData: defaultActivities
   });
 
-  // Display fewer activities on mobile
-  const displayedActivities = isMobile ? (activities || []).slice(0, 3) : activities;
+  // Display more activities on mobile (before it was showing fewer)
+  const displayedActivities = isMobile ? (activities || []).slice(0, 5) : activities;
 
   return (
     <Card className="h-full border-gray-700 bg-black bg-opacity-60 text-gray-200">
@@ -86,7 +86,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({
         <h3 className={`font-bold mb-2 ${isMobile ? 'text-sm' : 'text-base'}`}>Что в конце курса?</h3>
         <div 
           className={`relative overflow-hidden transition-all duration-500 ${
-            isPointsVisible ? 'max-h-48 md:max-h-96' : 'max-h-10 md:max-h-20'
+            isPointsVisible ? 'max-h-48 md:max-h-96' : 'max-h-20 md:max-h-20'
           }`}
         >
           <p className={`mb-2 md:mb-4 ${isMobile ? 'text-xs' : 'text-sm'}`}>

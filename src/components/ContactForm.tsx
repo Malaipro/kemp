@@ -81,11 +81,11 @@ export const ContactForm: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-12">
+        <div className="mt-8 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-12">
           {/* Contact Form */}
           <div className="reveal-on-scroll">
-            <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-3' : 'p-8'} border border-gray-800`}>
-              <h3 className={`${isMobile ? 'text-base' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
+            <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
+              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
               {submitted ? (
                 <SubmissionSuccess onReset={() => setSubmitted(false)} />
@@ -107,9 +107,13 @@ export const ContactForm: React.FC = () => {
           {/* Timer and Info */}
           <div className="reveal-on-scroll">
             <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
-              <div className={`flex-grow ${isMobile ? 'p-3' : 'p-8'}`}>
-                <h3 className={`${isMobile ? 'text-base mb-2' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
-                {!isMobile && (
+              <div className={`flex-grow ${isMobile ? 'p-4' : 'p-8'}`}>
+                <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
+                {isMobile ? (
+                  <p className="text-white/80 mb-4 text-sm">
+                    Следующий поток стартует 21 апреля 2025 года. Количество мест ограничено!
+                  </p>
+                ) : (
                   <p className="text-white/80 mb-8">
                     Следующий поток КЭМП стартует 21 апреля 2025 года. Количество мест ограничено, 
                     чтобы мы могли уделить внимание каждому участнику.
@@ -121,15 +125,15 @@ export const ContactForm: React.FC = () => {
                 {!isMobile && <CourseInfo />}
               </div>
               
-              <div className={`${isMobile ? 'p-2' : 'p-6'} bg-black/20 backdrop-blur-sm border-t border-white/10`}>
+              <div className={`${isMobile ? 'p-4' : 'p-6'} bg-black/20 backdrop-blur-sm border-t border-white/10`}>
                 <div className="flex items-center">
                   <div className="flex-grow">
-                    <div className={`${isMobile ? 'text-sm' : 'text-xl'} font-bold`}>Ограниченный набор</div>
-                    {!isMobile && <div className="text-white/70 text-sm">Запишись прямо сейчас</div>}
+                    <div className={`${isMobile ? 'text-base' : 'text-xl'} font-bold`}>Ограниченный набор</div>
+                    <div className="text-white/70 text-xs md:text-sm">Запишись прямо сейчас</div>
                   </div>
                   <button 
                     onClick={scrollToContactForm}
-                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-2 py-1' : ''}`}
+                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-3 py-1.5' : ''}`}
                   >
                     Записаться
                   </button>
