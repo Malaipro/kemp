@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -60,9 +59,9 @@ export const AboutUs: React.FC = () => {
                 <div className="flex-shrink-0 mb-2">
                   {feature.icon}
                 </div>
-                <h3 className="text-white font-semibold text-center w-full truncate px-2">{feature.title}</h3>
+                <h3 className="text-white font-semibold text-center w-full truncate px-2 text-sm md:text-base">{feature.title}</h3>
               </div>
-              <p className="text-gray-400 text-sm flex-grow text-center">{feature.description}</p>
+              <p className="text-gray-400 text-xs md:text-sm flex-grow text-center">{feature.description}</p>
             </div>
           ))}
         </div>
