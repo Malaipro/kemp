@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -55,13 +56,13 @@ export const AboutUs: React.FC = () => {
               key={index}
               className="bg-[#222226] border border-gray-700/50 p-4 md:p-6 rounded-lg hover:border-kamp-primary/50 transition-all duration-300 flex flex-col h-full"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex-shrink-0">
+              <div className="flex flex-col items-center mb-4">
+                <div className="flex-shrink-0 mb-2">
                   {feature.icon}
                 </div>
-                <h3 className="text-white font-semibold text-center w-full">{feature.title}</h3>
+                <h3 className="text-white font-semibold text-center w-full truncate px-2">{feature.title}</h3>
               </div>
-              <p className="text-gray-400 text-sm flex-grow">{feature.description}</p>
+              <p className="text-gray-400 text-sm flex-grow text-center">{feature.description}</p>
             </div>
           ))}
         </div>
