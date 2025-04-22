@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Users, Award, Book, Dumbbell } from 'lucide-react';
+import { Users, Book, Dumbbell, Award } from 'lucide-react';
 
 export const AboutUs: React.FC = () => {
   const isMobile = useIsMobile();
@@ -60,7 +59,7 @@ export const AboutUs: React.FC = () => {
                 <div className="flex-shrink-0">
                   {feature.icon}
                 </div>
-                <h3 className="text-white font-semibold">{feature.title}</h3>
+                <h3 className="text-white font-semibold text-center w-full">{feature.title}</h3>
               </div>
               <p className="text-gray-400 text-sm flex-grow">{feature.description}</p>
             </div>
@@ -155,4 +154,3 @@ export const AboutUs: React.FC = () => {
     </section>
   );
 };
-
