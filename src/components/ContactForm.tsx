@@ -19,9 +19,8 @@ export const ContactForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const isMobile = useIsMobile();
 
-  // Set target date for countdown timer (April 21, 2025)
-  const targetDate = new Date("2025-04-21T00:00:00");
-
+  // The CountdownTimer now automatically sets a one-week countdown if no targetDate is provided
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -111,16 +110,16 @@ export const ContactForm: React.FC = () => {
                 <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
                 {isMobile ? (
                   <p className="text-white/80 mb-4 text-sm">
-                    Следующий поток стартует 21 апреля 2025 года. Количество мест ограничено!
+                    Успейте записаться! Набор закрывается через неделю. Количество мест ограничено!
                   </p>
                 ) : (
                   <p className="text-white/80 mb-8">
-                    Следующий поток КЭМП стартует 21 апреля 2025 года. Количество мест ограничено, 
+                    Успейте записаться! Набор закрывается через неделю. Количество мест ограничено, 
                     чтобы мы могли уделить внимание каждому участнику.
                   </p>
                 )}
 
-                <CountdownTimer targetDate={targetDate} />
+                <CountdownTimer />
                 
                 {!isMobile && <CourseInfo />}
               </div>

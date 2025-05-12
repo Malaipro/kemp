@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Clock } from 'lucide-react';
+import { Timer } from 'lucide-react';
 
 type TimeLeft = {
   days: number;
@@ -10,7 +10,7 @@ type TimeLeft = {
 };
 
 interface CountdownTimerProps {
-  targetDate: Date;
+  targetDate?: Date;
 }
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
@@ -22,9 +22,12 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
   });
 
   useEffect(() => {
+    // Calculate a date that is one week from now if no targetDate is provided
+    const calculatedTargetDate = targetDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    
     const interval = setInterval(() => {
       const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
+      const difference = calculatedTargetDate.getTime() - now.getTime();
       
       if (difference <= 0) {
         clearInterval(interval);
@@ -46,7 +49,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
   return (
     <div className="mb-8">
       <p className="text-white/80 mb-2 flex items-center">
-        <Clock size={16} className="mr-2" />
+        <Timer size={16} className="mr-2" />
         До старта следующего потока:
       </p>
       <div className="grid grid-cols-4 gap-2 text-center">
