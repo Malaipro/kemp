@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -14,13 +13,13 @@ const programs = [
     id: 2,
     title: 'Джиу-джитсу',
     description: 'Изучение техники борьбы, захватов и подчинений. Развитие тактического мышления и самоконтроля.',
-    image: 'https://i.imgur.com/nBZ8yTd.jpeg',
+    image: 'https://imgur.com/9yxISfR.jpeg',
   },
   {
     id: 3,
     title: 'Стрельбище',
     description: 'Обучение стрельбе из различных видов оружия. Развитие концентрации, точности и самодисциплины.',
-    image: 'https://www.mcb.nsc.ru/sites/mcb.nsc.ru/files/imagecache/full_size_image/fotogallery/box_1.jpg',
+    image: 'https://imgur.com/bmrUPzc.jpeg',
   },
   {
     id: 4,
