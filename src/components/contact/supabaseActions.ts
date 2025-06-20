@@ -5,7 +5,7 @@ export interface FormData {
   name: string;
   phone: string;
   course: string;
-  social?: string; // Made optional since it's not required
+  social: string; // Made required to match the form component expectations
 }
 
 export const saveContactSubmission = async (formData: FormData) => {
