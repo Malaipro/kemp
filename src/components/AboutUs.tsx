@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Users, Book, Dumbbell, Award } from 'lucide-react';
 
 export const AboutUs: React.FC = () => {
   const isMobile = useIsMobile();
+  const [activeLevel, setActiveLevel] = useState<number | null>(null);
   
   const scrollToProgram = () => {
     const programSection = document.getElementById('program');
@@ -37,14 +38,14 @@ export const AboutUs: React.FC = () => {
     }
   ];
 
-  // Пирамида Дилтса уровни
+  // Перевернутая пирамида Дилтса с новыми вопросами
   const diltsLevels = [
-    { level: "Миссия", description: "Зачем?", color: "bg-kamp-primary" },
-    { level: "Идентичность", description: "Кто?", color: "bg-kamp-accent" },
-    { level: "Убеждения", description: "Почему?", color: "bg-orange-500" },
-    { level: "Способности", description: "Как?", color: "bg-yellow-500" },
-    { level: "Поведение", description: "Что?", color: "bg-green-500" },
-    { level: "Окружение", description: "Где? Когда?", color: "bg-blue-500" }
+    { level: "Окружение", description: "Что я имею", color: "bg-blue-500", info: "Физические ресурсы, связи, возможности" },
+    { level: "Поведение", description: "Что я делаю", color: "bg-green-500", info: "Конкретные действия и привычки для достижения целей" },
+    { level: "Способности", description: "Как я выбираю", color: "bg-yellow-500", info: "Навыки принятия решений и стратегического мышления" },
+    { level: "Убеждения", description: "Во что я верю", color: "bg-orange-500", info: "Ценности и принципы, которые направляют жизнь" },
+    { level: "Идентичность", description: "Кто я такой", color: "bg-kamp-accent", info: "Самоопределение и понимание своей роли" },
+    { level: "Миссия", description: "Зачем живу", color: "bg-kamp-primary", info: "Высшая цель и смысл существования" }
   ];
 
   return (
@@ -83,9 +84,18 @@ export const AboutUs: React.FC = () => {
               <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-white border-l-4 border-kamp-primary pl-4">
                 Психологический профиль клуба
               </h3>
-              <p className="text-gray-300 mb-6 text-sm md:text-base">
+              <p className="text-gray-300 mb-4 text-sm md:text-base">
                 В основе методологии КЭМП лежит пирамида Дилтса — мощный инструмент для 
                 системного развития личности через логические уровни мышления.
+              </p>
+              <p className="text-gray-300 mb-4 text-sm md:text-base">
+                Мы работаем с каждым уровнем сознания: от материального окружения до высшей миссии. 
+                Это позволяет участникам не просто тренироваться, а осознанно трансформировать свою жизнь, 
+                развивая лидерские качества и внутреннюю силу.
+              </p>
+              <p className="text-gray-300 mb-6 text-sm md:text-base">
+                Каждое занятие в клубе направлено на проработку определенного уровня, 
+                что обеспечивает комплексное развитие личности современного мужчины.
               </p>
               
               {!isMobile && (
@@ -108,21 +118,31 @@ export const AboutUs: React.FC = () => {
                   {diltsLevels.map((level, index) => (
                     <div 
                       key={index}
-                      className={`${level.color} text-white p-3 md:p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105`}
+                      className={`${level.color} text-white p-3 md:p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 cursor-pointer ${
+                        activeLevel === index ? 'ring-2 ring-white scale-105' : ''
+                      }`}
                       style={{
-                        marginLeft: `${index * (isMobile ? 8 : 16)}px`,
-                        marginRight: `${index * (isMobile ? 8 : 16)}px`
+                        marginLeft: `${(diltsLevels.length - 1 - index) * (isMobile ? 8 : 16)}px`,
+                        marginRight: `${(diltsLevels.length - 1 - index) * (isMobile ? 8 : 16)}px`
                       }}
+                      onClick={() => setActiveLevel(activeLevel === index ? null : index)}
+                      onMouseEnter={() => !isMobile && setActiveLevel(index)}
+                      onMouseLeave={() => !isMobile && setActiveLevel(null)}
                     >
                       <div className="text-center">
                         <div className="font-bold text-sm md:text-base">{level.level}</div>
                         <div className="text-xs md:text-sm opacity-90">{level.description}</div>
+                        {activeLevel === index && (
+                          <div className="text-xs md:text-sm mt-2 bg-black/20 rounded p-2 animate-fade-in">
+                            {level.info}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
                 <p className="text-center text-gray-400 text-xs md:text-sm mt-4">
-                  Каждый уровень программы КЭМП работает с определенным логическим уровнем
+                  Наведите курсор на уровень, чтобы узнать больше
                 </p>
               </div>
             </div>
