@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -36,6 +37,16 @@ export const AboutUs: React.FC = () => {
     }
   ];
 
+  // Пирамида Дилтса уровни
+  const diltsLevels = [
+    { level: "Миссия", description: "Зачем?", color: "bg-kamp-primary" },
+    { level: "Идентичность", description: "Кто?", color: "bg-kamp-accent" },
+    { level: "Убеждения", description: "Почему?", color: "bg-orange-500" },
+    { level: "Способности", description: "Как?", color: "bg-yellow-500" },
+    { level: "Поведение", description: "Что?", color: "bg-green-500" },
+    { level: "Окружение", description: "Где? Когда?", color: "bg-blue-500" }
+  ];
+
   return (
     <section id="about" className="kamp-section bg-kamp-light border-t-4 border-kamp-primary">
       <div className="kamp-container">
@@ -70,82 +81,49 @@ export const AboutUs: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center">
             <div className="text-left mb-8 md:mb-0 order-2 md:order-1 bg-[#222226] border border-gray-700 p-4 md:p-10 rounded-md">
               <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-white border-l-4 border-kamp-primary pl-4">
-                Что вы получите?
+                Психологический профиль клуба
               </h3>
-              {isMobile ? (
-                <div>
-                  <p className="text-gray-300 mb-3 text-sm">
-                    КЭМП — это платформа для тех, кто стремится к большему. Здесь вы найдете 
-                    единомышленников, готовых вместе расти и развиваться.
-                  </p>
-                  <ul className="list-disc list-inside mb-4 space-y-2 text-sm text-gray-300">
-                    <li>Нетворкинг с успешными предпринимателями</li>
-                    <li>Мастер-классы от лидеров бизнеса</li>
-                    <li>Интенсивные тренировки</li>
-                    <li>Командные испытания</li>
-                  </ul>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <p className="text-gray-300">
-                    КЭМП — это платформа для тех, кто стремится к большему. Здесь вы найдете 
-                    единомышленников, готовых вместе расти и развиваться как в бизнесе, 
-                    так и в личностном плане.
-                  </p>
-                  <ul className="list-disc list-inside space-y-3 text-gray-300 ml-4">
-                    <li className="pl-2">Нетворкинг с успешными предпринимателями и лидерами индустрии</li>
-                    <li className="pl-2">Регулярные мастер-классы и лекции от опытных бизнесменов</li>
-                    <li className="pl-2">Интенсивные тренировки для физического развития</li>
-                    <li className="pl-2">Командные испытания для развития лидерских качеств</li>
-                    <li className="pl-2">Доступ к закрытым бизнес-мероприятиям</li>
-                    <li className="pl-2">Возможность обмена опытом и знаниями внутри сообщества</li>
-                  </ul>
-                  <Button 
-                    onClick={scrollToProgram}
-                    className="bg-kamp-primary hover:bg-kamp-primary/90 text-white mt-6"
-                  >
-                    Узнать больше
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </Button>
-                </div>
+              <p className="text-gray-300 mb-6 text-sm md:text-base">
+                В основе методологии КЭМП лежит пирамида Дилтса — мощный инструмент для 
+                системного развития личности через логические уровни мышления.
+              </p>
+              
+              {!isMobile && (
+                <Button 
+                  onClick={scrollToProgram}
+                  className="bg-kamp-primary hover:bg-kamp-primary/90 text-white mt-6"
+                >
+                  Узнать больше
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </Button>
               )}
             </div>
             
             <div className="flex justify-center order-1 md:order-2">
-              <div className="relative w-full max-w-[420px]">
-                <div className="relative w-[320px] h-[650px] mx-auto bg-[#111111] rounded-[40px] p-4 shadow-2xl border-[3px] border-gray-800">
-                  <div className="absolute top-0 left-0 right-0 flex justify-center z-10">
-                    <div className="w-[130px] h-[35px] bg-[#111111] rounded-b-[14px] flex items-center justify-center">
-                      <div className="w-[8px] h-[8px] bg-gray-600 rounded-full mr-2"></div>
-                      <div className="w-[40px] h-[6px] bg-gray-600 rounded-full"></div>
-                    </div>
-                  </div>
-                  
-                  <div className="absolute top-[60px] right-[-6px] w-[3px] h-[60px] bg-gray-700 rounded-r-md"></div>
-                  <div className="absolute top-[60px] left-[-6px] w-[3px] h-[30px] bg-gray-700 rounded-l-md"></div>
-                  <div className="absolute top-[85px] left-[-6px] w-[3px] h-[60px] bg-gray-700 rounded-l-md"></div>
-                  
-                  <div className="relative h-full w-full rounded-[34px] overflow-hidden bg-black">
-                    <video 
-                      className="w-full h-full object-cover"
-                      autoPlay 
-                      muted 
-                      loop 
-                      playsInline
+              <div className="relative w-full max-w-[400px]">
+                <h4 className="text-center text-white font-bold mb-6 text-lg md:text-xl">Пирамида Дилтса</h4>
+                <div className="space-y-2">
+                  {diltsLevels.map((level, index) => (
+                    <div 
+                      key={index}
+                      className={`${level.color} text-white p-3 md:p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105`}
+                      style={{
+                        marginLeft: `${index * (isMobile ? 8 : 16)}px`,
+                        marginRight: `${index * (isMobile ? 8 : 16)}px`
+                      }}
                     >
-                      <source src="https://i.imgur.com/eXVpT0r.mp4" type="video/mp4" />
-                      Ваш браузер не поддерживает видео.
-                    </video>
-                  </div>
+                      <div className="text-center">
+                        <div className="font-bold text-sm md:text-base">{level.level}</div>
+                        <div className="text-xs md:text-sm opacity-90">{level.description}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                
-                <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-white/10 to-transparent rounded-[40px] pointer-events-none"></div>
-                
-                <div className="absolute bottom-[8px] left-0 right-0 flex justify-center">
-                  <div className="w-[40%] h-[4px] bg-gray-700 rounded-full"></div>
-                </div>
+                <p className="text-center text-gray-400 text-xs md:text-sm mt-4">
+                  Каждый уровень программы КЭМП работает с определенным логическим уровнем
+                </p>
               </div>
             </div>
           </div>

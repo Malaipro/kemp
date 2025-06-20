@@ -6,7 +6,7 @@ interface ContactFormFieldsProps {
   formData: {
     name: string;
     phone: string;
-    course: string;
+    social: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   isSubmitting: boolean;
@@ -59,22 +59,20 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
       
       <div className="mt-5">
         <label 
-          htmlFor="course" 
+          htmlFor="social" 
           className="block text-sm font-medium text-gray-300 mb-1"
         >
-          Выберите курс
+          Соц. сети
         </label>
-        <select
-          id="course"
-          name="course"
-          value={formData.course}
+        <input
+          type="text"
+          id="social"
+          name="social"
+          value={formData.social}
           onChange={handleChange}
-          required
           className="kamp-input"
-        >
-          <option value="male">Мужской курс</option>
-          <option value="female">Женский курс</option>
-        </select>
+          placeholder="Ваш Instagram, Telegram или другие соц. сети"
+        />
       </div>
       
       <div className="mt-8">

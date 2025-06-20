@@ -15,7 +15,7 @@ import { ServicesPackages } from '@/components/ServicesPackages';
 const Index = () => {
   useEffect(() => {
     // Set title in Russian
-    document.title = 'КЭМП - Курс Эффективного Прогресса';
+    document.title = 'КЭМП - Клуб Эффективного Мужского Прогресса';
     
     // Add meta description for SEO and social networks
     const metaDescription = document.createElement('meta');

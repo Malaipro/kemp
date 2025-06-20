@@ -19,7 +19,7 @@ export const ContactForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const isMobile = useIsMobile();
 
-  // The CountdownTimer now automatically sets a one-week countdown if no targetDate is provided
+  // The CountdownTimer now automatically sets to July 1, 2025
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -53,7 +53,7 @@ export const ContactForm: React.FC = () => {
         course: 'male',
       });
       setSubmitted(true);
-      toast.success("Вы успешно зарегестрировались на курс", {
+      toast.success("Вы успешно зарегестрировались в клуб", {
         duration: 5000,
       });
 
@@ -72,7 +72,7 @@ export const ContactForm: React.FC = () => {
     <section id="contact" className="kamp-section bg-black text-white py-6 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
-          <span className="inline-block text-kamp-primary font-semibold mb-2">Записаться на курс</span>
+          <span className="inline-block text-kamp-primary font-semibold mb-2">Записаться в клуб</span>
           <h2 className="text-white">Готов проверить себя?</h2>
           <p className="text-gray-300">
             Заполни форму ниже, и мы свяжемся с тобой для уточнения деталей. 
@@ -110,11 +110,11 @@ export const ContactForm: React.FC = () => {
                 <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
                 {isMobile ? (
                   <p className="text-white/80 mb-4 text-sm">
-                    Успейте записаться! Набор закрывается через неделю. Количество мест ограничено!
+                    Успейте записаться! Набор закрывается 1 июля. Количество мест ограничено!
                   </p>
                 ) : (
                   <p className="text-white/80 mb-8">
-                    Успейте записаться! Набор закрывается через неделю. Количество мест ограничено, 
+                    Успейте записаться! Набор закрывается 1 июля. Количество мест ограничено, 
                     чтобы мы могли уделить внимание каждому участнику.
                   </p>
                 )}

@@ -22,8 +22,8 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
   });
 
   useEffect(() => {
-    // Calculate a date that is one week from now if no targetDate is provided
-    const calculatedTargetDate = targetDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    // Set target date to July 1, 2025 if no targetDate is provided
+    const calculatedTargetDate = targetDate || new Date('2025-07-01T00:00:00');
     
     const interval = setInterval(() => {
       const now = new Date();
@@ -50,7 +50,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
     <div className="mb-8">
       <p className="text-white/80 mb-2 flex items-center">
         <Timer size={16} className="mr-2" />
-        До старта следующего потока:
+        До закрытия набора:
       </p>
       <div className="grid grid-cols-4 gap-2 text-center">
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">

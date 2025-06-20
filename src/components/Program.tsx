@@ -12,20 +12,20 @@ const programs = [
   },
   {
     id: 2,
-    title: 'Кроссфит',
-    description: 'Функциональные тренировки, силовые испытания. Развитие выносливости и силы.',
+    title: 'Джиу-джитсу',
+    description: 'Изучение техники борьбы, захватов и подчинений. Развитие тактического мышления и самоконтроля.',
     image: 'https://i.imgur.com/nBZ8yTd.jpeg',
   },
   {
     id: 3,
-    title: 'Выездные испытания',
-    description: 'Голубое озеро, баня, экстремальные челленджи. Закалка духа и командная работа.',
+    title: 'Стрельбище',
+    description: 'Обучение стрельбе из различных видов оружия. Развитие концентрации, точности и самодисциплины.',
     image: 'https://www.mcb.nsc.ru/sites/mcb.nsc.ru/files/imagecache/full_size_image/fotogallery/box_1.jpg',
   },
   {
     id: 4,
-    title: 'Реабилитация',
-    description: 'Крио-сауна, восстановительные процедуры в ЦГВС. Восстановление и регенерация.',
+    title: 'Выездные испытания',
+    description: 'Голубое озеро, баня, экстремальные челленджи. Закалка духа и командная работа.',
     image: 'https://i.imgur.com/7yP7h13.jpeg',
   },
   {
@@ -59,7 +59,7 @@ export const Program: React.FC = () => {
     <section id="program" className="kamp-section bg-gray-50 py-10 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll mb-6 md:mb-8">
-          <span className="inline-block text-kamp-primary font-semibold mb-1 md:mb-2 text-sm md:text-base">Программа курса</span>
+          <span className="inline-block text-kamp-primary font-semibold mb-1 md:mb-2 text-sm md:text-base">Программа клуба</span>
           <h2 className="text-black text-2xl md:text-3xl lg:text-4xl mb-2">Интенсивные тренировки для тела и духа</h2>
           <p className="text-sm md:text-base">
             Наша программа разработана для всестороннего развития. 
