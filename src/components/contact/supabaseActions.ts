@@ -5,6 +5,7 @@ export interface FormData {
   name: string;
   phone: string;
   course: string;
+  social?: string; // Made optional since it's not required
 }
 
 export const saveContactSubmission = async (formData: FormData) => {
@@ -18,7 +19,8 @@ export const saveContactSubmission = async (formData: FormData) => {
         { 
           name: formData.name,
           phone: formData.phone,
-          course: formData.course
+          course: formData.course,
+          social: formData.social || '' // Provide empty string if social is undefined
         }
       ]);
       

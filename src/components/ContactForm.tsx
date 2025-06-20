@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { AskQuestion } from './contact/AskQuestion';
@@ -14,6 +13,7 @@ export const ContactForm: React.FC = () => {
     name: '',
     phone: '',
     course: 'male', // default to male course
+    social: '', // Add social field to the initial state
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -51,6 +51,7 @@ export const ContactForm: React.FC = () => {
         name: '',
         phone: '',
         course: 'male',
+        social: '', // Reset social field as well
       });
       setSubmitted(true);
       toast.success("Вы успешно зарегестрировались в клуб", {
