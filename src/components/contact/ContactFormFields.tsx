@@ -1,13 +1,11 @@
 
 import React from 'react';
 import { Send } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ContactFormFieldsProps {
   formData: {
     name: string;
     phone: string;
-    course: string;
     social: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
@@ -19,8 +17,6 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
   handleChange,
   isSubmitting,
 }) => {
-  const isMobile = useIsMobile();
-
   return (
     <>
       <div>
@@ -60,28 +56,6 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
           placeholder="+7 (___) ___-__-__"
         />
       </div>
-
-      {!isMobile && (
-        <div className="mt-5">
-          <label 
-            htmlFor="course" 
-            className="block text-sm font-medium text-gray-300 mb-1"
-          >
-            Курс
-          </label>
-          <select
-            id="course"
-            name="course"
-            value={formData.course}
-            onChange={handleChange}
-            required
-            className="kamp-input"
-          >
-            <option value="male">Мужской курс</option>
-            <option value="female">Женский курс</option>
-          </select>
-        </div>
-      )}
       
       <div className="mt-5">
         <label 

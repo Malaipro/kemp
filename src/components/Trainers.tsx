@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -35,7 +36,7 @@ const trainers = [
     id: 4,
     name: 'Тагир',
     role: 'Инструктор по стрельбе',
-    image: 'https://i.imgur.com/ihXT9rm.jpeg',
+    image: '/lovable-uploads/e27de7f5-f9fd-4432-b8b6-b6d2fe2231fc.png',
     quote: 'Точность в стрельбе — это концентрация ума и самоконтроль.',
     experience: '15+ лет опыта в стрелковом спорте, сертифицированный инструктор.',
     bio: 'Тагир — профессиональный инструктор по стрельбе с богатым опытом в различных дисциплинах. Он обучает безопасному обращению с оружием, технике стрельбы и развитию концентрации. Его занятия развивают точность, терпение и самодисциплину.'

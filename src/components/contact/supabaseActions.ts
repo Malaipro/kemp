@@ -4,14 +4,12 @@ import { supabase } from '@/integrations/supabase/client';
 export interface FormData {
   name: string;
   phone: string;
-  course: string;
-  social: string; // Made required to match the form component expectations
+  social: string;
 }
 
 export const saveContactSubmission = async (formData: FormData) => {
   console.log('Saving contact submission:', formData);
   
-  // Add proper error handling and return the result of the insert operation
   try {
     const response = await supabase
       .from('contact_submissions')
@@ -19,8 +17,8 @@ export const saveContactSubmission = async (formData: FormData) => {
         { 
           name: formData.name,
           phone: formData.phone,
-          course: formData.course,
-          social: formData.social || '' // Provide empty string if social is undefined
+          course: 'male', // Устанавливаем значение по умолчанию, так как поле обязательное в БД
+          social: formData.social || ''
         }
       ]);
       

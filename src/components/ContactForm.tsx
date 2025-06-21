@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { AskQuestion } from './contact/AskQuestion';
@@ -12,15 +13,12 @@ export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
-    course: 'male', // default to male course
-    social: '', // Add social field to the initial state
+    social: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const isMobile = useIsMobile();
 
-  // The CountdownTimer now automatically sets to July 1, 2025
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -50,8 +48,7 @@ export const ContactForm: React.FC = () => {
       setFormData({
         name: '',
         phone: '',
-        course: 'male',
-        social: '', // Reset social field as well
+        social: '',
       });
       setSubmitted(true);
       toast.success("Вы успешно зарегестрировались в клуб", {
