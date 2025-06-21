@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -163,24 +162,26 @@ export const PhotoGallery: React.FC = () => {
   }, [isMobile, isDragging, startX]);
 
   return (
-    <section id="gallery" className="kamp-section bg-kamp-light">
+    <section id="gallery" className={`kamp-section bg-kamp-light ${isMobile ? 'py-4' : 'py-16'}`}>
       <div className="kamp-container">
-        <div className="section-heading mb-6 md:mb-10">
+        <div className={`section-heading ${isMobile ? 'mb-4' : 'mb-6 md:mb-10'}`}>
           <div className="flex items-center justify-center gap-2 mb-2">
-            <GalleryHorizontal className="text-kamp-primary h-5 w-5 md:h-6 md:w-6" />
-            <span className="text-kamp-primary font-semibold">Галерея</span>
+            <GalleryHorizontal className="text-kamp-primary h-4 w-4 md:h-6 md:w-6" />
+            <span className="text-kamp-primary font-semibold text-sm md:text-base">Галерея</span>
           </div>
-          <h2 className="text-kamp-dark text-2xl md:text-3xl lg:text-4xl">Моменты КЭМП</h2>
-          <p className="text-sm md:text-base">
-            Путешествие преображения: реальные моменты из жизни участников нашего курса
-          </p>
+          <h2 className={`text-kamp-dark ${isMobile ? 'text-xl' : 'text-2xl md:text-3xl lg:text-4xl'}`}>Моменты КЭМП</h2>
+          {!isMobile && (
+            <p className="text-sm md:text-base">
+              Путешествие преображения: реальные моменты из жизни участников нашего курса
+            </p>
+          )}
         </div>
 
         {/* Horizontal scrolling gallery with improved animation */}
         <div className="relative overflow-hidden" ref={galleryRef}>
           <div 
             ref={scrollContainerRef}
-            className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll mobile-snap-scroll"
+            className={`flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide ${isMobile ? 'py-1' : 'py-2 md:py-4'} whitespace-nowrap touch-scroll mobile-snap-scroll`}
             style={{ scrollBehavior: 'auto', cursor: isDragging ? 'grabbing' : 'grab' }}
           >
             {/* We display each photo multiple times in sequence to create infinite scroll effect */}
@@ -189,7 +190,7 @@ export const PhotoGallery: React.FC = () => {
                 {photos.map((photo) => (
                   <div
                     key={`${repeatIndex}-${photo.id}`}
-                    className={`flex-none ${isMobile ? 'w-[80vw] h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
+                    className={`flex-none ${isMobile ? 'w-[70vw] h-40' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
                   >
                     <img
                       src={photo.src}
@@ -198,9 +199,6 @@ export const PhotoGallery: React.FC = () => {
                       loading="eager"
                       draggable="false"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
-                      <p className="text-white text-xs md:text-sm font-medium">{photo.alt}</p>
-                    </div>
                   </div>
                 ))}
               </React.Fragment>
@@ -210,7 +208,7 @@ export const PhotoGallery: React.FC = () => {
           {/* Visual indicators for better UX */}
           <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-2">
             {photos.map((_, index) => (
-              <div key={index} className={`h-1 w-8 rounded-full ${index === 0 ? 'bg-kamp-primary' : 'bg-white/30'}`}></div>
+              <div key={index} className={`h-1 w-6 rounded-full ${index === 0 ? 'bg-kamp-primary' : 'bg-white/30'}`}></div>
             ))}
           </div>
         </div>
