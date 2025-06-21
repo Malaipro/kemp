@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -198,9 +197,6 @@ export const PhotoGallery: React.FC = () => {
                       loading="eager"
                       draggable="false"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
-                      <p className="text-white text-xs md:text-sm font-medium">{photo.alt}</p>
-                    </div>
                   </div>
                 ))}
               </React.Fragment>
