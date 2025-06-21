@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { AskQuestion } from './contact/AskQuestion';
@@ -13,12 +12,14 @@ export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
-    course: 'male',
-    social: '',
+    course: 'male', // default to male course
+    social: '', // Add social field to the initial state
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const isMobile = useIsMobile();
+
+  // The CountdownTimer now automatically sets to July 1, 2025
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -42,20 +43,23 @@ export const ContactForm: React.FC = () => {
       const { error } = await saveContactSubmission(formData);
 
       if (error) {
-        console.error('Supabase error:', error);
         throw error;
       }
 
+      // Reset form and show success state
       setFormData({
         name: '',
         phone: '',
         course: 'male',
-        social: '',
+        social: '', // Reset social field as well
       });
       setSubmitted(true);
-      toast.success("Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.", {
+      toast.success("Вы успешно зарегестрировались в клуб", {
         duration: 5000,
       });
+
+      // Open Google Form in new tab
+      window.open("https://forms.gle/ZcyxhZawxxakThWb6", "_blank");
       
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -66,7 +70,7 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="kamp-section bg-black text-white py-4 md:py-16">
+    <section id="contact" className="kamp-section bg-black text-white py-6 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Записаться в клуб</span>
@@ -77,11 +81,11 @@ export const ContactForm: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-6 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-12">
+        <div className="mt-8 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-12">
           {/* Contact Form */}
           <div className="reveal-on-scroll">
-            <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-3' : 'p-8'} border border-gray-800`}>
-              <h3 className={`${isMobile ? 'text-base' : 'text-xl'} font-bold text-white mb-3 md:mb-6`}>Оставить заявку</h3>
+            <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
+              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
               {submitted ? (
                 <SubmissionSuccess onReset={() => setSubmitted(false)} />
@@ -96,16 +100,17 @@ export const ContactForm: React.FC = () => {
               )}
             </div>
             
+            {/* Ask a Question Button */}
             {!isMobile && <AskQuestion />}
           </div>
 
           {/* Timer and Info */}
           <div className="reveal-on-scroll">
             <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
-              <div className={`flex-grow ${isMobile ? 'p-3' : 'p-8'}`}>
-                <h3 className={`${isMobile ? 'text-base mb-2' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
+              <div className={`flex-grow ${isMobile ? 'p-4' : 'p-8'}`}>
+                <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
                 {isMobile ? (
-                  <p className="text-white/80 mb-3 text-xs">
+                  <p className="text-white/80 mb-4 text-sm">
                     Успейте записаться! Набор закрывается 1 июля. Количество мест ограничено!
                   </p>
                 ) : (
@@ -120,15 +125,15 @@ export const ContactForm: React.FC = () => {
                 {!isMobile && <CourseInfo />}
               </div>
               
-              <div className={`${isMobile ? 'p-3' : 'p-6'} bg-black/20 backdrop-blur-sm border-t border-white/10`}>
+              <div className={`${isMobile ? 'p-4' : 'p-6'} bg-black/20 backdrop-blur-sm border-t border-white/10`}>
                 <div className="flex items-center">
                   <div className="flex-grow">
-                    <div className={`${isMobile ? 'text-sm' : 'text-xl'} font-bold`}>Ограниченный набор</div>
+                    <div className={`${isMobile ? 'text-base' : 'text-xl'} font-bold`}>Ограниченный набор</div>
                     <div className="text-white/70 text-xs md:text-sm">Запишись прямо сейчас</div>
                   </div>
                   <button 
                     onClick={scrollToContactForm}
-                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-2 py-1' : ''}`}
+                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-3 py-1.5' : ''}`}
                   >
                     Записаться
                   </button>

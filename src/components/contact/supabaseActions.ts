@@ -5,12 +5,13 @@ export interface FormData {
   name: string;
   phone: string;
   course: string;
-  social: string;
+  social: string; // Made required to match the form component expectations
 }
 
 export const saveContactSubmission = async (formData: FormData) => {
   console.log('Saving contact submission:', formData);
   
+  // Add proper error handling and return the result of the insert operation
   try {
     const response = await supabase
       .from('contact_submissions')
@@ -19,18 +20,11 @@ export const saveContactSubmission = async (formData: FormData) => {
           name: formData.name,
           phone: formData.phone,
           course: formData.course,
-          social: formData.social || null
+          social: formData.social || '' // Provide empty string if social is undefined
         }
-      ])
-      .select();
+      ]);
       
     console.log('Supabase response:', response);
-    
-    if (response.error) {
-      console.error('Supabase error details:', response.error);
-      throw response.error;
-    }
-    
     return response;
   } catch (error) {
     console.error('Error saving contact submission:', error);

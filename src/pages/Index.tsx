@@ -9,16 +9,20 @@ import { Leaderboard } from '@/components/Leaderboard';
 import { Testimonials } from '@/components/Testimonials';
 import { PhotoGallery } from '@/components/PhotoGallery';
 import { ContactForm } from '@/components/ContactForm';
+import { ServicesPackages } from '@/components/ServicesPackages';
 
 const Index = () => {
   useEffect(() => {
+    // Set title in Russian
     document.title = 'КЭМП - Клуб Эффективного Мужского Прогресса';
     
+    // Add meta description for SEO and social networks
     const metaDescription = document.createElement('meta');
     metaDescription.name = 'description';
     metaDescription.content = 'КЭМП — интенсив для тех, кто готов пройти испытания и стать сильнее. Физически. Ментально. Духовно.';
     document.head.appendChild(metaDescription);
     
+    // Add viewport meta tag for improved mobile experience
     const viewportMeta = document.createElement('meta');
     viewportMeta.name = 'viewport';
     viewportMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
@@ -31,6 +35,7 @@ const Index = () => {
       <AboutUs />
       <Program />
       <Trainers />
+      <ServicesPackages />
       <PhotoGallery />
       <Leaderboard />
       <Testimonials />
