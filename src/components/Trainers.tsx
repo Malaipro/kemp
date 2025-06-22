@@ -61,7 +61,7 @@ export const Trainers: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-1 md:gap-8 mt-3 md:mt-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-8 mt-3 md:mt-16">
           {trainers.map((trainer) => (
             <div 
               key={trainer.id} 
