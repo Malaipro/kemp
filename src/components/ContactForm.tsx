@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { AskQuestion } from './contact/AskQuestion';
@@ -54,9 +53,6 @@ export const ContactForm: React.FC = () => {
       toast.success("Вы успешно зарегестрировались в клуб", {
         duration: 5000,
       });
-
-      // Open Google Form in new tab
-      window.open("https://forms.gle/ZcyxhZawxxakThWb6", "_blank");
       
     } catch (error) {
       console.error('Error submitting form:', error);
