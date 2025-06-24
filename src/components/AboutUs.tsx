@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -85,7 +84,7 @@ export const AboutUs: React.FC = () => {
                 Психологический профиль клуба
               </h3>
               <p className="text-gray-300 mb-4 text-sm md:text-base">
-                В основе методологии КЭМП лежит пирамида Дилтса — мощный инструмент для 
+                В основе методологии КЭМП лежит пирамида КЭМПа — мощный инструмент для 
                 системного развития личности через логические уровни мышления.
               </p>
               <p className="text-gray-300 mb-4 text-sm md:text-base">
@@ -113,7 +112,7 @@ export const AboutUs: React.FC = () => {
             
             <div className="flex justify-center order-1 md:order-2">
               <div className="relative w-full max-w-[400px]">
-                <h4 className="text-center text-white font-bold mb-6 text-lg md:text-xl">Пирамида Дилтса</h4>
+                <h4 className="text-center text-white font-bold mb-6 text-lg md:text-xl">Пирамида КЭМПа</h4>
                 <div className="space-y-2">
                   {diltsLevels.map((level, index) => (
                     <div 
