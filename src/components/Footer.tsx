@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Instagram, Facebook, Phone, MapPin } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -17,7 +18,6 @@ export const Footer: React.FC = () => {
 
   const menuItems = [
     { id: 'about', label: 'О нас' },
-    { id: 'philosophy', label: 'Философия' },
     { id: 'program', label: 'Программа' },
     { id: 'trainers', label: 'Тренеры' },
     { id: 'leaderboard', label: 'Рейтинг' },
@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
 
   const programItems = [
     { label: 'Кикбоксинг' },
-    { label: 'Кроссфит' },
+    { label: 'Джиу-джитсу' },
     { label: 'Выездные испытания' },
     { label: 'Реабилитация' },
     { label: 'Пробежки и закаливание' }
@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
                 КЭМП
               </a>
               <p className="mt-1 text-gray-400 text-[10px]">
-                Курс Эффективного Мужского Прогресса — интенсивная программа для тех, 
+                Клуб Эффективного Мужского Прогресса — интенсивная программа для тех, 
                 кто готов пройти испытания и стать сильнее.
               </p>
               <div className="flex space-x-2 mt-2">
@@ -154,7 +154,7 @@ export const Footer: React.FC = () => {
               КЭМП
             </a>
             <p className="mt-2 text-gray-400 text-sm">
-              Курс Эффективного Мужского Прогресса — интенсивная программа для тех, 
+              Клуб Эффективного Мужского Прогресса — интенсивная программа для тех, 
               кто готов пройти испытания и стать сильнее.
             </p>
             <div className="flex space-x-3 mt-3">
