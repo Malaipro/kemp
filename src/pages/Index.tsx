@@ -18,7 +18,7 @@ const Index = () => {
     // Add meta description for SEO and social networks
     const metaDescription = document.createElement('meta');
     metaDescription.name = 'description';
-    metaDescription.content = 'КЭМП — интенсив для тех, кто готов пройти испытания и стать сильнее. Физически. Ментально. Духовно.';
+    metaDescription.content = 'Вступай в клуб выносливости, дисциплины и лидерства. Тренировки по кикбоксингу, джиу-джитсу, выездные испытания, закаливание и реальные вызовы.';
     document.head.appendChild(metaDescription);
     
     // Add viewport meta tag for improved mobile experience
