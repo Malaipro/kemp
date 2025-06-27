@@ -9,19 +9,11 @@ export const CourseInfo: React.FC = () => {
         <ul className="space-y-2 text-white/80">
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
-            <span>Тренировки по джиу-джитсу</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-white mr-2">•</span>
-            <span>Тренировки по кикбоксингу</span>
+            <span>Тренировки по джиу-джитсу и кикбоксингу</span>
           </li>
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
             <span>Мастер-классы</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-white mr-2">•</span>
-            <span>Лекции</span>
           </li>
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
