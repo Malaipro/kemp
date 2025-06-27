@@ -9,19 +9,35 @@ export const CourseInfo: React.FC = () => {
         <ul className="space-y-2 text-white/80">
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
-            <span>10 тренировок по кикбоксингу</span>
+            <span>Тренировки по джиу-джитсу</span>
           </li>
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
-            <span>8 функциональных тренировок</span>
+            <span>Тренировки по кикбоксингу</span>
           </li>
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
-            <span>4 выездных мероприятия</span>
+            <span>Мастер-классы</span>
           </li>
           <li className="flex items-start">
             <span className="text-white mr-2">•</span>
-            <span>Персональное сопровождение</span>
+            <span>Лекции</span>
+          </li>
+          <li className="flex items-start">
+            <span className="text-white mr-2">•</span>
+            <span>Бизнес завтраки</span>
+          </li>
+          <li className="flex items-start">
+            <span className="text-white mr-2">•</span>
+            <span>Баня</span>
+          </li>
+          <li className="flex items-start">
+            <span className="text-white mr-2">•</span>
+            <span>Ретриты в лесу</span>
+          </li>
+          <li className="flex items-start">
+            <span className="text-white mr-2">•</span>
+            <span>Пробежки</span>
           </li>
         </ul>
       </div>
