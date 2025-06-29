@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { AskQuestion } from './contact/AskQuestion';
@@ -104,11 +105,11 @@ export const ContactForm: React.FC = () => {
                 <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
                 {isMobile ? (
                   <p className="text-white/80 mb-4 text-sm">
-                    Успейте записаться! Набор закрывается 1 июля. Количество мест ограничено!
+                    Успейте записаться! Набор закрывается 6 июля. Количество мест ограничено!
                   </p>
                 ) : (
                   <p className="text-white/80 mb-8">
-                    Успейте записаться! Набор закрывается 1 июля. Количество мест ограничено, 
+                    Успейте записаться! Набор закрывается 6 июля. Количество мест ограничено, 
                     чтобы мы могли уделить внимание каждому участнику.
                   </p>
                 )}

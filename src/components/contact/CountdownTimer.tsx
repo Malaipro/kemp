@@ -22,8 +22,8 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
   });
 
   useEffect(() => {
-    // Set target date to July 1, 2025 if no targetDate is provided
-    const calculatedTargetDate = targetDate || new Date('2025-07-01T00:00:00');
+    // Set target date to July 6, 2025 if no targetDate is provided
+    const calculatedTargetDate = targetDate || new Date('2025-07-06T00:00:00');
     
     const interval = setInterval(() => {
       const now = new Date();
