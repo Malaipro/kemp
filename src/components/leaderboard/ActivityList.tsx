@@ -48,8 +48,8 @@ export const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
         <div className="py-3 md:py-5 px-4 text-center border-t border-gray-800">
           <p className="text-xs md:text-sm text-gray-400 italic">
             {isMobile 
-              ? "Побеждай в испытаниях и получай баллы!" 
-              : "Побеждай в испытаниях, участвуй в мероприятиях и получай баллы!"}
+              ? "Побеждай в испытаниях и получай баллы! Для некоторых пунктов нужно фото/видео подтверждение." 
+              : "Побеждай в испытаниях, участвуй в мероприятиях и получай баллы! Для некоторых пунктов необходимо фото и видео подтверждение."}
           </p>
         </div>
       </CardContent>

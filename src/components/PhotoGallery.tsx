@@ -171,7 +171,7 @@ export const PhotoGallery: React.FC = () => {
           </div>
           <h2 className="text-kamp-dark text-2xl md:text-3xl lg:text-4xl">Моменты КЭМП</h2>
           <p className="text-sm md:text-base">
-            Путешествие преображения: реальные моменты из жизни участников нашего курса
+            Путешествие преображения: реальные моменты из жизни участников нашего клуба
           </p>
         </div>
 

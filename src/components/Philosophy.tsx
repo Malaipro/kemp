@@ -31,7 +31,7 @@ export const Philosophy: React.FC = () => {
                 onClick={() => scrollToSection('contact')}
                 className="kamp-button-primary text-sm md:text-base py-2 px-4 md:py-3 md:px-6"
               >
-                Записаться на курс
+                Записаться в клуб
               </button>
             </div>
           </div>
