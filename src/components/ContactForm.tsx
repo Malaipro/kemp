@@ -1,13 +1,15 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { AskQuestion } from './contact/AskQuestion';
 import { ContactFormFields } from './contact/ContactFormFields';
 import { CountdownTimer } from './contact/CountdownTimer';
 import { CourseInfo } from './contact/CourseInfo';
 import { SubmissionSuccess } from './contact/SubmissionSuccess';
+import { ZapierIntegration } from './contact/ZapierIntegration';
 import { saveContactSubmission, FormData } from './contact/supabaseActions';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
 
 export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -17,7 +19,17 @@ export const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [zapierWebhookUrl, setZapierWebhookUrl] = useState('');
+  const [showZapierSettings, setShowZapierSettings] = useState(false);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    // Загружаем сохраненный URL Zapier из localStorage
+    const savedUrl = localStorage.getItem('zapierWebhookUrl');
+    if (savedUrl) {
+      setZapierWebhookUrl(savedUrl);
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -31,6 +43,30 @@ export const ContactForm: React.FC = () => {
     }
   };
 
+  const sendToZapier = async (data: FormData) => {
+    if (!zapierWebhookUrl) {
+      return { success: false, error: 'Zapier webhook URL не настроен' };
+    }
+
+    try {
+      const { data: result, error } = await supabase.functions.invoke('zapier-webhook', {
+        body: { 
+          formData: data, 
+          zapierWebhookUrl: zapierWebhookUrl 
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      return { success: true, data: result };
+    } catch (error) {
+      console.error('Ошибка отправки в Zapier:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -38,10 +74,26 @@ export const ContactForm: React.FC = () => {
     console.log('Form submitted:', formData);
 
     try {
+      // Сохраняем в базу данных
       const { error } = await saveContactSubmission(formData);
 
       if (error) {
         throw error;
+      }
+
+      // Отправляем в Zapier (если настроено)
+      if (zapierWebhookUrl) {
+        const zapierResult = await sendToZapier(formData);
+        
+        if (zapierResult.success) {
+          console.log('Данные успешно отправлены в Zapier:', zapierResult.data);
+          toast.success("Заявка отправлена и передана в CRM систему!");
+        } else {
+          console.error('Ошибка отправки в Zapier:', zapierResult.error);
+          toast.error("Заявка сохранена, но не удалось отправить в CRM");
+        }
+      } else {
+        toast.success("Вы успешно зарегестрировались в клуб");
       }
 
       // Reset form and show success state
@@ -51,9 +103,6 @@ export const ContactForm: React.FC = () => {
         social: '',
       });
       setSubmitted(true);
-      toast.success("Вы успешно зарегестрировались в клуб", {
-        duration: 5000,
-      });
       
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -79,7 +128,25 @@ export const ContactForm: React.FC = () => {
           {/* Contact Form */}
           <div className="reveal-on-scroll">
             <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
-              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
+              <div className="flex items-center justify-between mb-4 md:mb-6">
+                <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white`}>Оставить заявку</h3>
+                <button
+                  onClick={() => setShowZapierSettings(!showZapierSettings)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                  title="Настройки интеграции"
+                >
+                  ⚙️
+                </button>
+              </div>
+
+              {showZapierSettings && (
+                <div className="mb-6">
+                  <ZapierIntegration 
+                    webhookUrl={zapierWebhookUrl}
+                    onWebhookUrlChange={setZapierWebhookUrl}
+                  />
+                </div>
+              )}
               
               {submitted ? (
                 <SubmissionSuccess onReset={() => setSubmitted(false)} />
