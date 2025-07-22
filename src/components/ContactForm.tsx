@@ -7,6 +7,7 @@ import { CountdownTimer } from './contact/CountdownTimer';
 import { CourseInfo } from './contact/CourseInfo';
 import { SubmissionSuccess } from './contact/SubmissionSuccess';
 import { ZapierIntegration } from './contact/ZapierIntegration';
+import { WebhookIntegration } from './contact/WebhookIntegration';
 import { saveContactSubmission, FormData } from './contact/supabaseActions';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
@@ -20,14 +21,20 @@ export const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [zapierWebhookUrl, setZapierWebhookUrl] = useState('');
+  const [webhookUrl, setWebhookUrl] = useState('');
   const [showZapierSettings, setShowZapierSettings] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Загружаем сохраненный URL Zapier из localStorage
-    const savedUrl = localStorage.getItem('zapierWebhookUrl');
-    if (savedUrl) {
-      setZapierWebhookUrl(savedUrl);
+    // Загружаем сохраненные URLs из localStorage
+    const savedZapierUrl = localStorage.getItem('zapierWebhookUrl');
+    const savedWebhookUrl = localStorage.getItem('clubWebhookUrl');
+    
+    if (savedZapierUrl) {
+      setZapierWebhookUrl(savedZapierUrl);
+    }
+    if (savedWebhookUrl) {
+      setWebhookUrl(savedWebhookUrl);
     }
   }, []);
 
@@ -40,6 +47,41 @@ export const ContactForm: React.FC = () => {
     const contactFormElement = document.getElementById('contact-form');
     if (contactFormElement) {
       contactFormElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const sendToWebhook = async (data: FormData) => {
+    if (!webhookUrl) {
+      return { success: false, error: 'Webhook URL не настроен' };
+    }
+
+    try {
+      const webhookData = {
+        name: data.name,
+        phone: data.phone,
+        social: data.social,
+        course: 'male',
+        source: 'КЭМП - Клуб Эффективного Мужского Прогресса',
+        timestamp: new Date().toISOString(),
+        website: 'https://mcruh.ru'
+      };
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(webhookData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      return { success: true, data: await response.text() };
+    } catch (error) {
+      console.error('Ошибка отправки на вебхук:', error);
+      return { success: false, error: error.message };
     }
   };
 
@@ -81,6 +123,19 @@ export const ContactForm: React.FC = () => {
         throw error;
       }
 
+      // Отправляем на вебхук (если настроен)
+      if (webhookUrl) {
+        const webhookResult = await sendToWebhook(formData);
+        
+        if (webhookResult.success) {
+          console.log('Данные успешно отправлены на вебхук:', webhookResult.data);
+          toast.success("Заявка отправлена и передана в систему!");
+        } else {
+          console.error('Ошибка отправки на вебхук:', webhookResult.error);
+          toast.error("Заявка сохранена, но не удалось отправить на вебхук");
+        }
+      }
+
       // Отправляем в Zapier (если настроено)
       if (zapierWebhookUrl) {
         const zapierResult = await sendToZapier(formData);
@@ -92,7 +147,10 @@ export const ContactForm: React.FC = () => {
           console.error('Ошибка отправки в Zapier:', zapierResult.error);
           toast.error("Заявка сохранена, но не удалось отправить в CRM");
         }
-      } else {
+      }
+
+      // Если ни один из вебхуков не настроен
+      if (!webhookUrl && !zapierWebhookUrl) {
         toast.success("Вы успешно зарегестрировались в клуб");
       }
 
@@ -140,7 +198,11 @@ export const ContactForm: React.FC = () => {
               </div>
 
               {showZapierSettings && (
-                <div className="mb-6">
+                <div className="mb-6 space-y-4">
+                  <WebhookIntegration 
+                    webhookUrl={webhookUrl}
+                    onWebhookUrlChange={setWebhookUrl}
+                  />
                   <ZapierIntegration 
                     webhookUrl={zapierWebhookUrl}
                     onWebhookUrlChange={setZapierWebhookUrl}
