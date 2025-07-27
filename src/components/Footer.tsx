@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
               <ul className="space-y-1">
                 <li className="flex">
                   <Phone size={10} className="mr-1 text-gray-400 flex-shrink-0" />
-                  <span className="text-gray-400 text-[10px]">+7 927 444 1844</span>
+                  <span className="text-gray-400 text-[10px]">89673785151</span>
                 </li>
                 <li className="flex">
                   <MapPin size={10} className="mr-1 text-gray-400 flex-shrink-0" />
@@ -231,7 +231,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li className="flex">
                 <Phone size={16} className="mr-2 text-gray-400 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">+7 927 444 1844</span>
+                <span className="text-gray-400 text-sm">89673785151</span>
               </li>
               <li className="flex">
                 <MapPin size={16} className="mr-2 text-gray-400 flex-shrink-0" />
