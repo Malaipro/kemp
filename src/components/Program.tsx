@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import finalTrialsImage from '@/assets/final-trials.jpg';
+import tacticalMedicineImage from '@/assets/tactical-medicine.jpg';
 
 const programs = [
   {
@@ -20,7 +21,7 @@ const programs = [
     id: 3,
     title: 'Тактическая медицина и безопасность',
     description: '⚔️ Самооборона с разрешёнными средствами\n\n🚨 Практика в реальных сценариях (улица, авто, семья)\n\n❌ Что делать нельзя: правовые риски\n\n🩹 Первая помощь: жгуты, повязки, эвакуация\n\n🔫 Тактическая игра с пейнтболом: работа в команде',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    image: tacticalMedicineImage,
   },
   {
     id: 4,
