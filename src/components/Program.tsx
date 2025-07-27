@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import finalTrialsImage from '@/assets/final-trials.jpg';
 
 const programs = [
   {
@@ -37,7 +38,7 @@ const programs = [
     id: 6,
     title: 'Финальные испытания',
     description: 'Краш-тест по джиу-джитсу и кикбоксингу. Гонка Героев - итоговое испытание всех навыков. Проверка физической и психологической готовности.',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    image: finalTrialsImage,
   },
   {
     id: 7,
