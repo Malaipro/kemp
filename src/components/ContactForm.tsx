@@ -8,6 +8,7 @@ import { CourseInfo } from './contact/CourseInfo';
 import { SubmissionSuccess } from './contact/SubmissionSuccess';
 import { ZapierIntegration } from './contact/ZapierIntegration';
 import { WebhookIntegration } from './contact/WebhookIntegration';
+import { NodulIntegration } from './contact/NodulIntegration';
 import { saveContactSubmission, FormData } from './contact/supabaseActions';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,6 +23,7 @@ export const ContactForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [zapierWebhookUrl, setZapierWebhookUrl] = useState('');
   const [webhookUrl, setWebhookUrl] = useState('');
+  const [nodulWebhookUrl, setNodulWebhookUrl] = useState('');
   const [showZapierSettings, setShowZapierSettings] = useState(false);
   const isMobile = useIsMobile();
 
@@ -29,12 +31,16 @@ export const ContactForm: React.FC = () => {
     // Загружаем сохраненные URLs из localStorage
     const savedZapierUrl = localStorage.getItem('zapierWebhookUrl');
     const savedWebhookUrl = localStorage.getItem('clubWebhookUrl');
+    const savedNodulUrl = localStorage.getItem('clubNodulWebhookUrl');
     
     if (savedZapierUrl) {
       setZapierWebhookUrl(savedZapierUrl);
     }
     if (savedWebhookUrl) {
       setWebhookUrl(savedWebhookUrl);
+    }
+    if (savedNodulUrl) {
+      setNodulWebhookUrl(savedNodulUrl);
     }
   }, []);
 
@@ -109,6 +115,42 @@ export const ContactForm: React.FC = () => {
     }
   };
 
+  const sendToNodul = async (data: FormData) => {
+    if (!nodulWebhookUrl) {
+      return { success: false, error: 'Nodul webhook URL не настроен' };
+    }
+
+    try {
+      const nodulData = {
+        name: data.name,
+        phone: data.phone,
+        social: data.social,
+        course: 'male',
+        source: 'КЭМП - Клуб Эффективного Мужского Прогресса',
+        timestamp: new Date().toISOString(),
+        website: 'https://mcruh.ru'
+      };
+
+      const response = await fetch(nodulWebhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nodulData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      return { success: true, data: await response.text() };
+    } catch (error) {
+      console.error('Ошибка отправки в Nodul:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -149,8 +191,21 @@ export const ContactForm: React.FC = () => {
         }
       }
 
+      // Отправляем в Nodul (если настроено)
+      if (nodulWebhookUrl) {
+        const nodulResult = await sendToNodul(formData);
+        
+        if (nodulResult.success) {
+          console.log('Данные успешно отправлены в Nodul:', nodulResult.data);
+          toast.success("Заявка отправлена и передана в Nodul!");
+        } else {
+          console.error('Ошибка отправки в Nodul:', nodulResult.error);
+          toast.error("Заявка сохранена, но не удалось отправить в Nodul");
+        }
+      }
+
       // Если ни один из вебхуков не настроен
-      if (!webhookUrl && !zapierWebhookUrl) {
+      if (!webhookUrl && !zapierWebhookUrl && !nodulWebhookUrl) {
         toast.success("Вы успешно зарегестрировались в клуб");
       }
 
@@ -206,6 +261,10 @@ export const ContactForm: React.FC = () => {
                   <ZapierIntegration 
                     webhookUrl={zapierWebhookUrl}
                     onWebhookUrlChange={setZapierWebhookUrl}
+                  />
+                  <NodulIntegration 
+                    webhookUrl={nodulWebhookUrl}
+                    onWebhookUrlChange={setNodulWebhookUrl}
                   />
                 </div>
               )}
