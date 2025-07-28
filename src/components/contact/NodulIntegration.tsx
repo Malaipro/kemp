@@ -54,6 +54,9 @@ export const NodulIntegration: React.FC<NodulIntegrationProps> = ({
         });
       } else {
         const errorText = await response.text();
+        if (errorText.includes('cant find webhook') || errorText.includes('deployed scenario to prod')) {
+          throw new Error('Сценарий не развернут в продакшене. Убедитесь, что сценарий опубликован в Nodul.');
+        }
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
     } catch (error) {
