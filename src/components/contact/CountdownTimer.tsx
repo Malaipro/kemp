@@ -50,7 +50,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
     <div className="mb-8">
       <p className="text-white/80 mb-2 flex items-center">
         <Timer size={16} className="mr-2" />
-        До закрытия набора:
+        До начала интенсива:
       </p>
       <div className="grid grid-cols-4 gap-2 text-center">
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">

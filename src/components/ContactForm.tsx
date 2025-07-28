@@ -231,19 +231,19 @@ export const ContactForm: React.FC = () => {
           <div className="reveal-on-scroll">
             <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
               <div className={`flex-grow ${isMobile ? 'p-4' : 'p-8'}`}>
-                <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Не упусти свой шанс</h3>
+                <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Новый интенсив</h3>
                 {isMobile ? (
                   <p className="text-white/80 mb-4 text-sm">
-                    Успейте записаться! Набор закрывается 6 июля. Количество мест ограничено!
+                    Интенсив начинается 1 сентября! Записывайся сейчас - количество мест ограничено!
                   </p>
                 ) : (
                   <p className="text-white/80 mb-8">
-                    Успейте записаться! Набор закрывается 6 июля. Количество мест ограничено, 
+                    Новый интенсив стартует 1 сентября 2025! Записывайся сейчас - количество мест ограничено, 
                     чтобы мы могли уделить внимание каждому участнику.
                   </p>
                 )}
 
-                <CountdownTimer />
+                <CountdownTimer targetDate={new Date('2025-09-01T00:00:00')} />
                 
                 {!isMobile && <CourseInfo />}
               </div>
