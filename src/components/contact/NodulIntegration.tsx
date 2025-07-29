@@ -39,31 +39,28 @@ export const NodulIntegration: React.FC<NodulIntegrationProps> = ({
         test: true
       };
 
-      const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(testData),
+      const { supabase } = await import('@/integrations/supabase/client');
+      
+      const { data: result, error } = await supabase.functions.invoke('nodul-webhook', {
+        body: { 
+          webhookUrl: webhookUrl,
+          data: testData 
+        }
       });
 
-      if (response.ok) {
-        toast({
-          title: "Успешно!",
-          description: "Тестовые данные отправлены в Nodul",
-        });
-      } else {
-        const errorText = await response.text();
-        if (errorText.includes('cant find webhook') || errorText.includes('deployed scenario to prod')) {
-          throw new Error('Сценарий не развернут в продакшене. Убедитесь, что сценарий опубликован в Nodul.');
-        }
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      if (error) {
+        throw error;
       }
+
+      toast({
+        title: "Успешно!",
+        description: "Тестовые данные отправлены в Nodul через Edge Function",
+      });
     } catch (error) {
       console.error('Nodul webhook test failed:', error);
       toast({
         title: "Ошибка",
-        description: "Не удалось отправить данные в Nodul. Проверьте URL и статус сценария.",
+        description: error.message || "Не удалось отправить данные в Nodul. Проверьте URL и статус сценария.",
         variant: "destructive",
       });
     }

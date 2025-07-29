@@ -184,7 +184,7 @@ export const PhotoGallery: React.FC = () => {
           >
             {/* We display each photo multiple times in sequence to create infinite scroll effect */}
             {[...Array(3)].map((_, repeatIndex) => (
-              <React.Fragment key={`repeat-${repeatIndex}`}>
+              <div key={`repeat-${repeatIndex}`}>
                 {photos.map((photo) => (
                   <div
                     key={`${repeatIndex}-${photo.id}`}
@@ -199,7 +199,7 @@ export const PhotoGallery: React.FC = () => {
                     />
                   </div>
                 ))}
-              </React.Fragment>
+              </div>
             ))}
           </div>
           

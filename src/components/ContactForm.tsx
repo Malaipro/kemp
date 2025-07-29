@@ -131,20 +131,18 @@ export const ContactForm: React.FC = () => {
         website: 'https://mcruh.ru'
       };
 
-      const response = await fetch(nodulWebhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(nodulData),
+      const { data: result, error } = await supabase.functions.invoke('nodul-webhook', {
+        body: { 
+          webhookUrl: nodulWebhookUrl,
+          data: nodulData 
+        }
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      if (error) {
+        throw error;
       }
 
-      return { success: true, data: await response.text() };
+      return { success: true, data: result };
     } catch (error) {
       console.error('Ошибка отправки в Nodul:', error);
       return { success: false, error: error.message };
