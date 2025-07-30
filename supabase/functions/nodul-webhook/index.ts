@@ -36,9 +36,28 @@ Deno.serve(async (req) => {
     if (!response.ok) {
       // Check for specific Nodul errors
       if (responseText.includes('cant find webhook') || responseText.includes('deployed scenario to prod')) {
-        throw new Error('Сценарий не развернут в продакшене. Убедитесь, что сценарий опубликован в Nodul.');
+        return new Response(
+          JSON.stringify({ 
+            error: 'Сценарий не развернут в продакшене. Убедитесь, что сценарий опубликован в Nodul.',
+            status: 'webhook_not_found'
+          }),
+          { 
+            status: 400, 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+          }
+        );
       }
-      throw new Error(`HTTP ${response.status}: ${responseText}`);
+      
+      return new Response(
+        JSON.stringify({ 
+          error: `HTTP ${response.status}: ${responseText}`,
+          status: 'nodul_error'
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
     }
 
     return new Response(
