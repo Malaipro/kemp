@@ -52,6 +52,11 @@ export const NodulIntegration: React.FC<NodulIntegrationProps> = ({
         throw error;
       }
 
+      // Check if the response indicates success
+      if (result?.success === false) {
+        throw new Error(result.error || 'Неизвестная ошибка Nodul');
+      }
+
       toast({
         title: "Успешно!",
         description: "Тестовые данные отправлены в Nodul через Edge Function",

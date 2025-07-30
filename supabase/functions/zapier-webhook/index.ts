@@ -20,9 +20,12 @@ Deno.serve(async (req) => {
     if (!zapierWebhookUrl) {
       console.error("No Zapier webhook URL provided");
       return new Response(
-        JSON.stringify({ error: 'Zapier webhook URL is required' }),
+        JSON.stringify({ 
+          success: false,
+          error: 'Zapier webhook URL is required' 
+        }),
         { 
-          status: 400,
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       );
@@ -55,9 +58,12 @@ Deno.serve(async (req) => {
     if (!zapierResponse.ok) {
       console.error("Zapier webhook failed:", await zapierResponse.text());
       return new Response(
-        JSON.stringify({ error: 'Failed to send data to Zapier' }),
+        JSON.stringify({ 
+          success: false,
+          error: 'Failed to send data to Zapier' 
+        }),
         { 
-          status: 500,
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       );
@@ -82,9 +88,12 @@ Deno.serve(async (req) => {
     console.error("Error in Zapier webhook function:", error);
     
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ 
+        success: false,
+        error: 'Internal server error' 
+      }),
       { 
-        status: 500,
+        status: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );

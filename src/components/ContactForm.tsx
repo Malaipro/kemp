@@ -108,6 +108,11 @@ export const ContactForm: React.FC = () => {
         throw error;
       }
 
+      // Check if the response indicates success
+      if (result?.success === false) {
+        throw new Error(result.error || 'Неизвестная ошибка Zapier');
+      }
+
       return { success: true, data: result };
     } catch (error) {
       console.error('Ошибка отправки в Zapier:', error);
@@ -140,6 +145,11 @@ export const ContactForm: React.FC = () => {
 
       if (error) {
         throw error;
+      }
+
+      // Check if the response indicates success
+      if (result?.success === false) {
+        throw new Error(result.error || 'Неизвестная ошибка Nodul');
       }
 
       return { success: true, data: result };

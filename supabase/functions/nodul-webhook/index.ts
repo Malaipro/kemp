@@ -13,9 +13,12 @@ Deno.serve(async (req) => {
 
     if (!webhookUrl) {
       return new Response(
-        JSON.stringify({ error: 'Webhook URL is required' }),
+        JSON.stringify({ 
+          success: false,
+          error: 'Webhook URL is required' 
+        }),
         { 
-          status: 400, 
+          status: 200, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
         }
       );
@@ -38,11 +41,12 @@ Deno.serve(async (req) => {
       if (responseText.includes('cant find webhook') || responseText.includes('deployed scenario to prod')) {
         return new Response(
           JSON.stringify({ 
+            success: false,
             error: 'Сценарий не развернут в продакшене. Убедитесь, что сценарий опубликован в Nodul.',
             status: 'webhook_not_found'
           }),
           { 
-            status: 400, 
+            status: 200, 
             headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
           }
         );
@@ -50,11 +54,12 @@ Deno.serve(async (req) => {
       
       return new Response(
         JSON.stringify({ 
+          success: false,
           error: `HTTP ${response.status}: ${responseText}`,
           status: 'nodul_error'
         }),
         { 
-          status: 400, 
+          status: 200, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
         }
       );
@@ -77,11 +82,12 @@ Deno.serve(async (req) => {
     
     return new Response(
       JSON.stringify({ 
+        success: false,
         error: error.message || 'Failed to send data to Nodul',
         details: error.toString()
       }),
       { 
-        status: 500, 
+        status: 200, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
       }
     );
