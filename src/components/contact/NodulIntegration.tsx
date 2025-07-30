@@ -44,7 +44,13 @@ export const NodulIntegration: React.FC<NodulIntegrationProps> = ({
       const { data: result, error } = await supabase.functions.invoke('nodul-webhook', {
         body: { 
           webhookUrl: webhookUrl,
-          data: testData 
+          name: testData.name,
+          phone: testData.phone,
+          social: testData.social,
+          course: testData.course,
+          source: testData.source,
+          timestamp: testData.timestamp,
+          test: testData.test
         }
       });
 

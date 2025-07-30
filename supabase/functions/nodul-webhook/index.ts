@@ -7,7 +7,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { webhookUrl, data } = await req.json();
+    const requestBody = await req.json();
+    const { webhookUrl, ...data } = requestBody;
     
     console.log('Nodul webhook request:', { webhookUrl, data });
 

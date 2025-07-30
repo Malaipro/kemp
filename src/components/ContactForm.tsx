@@ -139,7 +139,13 @@ export const ContactForm: React.FC = () => {
       const { data: result, error } = await supabase.functions.invoke('nodul-webhook', {
         body: { 
           webhookUrl: nodulWebhookUrl,
-          data: nodulData 
+          name: nodulData.name,
+          phone: nodulData.phone,
+          social: nodulData.social,
+          course: nodulData.course,
+          source: nodulData.source,
+          timestamp: nodulData.timestamp,
+          website: nodulData.website
         }
       });
 
