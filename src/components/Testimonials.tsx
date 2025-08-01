@@ -105,7 +105,7 @@ export const Testimonials: React.FC = () => {
           {testimonials.map(testimonial => <Card key={testimonial.id} className="overflow-hidden hover-lift bg-gray-900 border-gray-800 cursor-pointer" onClick={() => togglePlay(testimonial.id)}>
               <CardContent className="p-0 relative aspect-video">
                 <div className="relative w-full h-full overflow-hidden">
-                  <video ref={el => videoRefs.current[testimonial.id] = el} src={testimonial.videoUrl} poster={testimonial.thumbnailUrl} muted={mutedStatus[testimonial.id]} playsInline preload="metadata" className="w-full h-full object-cover" />
+                  
                   
                 </div>
               </CardContent>
