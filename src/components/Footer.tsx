@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
               </p>
               <div className="flex space-x-2 mt-2">
                 <a 
-                  href="https://t.me/KEMPRYX" 
+                  href="https://t.me/kemp_club" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors flex items-center justify-center"
@@ -81,9 +81,8 @@ export const Footer: React.FC = () => {
                   className="bg-white/10 hover:bg-white/20 p-1 rounded-full transition-colors flex items-center justify-center"
                   aria-label="VKontakte"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1.01-1.49-.907-1.734-.907-.354 0-.453.1-.453.574v1.575c0 .424-.135.677-1.252.677-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.1-.488.574-.488h1.744c.424 0 .584.135.744.574.8 2.254 2.101 4.862 2.635 4.862.203 0 .305-.093.305-.608V9.72c-.068-1.186-.695-1.287-.695-1.71 0-.204.169-.407.441-.407h2.729c.356 0 .492.186.492.57v3.473c0 .356.16.491.254.491.203 0 .407-.135.813-.542 1.237-1.382 2.117-3.473 2.117-3.473.119-.254.322-.488.746-.488h1.744c.508 0 .625.254.508.677-.254 1.072-2.363 3.727-2.363 3.727-.203.305-.271.44 0 .813.203.271.864.847 1.295 1.364.744.847 1.320 1.558 1.464 2.05.169.508-.085.779-.576.779z"/>
                   </svg>
                 </a>
               </div>
@@ -159,7 +158,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex space-x-3 mt-3">
               <a 
-                href="https://t.me/KEMPRYX" 
+                href="https://t.me/kemp_club" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors flex items-center justify-center"
@@ -186,9 +185,8 @@ export const Footer: React.FC = () => {
                 className="bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors flex items-center justify-center"
                 aria-label="VKontakte"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1.01-1.49-.907-1.734-.907-.354 0-.453.1-.453.574v1.575c0 .424-.135.677-1.252.677-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.1-.488.574-.488h1.744c.424 0 .584.135.744.574.8 2.254 2.101 4.862 2.635 4.862.203 0 .305-.093.305-.608V9.72c-.068-1.186-.695-1.287-.695-1.71 0-.204.169-.407.441-.407h2.729c.356 0 .492.186.492.57v3.473c0 .356.16.491.254.491.203 0 .407-.135.813-.542 1.237-1.382 2.117-3.473 2.117-3.473.119-.254.322-.488.746-.488h1.744c.508 0 .625.254.508.677-.254 1.072-2.363 3.727-2.363 3.727-.203.305-.271.44 0 .813.203.271.864.847 1.295 1.364.744.847 1.320 1.558 1.464 2.05.169.508-.085.779-.576.779z"/>
                 </svg>
               </a>
             </div>
