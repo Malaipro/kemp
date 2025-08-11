@@ -1,241 +1,39 @@
-
-import React, { useState, useEffect } from 'react';
-import { toast } from 'sonner';
+import React, { useEffect } from 'react';
 import { AskQuestion } from './contact/AskQuestion';
-import { ContactFormFields } from './contact/ContactFormFields';
 import { CountdownTimer } from './contact/CountdownTimer';
 import { CourseInfo } from './contact/CourseInfo';
-import { SubmissionSuccess } from './contact/SubmissionSuccess';
-import { ZapierIntegration } from './contact/ZapierIntegration';
-import { WebhookIntegration } from './contact/WebhookIntegration';
-import { NodulIntegration } from './contact/NodulIntegration';
-import { saveContactSubmission, FormData } from './contact/supabaseActions';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { supabase } from '@/integrations/supabase/client';
 
 export const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    phone: '',
-    social: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [zapierWebhookUrl, setZapierWebhookUrl] = useState('');
-  const [webhookUrl, setWebhookUrl] = useState('');
-  const [nodulWebhookUrl, setNodulWebhookUrl] = useState('');
-  const [showZapierSettings, setShowZapierSettings] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Загружаем сохраненные URLs из localStorage
-    const savedZapierUrl = localStorage.getItem('zapierWebhookUrl');
-    const savedWebhookUrl = localStorage.getItem('clubWebhookUrl');
-    const savedNodulUrl = localStorage.getItem('clubNodulWebhookUrl');
+    // Загружаем скрипт Битрикс формы
+    const script = document.createElement('script');
+    script.setAttribute('data-b24-form', 'inline/134/km4hms');
+    script.setAttribute('data-skip-moving', 'true');
+    script.innerHTML = `
+      (function(w,d,u){
+        var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
+        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+      })(window,document,'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js');
+    `;
     
-    if (savedZapierUrl) {
-      setZapierWebhookUrl(savedZapierUrl);
-    }
-    if (savedWebhookUrl) {
-      setWebhookUrl(savedWebhookUrl);
-    }
-    if (savedNodulUrl) {
-      setNodulWebhookUrl(savedNodulUrl);
-    }
-  }, []);
+    // Добавляем скрипт в head
+    document.head.appendChild(script);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    // Очистка при размонтировании компонента
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
 
   const scrollToContactForm = () => {
     const contactFormElement = document.getElementById('contact-form');
     if (contactFormElement) {
       contactFormElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const sendToWebhook = async (data: FormData) => {
-    if (!webhookUrl) {
-      return { success: false, error: 'Webhook URL не настроен' };
-    }
-
-    try {
-      const webhookData = {
-        name: data.name,
-        phone: data.phone,
-        social: data.social,
-        course: 'male',
-        source: 'КЭМП - Клуб Эффективного Мужского Прогресса',
-        timestamp: new Date().toISOString(),
-        website: 'https://mcruh.ru'
-      };
-
-      const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(webhookData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      return { success: true, data: await response.text() };
-    } catch (error) {
-      console.error('Ошибка отправки на вебхук:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const sendToZapier = async (data: FormData) => {
-    if (!zapierWebhookUrl) {
-      return { success: false, error: 'Zapier webhook URL не настроен' };
-    }
-
-    try {
-      const { data: result, error } = await supabase.functions.invoke('zapier-webhook', {
-        body: { 
-          formData: data, 
-          zapierWebhookUrl: zapierWebhookUrl 
-        }
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      // Check if the response indicates success
-      if (result?.success === false) {
-        throw new Error(result.error || 'Неизвестная ошибка Zapier');
-      }
-
-      return { success: true, data: result };
-    } catch (error) {
-      console.error('Ошибка отправки в Zapier:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const sendToNodul = async (data: FormData) => {
-    if (!nodulWebhookUrl) {
-      return { success: false, error: 'Nodul webhook URL не настроен' };
-    }
-
-    try {
-      const nodulData = {
-        name: data.name,
-        phone: data.phone,
-        social: data.social,
-        course: 'male',
-        source: 'КЭМП - Клуб Эффективного Мужского Прогресса',
-        timestamp: new Date().toISOString(),
-        website: 'https://mcruh.ru'
-      };
-
-      const { data: result, error } = await supabase.functions.invoke('nodul-webhook', {
-        body: { 
-          webhookUrl: nodulWebhookUrl,
-          name: nodulData.name,
-          phone: nodulData.phone,
-          social: nodulData.social,
-          course: nodulData.course,
-          source: nodulData.source,
-          timestamp: nodulData.timestamp,
-          website: nodulData.website
-        }
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      // Check if the response indicates success
-      if (result?.success === false) {
-        throw new Error(result.error || 'Неизвестная ошибка Nodul');
-      }
-
-      return { success: true, data: result };
-    } catch (error) {
-      console.error('Ошибка отправки в Nodul:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    console.log('Form submitted:', formData);
-
-    try {
-      // Сохраняем в базу данных
-      const { error } = await saveContactSubmission(formData);
-
-      if (error) {
-        throw error;
-      }
-
-      // Отправляем на вебхук (если настроен)
-      if (webhookUrl) {
-        const webhookResult = await sendToWebhook(formData);
-        
-        if (webhookResult.success) {
-          console.log('Данные успешно отправлены на вебхук:', webhookResult.data);
-          toast.success("Заявка отправлена и передана в систему!");
-        } else {
-          console.error('Ошибка отправки на вебхук:', webhookResult.error);
-          toast.error("Заявка сохранена, но не удалось отправить на вебхук");
-        }
-      }
-
-      // Отправляем в Zapier (если настроено)
-      if (zapierWebhookUrl) {
-        const zapierResult = await sendToZapier(formData);
-        
-        if (zapierResult.success) {
-          console.log('Данные успешно отправлены в Zapier:', zapierResult.data);
-          toast.success("Заявка отправлена и передана в CRM систему!");
-        } else {
-          console.error('Ошибка отправки в Zapier:', zapierResult.error);
-          toast.error("Заявка сохранена, но не удалось отправить в CRM");
-        }
-      }
-
-      // Отправляем в Nodul (если настроено)
-      if (nodulWebhookUrl) {
-        const nodulResult = await sendToNodul(formData);
-        
-        if (nodulResult.success) {
-          console.log('Данные успешно отправлены в Nodul:', nodulResult.data);
-          toast.success("Заявка отправлена и передана в Nodul!");
-        } else {
-          console.error('Ошибка отправки в Nodul:', nodulResult.error);
-          toast.error("Заявка сохранена, но не удалось отправить в Nodul");
-        }
-      }
-
-      // Если ни один из вебхуков не настроен
-      if (!webhookUrl && !zapierWebhookUrl && !nodulWebhookUrl) {
-        toast.success("Вы успешно зарегестрировались в клуб");
-      }
-
-      // Reset form and show success state
-      setFormData({
-        name: '',
-        phone: '',
-        social: '',
-      });
-      setSubmitted(true);
-      
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error("Произошла ошибка при отправке формы. Пожалуйста, попробуйте еще раз.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -255,45 +53,12 @@ export const ContactForm: React.FC = () => {
           {/* Contact Form */}
           <div className="reveal-on-scroll">
             <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
-              <div className="flex items-center justify-between mb-4 md:mb-6">
-                <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white`}>Оставить заявку</h3>
-                <button
-                  onClick={() => setShowZapierSettings(!showZapierSettings)}
-                  className="text-gray-400 hover:text-white transition-colors"
-                  title="Настройки интеграции"
-                >
-                  ⚙️
-                </button>
-              </div>
-
-              {showZapierSettings && (
-                <div className="mb-6 space-y-4">
-                  <WebhookIntegration 
-                    webhookUrl={webhookUrl}
-                    onWebhookUrlChange={setWebhookUrl}
-                  />
-                  <ZapierIntegration 
-                    webhookUrl={zapierWebhookUrl}
-                    onWebhookUrlChange={setZapierWebhookUrl}
-                  />
-                  <NodulIntegration 
-                    webhookUrl={nodulWebhookUrl}
-                    onWebhookUrlChange={setNodulWebhookUrl}
-                  />
-                </div>
-              )}
+              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
-              {submitted ? (
-                <SubmissionSuccess onReset={() => setSubmitted(false)} />
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <ContactFormFields 
-                    formData={formData}
-                    handleChange={handleChange}
-                    isSubmitting={isSubmitting}
-                  />
-                </form>
-              )}
+              {/* Контейнер для Битрикс формы */}
+              <div className="bitrix-form-container">
+                {/* Форма Битрикс загрузится здесь автоматически */}
+              </div>
             </div>
             
             {/* Ask a Question Button */}
