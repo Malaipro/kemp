@@ -59,6 +59,23 @@ export const ContactForm: React.FC = () => {
               <div className="bitrix-form-container">
                 {/* Форма Битрикс загрузится здесь автоматически */}
               </div>
+              
+              {/* Кнопка отправки формы */}
+              <div className="mt-6">
+                <button 
+                  type="submit"
+                  className="kamp-button-primary w-full"
+                  onClick={() => {
+                    // Попытаемся найти и отправить форму Битрикс
+                    const bitrixForm = document.querySelector('[data-b24-form="inline/134/km4hms"] form, .bitrix-form-container form, .b24-form form') as HTMLFormElement;
+                    if (bitrixForm) {
+                      bitrixForm.requestSubmit();
+                    }
+                  }}
+                >
+                  Записаться в клуб
+                </button>
+              </div>
             </div>
             
             {/* Ask a Question Button */}
