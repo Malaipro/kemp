@@ -8,18 +8,14 @@ export const ContactForm: React.FC = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Загружаем скрипт Битрикс формы
+    // Создаем скрипт Битрикс формы более простым способом
     const script = document.createElement('script');
-    script.setAttribute('data-b24-form', 'inline/134/km4hms');
-    script.setAttribute('data-skip-moving', 'true');
-    script.innerHTML = `
-      (function(w,d,u){
-        var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
-        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-      })(window,document,'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js');
-    `;
+    script.src = 'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js?' + (Date.now()/180000|0);
+    script.async = true;
+    script.onload = () => {
+      console.log('Битрикс скрипт загружен');
+    };
     
-    // Добавляем скрипт в head
     document.head.appendChild(script);
 
     // Очистка при размонтировании компонента
@@ -55,43 +51,20 @@ export const ContactForm: React.FC = () => {
             <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
               <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
-              {/* Контейнер для Битрикс формы */}
-              <div className="bitrix-form-container">
-                {/* Форма Битрикс загрузится здесь автоматически */}
-              </div>
-              
-              {/* Кнопка отправки формы */}
-              <div className="mt-6">
-                <button 
-                  type="button"
-                  className="w-full px-6 py-3 bg-kamp-accent hover:bg-kamp-accent/90 text-white font-semibold rounded-lg transition-all duration-300 cursor-pointer z-10 relative"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log('Кнопка нажата');
-                    
-                    // Попытаемся найти и отправить форму Битрикс
-                    const bitrixForm = document.querySelector('[data-b24-form="inline/134/km4hms"] form, .bitrix-form-container form, .b24-form form') as HTMLFormElement;
-                    console.log('Найденная форма Битрикс:', bitrixForm);
-                    
-                    if (bitrixForm) {
-                      console.log('Отправляем форму Битрикс');
-                      bitrixForm.requestSubmit();
-                    } else {
-                      console.log('Форма Битрикс не найдена, попробуем другие селекторы');
-                      // Попробуем найти любую форму внутри контейнера
-                      const anyForm = document.querySelector('.bitrix-form-container form, #contact-form form, form') as HTMLFormElement;
-                      console.log('Любая найденная форма:', anyForm);
-                      if (anyForm) {
-                        anyForm.requestSubmit();
-                      } else {
-                        alert('Форма загружается... Попробуйте через несколько секунд');
-                      }
-                    }
-                  }}
-                >
-                  Записаться в клуб
-                </button>
-              </div>
+              {/* Битрикс форма - вставляем HTML напрямую */}
+              <div 
+                className="bitrix-form-container"
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    <script data-b24-form="inline/134/km4hms" data-skip-moving="true">
+                      (function(w,d,u){
+                        var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
+                        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+                      })(window,document,'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js');
+                    </script>
+                  `
+                }}
+              />
             </div>
             
             {/* Ask a Question Button */}
