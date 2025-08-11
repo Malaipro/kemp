@@ -63,13 +63,29 @@ export const ContactForm: React.FC = () => {
               {/* Кнопка отправки формы */}
               <div className="mt-6">
                 <button 
-                  type="submit"
-                  className="kamp-button-primary w-full"
-                  onClick={() => {
+                  type="button"
+                  className="w-full px-6 py-3 bg-kamp-accent hover:bg-kamp-accent/90 text-white font-semibold rounded-lg transition-all duration-300 cursor-pointer z-10 relative"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log('Кнопка нажата');
+                    
                     // Попытаемся найти и отправить форму Битрикс
                     const bitrixForm = document.querySelector('[data-b24-form="inline/134/km4hms"] form, .bitrix-form-container form, .b24-form form') as HTMLFormElement;
+                    console.log('Найденная форма Битрикс:', bitrixForm);
+                    
                     if (bitrixForm) {
+                      console.log('Отправляем форму Битрикс');
                       bitrixForm.requestSubmit();
+                    } else {
+                      console.log('Форма Битрикс не найдена, попробуем другие селекторы');
+                      // Попробуем найти любую форму внутри контейнера
+                      const anyForm = document.querySelector('.bitrix-form-container form, #contact-form form, form') as HTMLFormElement;
+                      console.log('Любая найденная форма:', anyForm);
+                      if (anyForm) {
+                        anyForm.requestSubmit();
+                      } else {
+                        alert('Форма загружается... Попробуйте через несколько секунд');
+                      }
                     }
                   }}
                 >
