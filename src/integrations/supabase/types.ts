@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievement_types: {
+        Row: {
+          color: string
+          created_at: string
+          description: string | null
+          icon: string
+          id: string
+          name: string
+          shape: string
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          description?: string | null
+          icon: string
+          id?: string
+          name: string
+          shape: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          icon?: string
+          id?: string
+          name?: string
+          shape?: string
+        }
+        Relationships: []
+      }
       activities: {
         Row: {
           created_at: string
@@ -62,6 +92,106 @@ export type Database = {
           name?: string
           phone?: string
           social?: string | null
+        }
+        Relationships: []
+      }
+      direction_progress: {
+        Row: {
+          activities_completed: number | null
+          created_at: string
+          direction_id: string
+          final_test_passed: boolean | null
+          id: string
+          lectures_completed: number | null
+          participant_id: string
+          progress_percentage: number | null
+          totem_earned: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          activities_completed?: number | null
+          created_at?: string
+          direction_id: string
+          final_test_passed?: boolean | null
+          id?: string
+          lectures_completed?: number | null
+          participant_id: string
+          progress_percentage?: number | null
+          totem_earned?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          activities_completed?: number | null
+          created_at?: string
+          direction_id?: string
+          final_test_passed?: boolean | null
+          id?: string
+          lectures_completed?: number | null
+          participant_id?: string
+          progress_percentage?: number | null
+          totem_earned?: boolean | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direction_progress_direction_id_fkey"
+            columns: ["direction_id"]
+            isOneToOne: false
+            referencedRelation: "directions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direction_progress_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direction_progress_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      directions: {
+        Row: {
+          created_at: string
+          description: string | null
+          has_final_test: boolean | null
+          id: string
+          name: string
+          required_activities: number | null
+          required_lectures: number | null
+          totem_description: string | null
+          totem_icon: string | null
+          totem_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          has_final_test?: boolean | null
+          id?: string
+          name: string
+          required_activities?: number | null
+          required_lectures?: number | null
+          totem_description?: string | null
+          totem_icon?: string | null
+          totem_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          has_final_test?: boolean | null
+          id?: string
+          name?: string
+          required_activities?: number | null
+          required_lectures?: number | null
+          totem_description?: string | null
+          totem_icon?: string | null
+          totem_name?: string | null
         }
         Relationships: []
       }
@@ -161,6 +291,196 @@ export type Database = {
           status?: string
         }
         Relationships: []
+      }
+      special_badges: {
+        Row: {
+          created_at: string
+          criteria: string | null
+          description: string
+          icon: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          criteria?: string | null
+          description: string
+          icon: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          criteria?: string | null
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      totems: {
+        Row: {
+          created_at: string
+          description: string
+          direction_id: string | null
+          icon: string
+          id: string
+          name: string
+          requirements: string | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          direction_id?: string | null
+          icon: string
+          id?: string
+          name: string
+          requirements?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          direction_id?: string | null
+          icon?: string
+          id?: string
+          name?: string
+          requirements?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "totems_direction_id_fkey"
+            columns: ["direction_id"]
+            isOneToOne: false
+            referencedRelation: "directions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_achievements: {
+        Row: {
+          achievement_type_id: string
+          activity_id: string | null
+          created_at: string
+          direction_id: string | null
+          earned_at: string
+          id: string
+          participant_id: string
+          position: number | null
+          totem_id: string | null
+        }
+        Insert: {
+          achievement_type_id: string
+          activity_id?: string | null
+          created_at?: string
+          direction_id?: string | null
+          earned_at?: string
+          id?: string
+          participant_id: string
+          position?: number | null
+          totem_id?: string | null
+        }
+        Update: {
+          achievement_type_id?: string
+          activity_id?: string | null
+          created_at?: string
+          direction_id?: string | null
+          earned_at?: string
+          id?: string
+          participant_id?: string
+          position?: number | null
+          totem_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_type_id_fkey"
+            columns: ["achievement_type_id"]
+            isOneToOne: false
+            referencedRelation: "achievement_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_achievements_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_achievements_direction_id_fkey"
+            columns: ["direction_id"]
+            isOneToOne: false
+            referencedRelation: "directions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_achievements_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_achievements_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_achievements_totem_id_fkey"
+            columns: ["totem_id"]
+            isOneToOne: false
+            referencedRelation: "totems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_special_badges: {
+        Row: {
+          badge_id: string
+          created_at: string
+          earned_at: string
+          id: string
+          participant_id: string
+        }
+        Insert: {
+          badge_id: string
+          created_at?: string
+          earned_at?: string
+          id?: string
+          participant_id: string
+        }
+        Update: {
+          badge_id?: string
+          created_at?: string
+          earned_at?: string
+          id?: string
+          participant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_special_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "special_badges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_special_badges_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_special_badges_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       КЭМП: {
         Row: {
