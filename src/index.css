@@ -36,6 +36,16 @@
     --kamp-secondary: #1d1d1d;
     --kamp-accent: #ff3030;
     --kamp-highlight: #000000;
+    
+    /* Gamification colors */
+    --achievement-gold: 45 100% 50%;
+    --achievement-silver: 0 0% 75%;
+    --achievement-bronze: 30 100% 50%;
+    --badge-rare: 280 100% 70%;
+    --badge-epic: 240 100% 60%;
+    --badge-legendary: 15 100% 50%;
+    --totem-earned: 120 100% 50%;
+    --progress-complete: 140 100% 40%;
   }
 }
 
