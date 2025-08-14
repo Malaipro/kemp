@@ -11,7 +11,7 @@ export const AskQuestion: React.FC = () => {
           <span className="font-medium">Остались вопросы?</span>
         </div>
         <a 
-          href="https://t.me/Dmitriy_nar" 
+          href="https://t.me/Dmitriy116" 
           target="_blank" 
           rel="noopener noreferrer"
           className="kamp-button-primary text-sm px-4 py-2"
