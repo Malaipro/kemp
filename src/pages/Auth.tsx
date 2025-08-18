@@ -91,7 +91,7 @@ export const Auth: React.FC = () => {
                 <TabsContent value="login">
                   <form onSubmit={handleSignIn} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="login-email">Email</Label>
+                      <Label htmlFor="login-email" className="text-gray-200">Email</Label>
                       <Input
                         id="login-email"
                         type="email"
@@ -104,7 +104,7 @@ export const Auth: React.FC = () => {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="login-password">Пароль</Label>
+                      <Label htmlFor="login-password" className="text-gray-200">Пароль</Label>
                       <Input
                         id="login-password"
                         type="password"
@@ -129,7 +129,7 @@ export const Auth: React.FC = () => {
                 <TabsContent value="signup">
                   <form onSubmit={handleSignUp} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="signup-name">Имя</Label>
+                      <Label htmlFor="signup-name" className="text-gray-200">Имя</Label>
                       <Input
                         id="signup-name"
                         type="text"
@@ -142,7 +142,7 @@ export const Auth: React.FC = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="signup-email">Email</Label>
+                      <Label htmlFor="signup-email" className="text-gray-200">Email</Label>
                       <Input
                         id="signup-email"
                         type="email"
@@ -155,7 +155,7 @@ export const Auth: React.FC = () => {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="signup-password">Пароль</Label>
+                      <Label htmlFor="signup-password" className="text-gray-200">Пароль</Label>
                       <Input
                         id="signup-password"
                         type="password"
@@ -169,7 +169,7 @@ export const Auth: React.FC = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="confirm-password">Подтвердите пароль</Label>
+                      <Label htmlFor="confirm-password" className="text-gray-200">Подтвердите пароль</Label>
                       <Input
                         id="confirm-password"
                         type="password"
