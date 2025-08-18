@@ -2,6 +2,7 @@
 import React from 'react';
 import { MessageSquare, X } from 'lucide-react';
 import { MenuItem } from './types';
+import { AuthButtons } from './AuthButtons';
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 interface MobileMenuProps {
@@ -58,6 +59,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             Записаться
           </button>
+          
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <AuthButtons />
+          </div>
         </nav>
       </SheetContent>
     </Sheet>

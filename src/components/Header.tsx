@@ -4,7 +4,7 @@ import { Logo } from './header/Logo';
 import { DesktopNavigation } from './header/DesktopNavigation';
 import { MobileMenu } from './header/MobileMenu';
 import { MobileMenuButton } from './header/MobileMenuButton';
-import { RegisterButton } from './header/RegisterButton';
+import { AuthButtons } from './header/AuthButtons';
 import { MenuItem } from './header/types';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -125,7 +125,7 @@ export const Header: React.FC = () => {
           />
 
           <div className="flex items-center space-x-2">
-            <RegisterButton onClick={() => scrollToSection('contact')} />
+            <AuthButtons />
             <MobileMenuButton 
               isOpen={isOpen} 
               toggleMenu={toggleMenu} 
