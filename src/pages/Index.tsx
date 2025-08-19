@@ -6,6 +6,7 @@ import { AboutUs } from '@/components/AboutUs';
 import { Program } from '@/components/Program';
 import { Trainers } from '@/components/Trainers';
 import { Leaderboard } from '@/components/Leaderboard';
+import { RegisteredParticipants } from '@/components/participants';
 import { Achievements } from '@/components/achievements';
 import { Testimonials } from '@/components/Testimonials';
 import { PhotoGallery } from '@/components/PhotoGallery';
@@ -37,6 +38,7 @@ const Index = () => {
       <Trainers />
       <PhotoGallery />
       <Leaderboard />
+      <RegisteredParticipants />
       <Achievements />
       <Testimonials />
       <ContactForm />
