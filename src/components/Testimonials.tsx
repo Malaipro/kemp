@@ -105,8 +105,70 @@ export const Testimonials: React.FC = () => {
           {testimonials.map(testimonial => <Card key={testimonial.id} className="overflow-hidden hover-lift bg-gray-900 border-gray-800 cursor-pointer" onClick={() => togglePlay(testimonial.id)}>
               <CardContent className="p-0 relative aspect-video">
                 <div className="relative w-full h-full overflow-hidden">
+                  <video
+                    ref={el => videoRefs.current[testimonial.id] = el}
+                    src={testimonial.videoUrl}
+                    poster={testimonial.thumbnailUrl}
+                    muted={mutedStatus[testimonial.id]}
+                    className="w-full h-full object-cover"
+                    onEnded={() => setPlayingVideo(null)}
+                  />
                   
-                  
+                  {/* Play/Pause Button */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-4"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        togglePlay(testimonial.id);
+                      }}
+                    >
+                      {playingVideo === testimonial.id ? (
+                        <Pause size={24} />
+                      ) : (
+                        <Play size={24} />
+                      )}
+                    </Button>
+                  </div>
+
+                  {/* Controls */}
+                  <div className="absolute top-2 right-2 flex gap-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-2"
+                      onClick={(e) => toggleMute(testimonial.id, e)}
+                    >
+                      {mutedStatus[testimonial.id] ? (
+                        <VolumeX size={16} />
+                      ) : (
+                        <Volume2 size={16} />
+                      )}
+                    </Button>
+                    
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-2"
+                      onClick={(e) => openVideoDialog(testimonial.id, e)}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                      </svg>
+                    </Button>
+                  </div>
+
+                  {/* Info Overlay */}
+                  <div className="absolute bottom-0 left-0 p-3 bg-gradient-to-t from-black/80 to-transparent w-full">
+                    <h4 className="font-bold text-white text-sm md:text-base">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-gray-300 text-xs">
+                      {testimonial.position}
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>)}
