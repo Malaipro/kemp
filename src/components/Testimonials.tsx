@@ -29,25 +29,23 @@ export const Testimonials: React.FC = () => {
     2: null,
     3: null
   });
-  const testimonials = [{
-    id: 3,
-    name: 'Ренат',
-    position: 'Выпускник 1 потока',
-    videoUrl: 'https://i.imgur.com/GtLxhNZ.mp4',
-    thumbnailUrl: 'https://i.imgur.com/GtLxhNZ.jpg'
-  }, {
-    id: 1,
-    name: 'Резеда',
-    position: 'Выпускник 1 потока',
-    videoUrl: 'https://i.imgur.com/VO8Habw.mp4',
-    thumbnailUrl: 'https://i.imgur.com/VO8Habw.jpg'
-  }, {
-    id: 2,
-    name: 'Рустэм',
-    position: 'Выпускник 1 потока',
-    videoUrl: 'https://i.imgur.com/r1Xdknj.mp4',
-    thumbnailUrl: 'https://i.imgur.com/r1Xdknj.jpg'
-  }];
+  const testimonials = [
+    // Новые отзывы - добавь сюда ссылки на сжатые видео
+    // {
+    //   id: 1,
+    //   name: 'Имя участника',
+    //   position: 'Выпускник программы',
+    //   videoUrl: '/videos/testimonial-1.mp4', // или ссылка на YouTube/Vimeo
+    //   thumbnailUrl: '/videos/testimonial-1-thumb.jpg'
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Имя участника',
+    //   position: 'Выпускник программы', 
+    //   videoUrl: '/videos/testimonial-2.mp4',
+    //   thumbnailUrl: '/videos/testimonial-2-thumb.jpg'
+    // }
+  ];
   const togglePlay = (id: number) => {
     const videoElement = videoRefs.current[id];
     if (!videoElement) return;
