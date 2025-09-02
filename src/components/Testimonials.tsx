@@ -10,8 +10,7 @@ export const Testimonials: React.FC = () => {
     [key: number]: boolean;
   }>({
     1: true,
-    2: true,
-    3: true
+    2: true
   });
   const [openVideo, setOpenVideo] = useState<number | null>(null);
   const isMobile = useIsMobile();
@@ -19,32 +18,27 @@ export const Testimonials: React.FC = () => {
     [key: number]: HTMLVideoElement | null;
   }>({
     1: null,
-    2: null,
-    3: null
+    2: null
   });
   const modalVideoRefs = useRef<{
     [key: number]: HTMLVideoElement | null;
   }>({
     1: null,
-    2: null,
-    3: null
+    2: null
   });
   const testimonials = [
-    // Новые отзывы - добавь сюда ссылки на сжатые видео
-    // {
-    //   id: 1,
-    //   name: 'Имя участника',
-    //   position: 'Выпускник программы',
-    //   videoUrl: '/videos/testimonial-1.mp4', // или ссылка на YouTube/Vimeo
-    //   thumbnailUrl: '/videos/testimonial-1-thumb.jpg'
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Имя участника',
-    //   position: 'Выпускник программы', 
-    //   videoUrl: '/videos/testimonial-2.mp4',
-    //   thumbnailUrl: '/videos/testimonial-2-thumb.jpg'
-    // }
+    {
+      id: 1,
+      name: 'Участник программы',
+      position: 'Выпускник КЭМП',
+      videoUrl: '/videos/testimonial-1.mp4'
+    },
+    {
+      id: 2,
+      name: 'Участник программы',
+      position: 'Выпускник КЭМП',
+      videoUrl: '/videos/testimonial-2.mp4'
+    }
   ];
   const togglePlay = (id: number) => {
     const videoElement = videoRefs.current[id];
@@ -106,7 +100,6 @@ export const Testimonials: React.FC = () => {
                   <video
                     ref={el => videoRefs.current[testimonial.id] = el}
                     src={testimonial.videoUrl}
-                    poster={testimonial.thumbnailUrl}
                     muted={mutedStatus[testimonial.id]}
                     className="w-full h-full object-cover"
                     onEnded={() => setPlayingVideo(null)}
