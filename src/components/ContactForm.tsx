@@ -3,19 +3,16 @@ import { AskQuestion } from './contact/AskQuestion';
 import { CountdownTimer } from './contact/CountdownTimer';
 import { CourseInfo } from './contact/CourseInfo';
 import { useIsMobile } from '@/hooks/use-mobile';
-
 export const ContactForm: React.FC = () => {
   const isMobile = useIsMobile();
-
   useEffect(() => {
     // Создаем скрипт Битрикс формы более простым способом
     const script = document.createElement('script');
-    script.src = 'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js?' + (Date.now()/180000|0);
+    script.src = 'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js?' + (Date.now() / 180000 | 0);
     script.async = true;
     script.onload = () => {
       console.log('Битрикс скрипт загружен');
     };
-    
     document.head.appendChild(script);
 
     // Очистка при размонтировании компонента
@@ -25,16 +22,15 @@ export const ContactForm: React.FC = () => {
       }
     };
   }, []);
-
   const scrollToContactForm = () => {
     const contactFormElement = document.getElementById('contact-form');
     if (contactFormElement) {
-      contactFormElement.scrollIntoView({ behavior: 'smooth' });
+      contactFormElement.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
-  return (
-    <section id="contact" className="kamp-section bg-black text-white py-6 md:py-16">
+  return <section id="contact" className="kamp-section bg-black text-white py-6 md:py-16">
       <div className="kamp-container">
         <div className="section-heading reveal-on-scroll">
           <span className="inline-block text-kamp-primary font-semibold mb-2">Записаться в клуб</span>
@@ -52,10 +48,8 @@ export const ContactForm: React.FC = () => {
               <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
               {/* Битрикс форма - вставляем HTML напрямую */}
-              <div 
-                className="bitrix-form-container"
-                dangerouslySetInnerHTML={{
-                  __html: `
+              <div className="bitrix-form-container" dangerouslySetInnerHTML={{
+              __html: `
                     <script data-b24-form="inline/134/km4hms" data-skip-moving="true">
                       (function(w,d,u){
                         var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
@@ -63,8 +57,7 @@ export const ContactForm: React.FC = () => {
                       })(window,document,'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js');
                     </script>
                   `
-                }}
-              />
+            }} />
             </div>
             
             {/* Ask a Question Button */}
@@ -76,16 +69,9 @@ export const ContactForm: React.FC = () => {
             <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
               <div className={`flex-grow ${isMobile ? 'p-4' : 'p-8'}`}>
                 <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Новый интенсив</h3>
-                {isMobile ? (
-                  <p className="text-white/80 mb-4 text-sm">
+                {isMobile ? <p className="text-white/80 mb-4 text-sm">
                     Интенсив начинается 1 сентября! Записывайся сейчас - количество мест ограничено!
-                  </p>
-                ) : (
-                  <p className="text-white/80 mb-8">
-                    Новый интенсив стартует 1 сентября 2025! Записывайся сейчас - количество мест ограничено, 
-                    чтобы мы могли уделить внимание каждому участнику.
-                  </p>
-                )}
+                  </p> : <p className="text-white/80 mb-8">Новый интенсив стартует 8 сентября 2025! Записывайся сейчас - количество мест ограничено, чтобы мы могли уделить внимание каждому участнику.</p>}
 
                 <CountdownTimer targetDate={new Date('2025-09-01T00:00:00')} />
                 
@@ -98,10 +84,7 @@ export const ContactForm: React.FC = () => {
                     <div className={`${isMobile ? 'text-base' : 'text-xl'} font-bold`}>Ограниченный набор</div>
                     <div className="text-white/70 text-xs md:text-sm">Запишись прямо сейчас</div>
                   </div>
-                  <button 
-                    onClick={scrollToContactForm}
-                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-3 py-1.5' : ''}`}
-                  >
+                  <button onClick={scrollToContactForm} className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-3 py-1.5' : ''}`}>
                     Записаться
                   </button>
                 </div>
@@ -110,6 +93,5 @@ export const ContactForm: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
