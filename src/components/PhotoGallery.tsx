@@ -1,26 +1,80 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import kampMoment1 from '@/assets/gallery/kamp-moment-1.jpg';
-import kampMoment2 from '@/assets/gallery/kamp-moment-2.jpg';
-import kampMoment3 from '@/assets/gallery/kamp-moment-3.jpg';
+import kamp1 from '@/assets/gallery/kamp-1.jpg';
+import kamp2 from '@/assets/gallery/kamp-2.jpg';
+import kamp3 from '@/assets/gallery/kamp-3.jpg';
+import kamp4 from '@/assets/gallery/kamp-4.jpg';
+import kamp5 from '@/assets/gallery/kamp-5.jpg';
+import kamp6 from '@/assets/gallery/kamp-6.jpg';
+import kamp7 from '@/assets/gallery/kamp-7.jpg';
+import kamp8 from '@/assets/gallery/kamp-8.jpg';
+import kamp9 from '@/assets/gallery/kamp-9.jpg';
+import kamp10 from '@/assets/gallery/kamp-10.jpg';
+import kamp11 from '@/assets/gallery/kamp-11.jpg';
+import kamp12 from '@/assets/gallery/kamp-12.jpg';
 
-// Updated photos array
+// Updated photos array with all 12 images
 const photos = [
   {
     id: 1,
-    src: kampMoment1,
+    src: kamp1,
     alt: "Участники КЭМП в тренировочном процессе"
   },
   {
     id: 2,
-    src: kampMoment2,
+    src: kamp2,
     alt: "Моменты командной работы КЭМП"
   },
   {
     id: 3,
-    src: kampMoment3,
+    src: kamp3,
     alt: "Интенсивные тренировки КЭМП"
+  },
+  {
+    id: 4,
+    src: kamp4,
+    alt: "Тренировки на природе"
+  },
+  {
+    id: 5,
+    src: kamp5,
+    alt: "Групповые занятия КЭМП"
+  },
+  {
+    id: 6,
+    src: kamp6,
+    alt: "Физическая подготовка"
+  },
+  {
+    id: 7,
+    src: kamp7,
+    alt: "Командные упражнения"
+  },
+  {
+    id: 8,
+    src: kamp8,
+    alt: "Тактическая медицина"
+  },
+  {
+    id: 9,
+    src: kamp9,
+    alt: "Специальная подготовка"
+  },
+  {
+    id: 10,
+    src: kamp10,
+    alt: "Полевые занятия КЭМП"
+  },
+  {
+    id: 11,
+    src: kamp11,
+    alt: "Практические навыки"
+  },
+  {
+    id: 12,
+    src: kamp12,
+    alt: "Выездные испытания"
   }
 ];
 
