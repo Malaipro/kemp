@@ -234,23 +234,19 @@ export const PhotoGallery: React.FC = () => {
             className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll mobile-snap-scroll"
             style={{ scrollBehavior: 'auto', cursor: isDragging ? 'grabbing' : 'grab' }}
           >
-            {/* We display each photo multiple times in sequence to create infinite scroll effect */}
-            {[...Array(3)].map((_, repeatIndex) => (
-              <div key={`repeat-${repeatIndex}`}>
-                {photos.map((photo) => (
-                  <div
-                    key={`${repeatIndex}-${photo.id}`}
-                    className={`flex-none ${isMobile ? 'w-[80vw] h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
-                  >
-                    <img
-                      src={photo.src}
-                      alt={photo.alt}
-                      className="w-full h-full object-cover"
-                      loading="eager"
-                      draggable="false"
-                    />
-                  </div>
-                ))}
+            {/* Display all 12 unique photos */}
+            {photos.map((photo) => (
+              <div
+                key={photo.id}
+                className={`flex-none ${isMobile ? 'w-[80vw] h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                  draggable="false"
+                />
               </div>
             ))}
           </div>
