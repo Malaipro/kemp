@@ -1,28 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import kampMoment1 from '@/assets/gallery/kamp-moment-1.jpg';
+import kampMoment2 from '@/assets/gallery/kamp-moment-2.jpg';
+import kampMoment3 from '@/assets/gallery/kamp-moment-3.jpg';
 
 // Updated photos array
 const photos = [
   {
     id: 1,
-    src: "https://i.imgur.com/t3O09wf.jpeg",
-    alt: "Участники в процессе тренировки"
+    src: kampMoment1,
+    alt: "Участники КЭМП в тренировочном процессе"
   },
   {
     id: 2,
-    src: "https://i.imgur.com/pDQtpCd.jpeg",
-    alt: "Групповое занятие на природе"
+    src: kampMoment2,
+    alt: "Моменты командной работы КЭМП"
   },
   {
     id: 3,
-    src: "https://i.imgur.com/6avhXfD.jpeg",
-    alt: "Силовая тренировка"
-  },
-  {
-    id: 4,
-    src: "https://i.imgur.com/nJQaK50.jpeg",
-    alt: "Выпускники КЭМП"
+    src: kampMoment3,
+    alt: "Интенсивные тренировки КЭМП"
   }
 ];
 
