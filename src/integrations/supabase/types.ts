@@ -68,6 +68,41 @@ export type Database = {
         }
         Relationships: []
       }
+      ascetic_progress: {
+        Row: {
+          ascetic_id: string
+          completed: boolean | null
+          created_at: string
+          date: string
+          id: string
+          notes: string | null
+        }
+        Insert: {
+          ascetic_id: string
+          completed?: boolean | null
+          created_at?: string
+          date: string
+          id?: string
+          notes?: string | null
+        }
+        Update: {
+          ascetic_id?: string
+          completed?: boolean | null
+          created_at?: string
+          date?: string
+          id?: string
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ascetic_progress_ascetic_id_fkey"
+            columns: ["ascetic_id"]
+            isOneToOne: false
+            referencedRelation: "participant_ascetics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_submissions: {
         Row: {
           course: string
@@ -195,6 +230,63 @@ export type Database = {
         }
         Relationships: []
       }
+      kamp_activities: {
+        Row: {
+          activity_date: string
+          created_at: string
+          description: string | null
+          id: string
+          multiplier: number | null
+          participant_id: string
+          points: number
+          reward_type: Database["public"]["Enums"]["reward_type"]
+          shram_subtype: Database["public"]["Enums"]["shram_subtype"] | null
+          verified_by: string | null
+          zakal_subtype: Database["public"]["Enums"]["zakal_subtype"] | null
+        }
+        Insert: {
+          activity_date?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          multiplier?: number | null
+          participant_id: string
+          points?: number
+          reward_type: Database["public"]["Enums"]["reward_type"]
+          shram_subtype?: Database["public"]["Enums"]["shram_subtype"] | null
+          verified_by?: string | null
+          zakal_subtype?: Database["public"]["Enums"]["zakal_subtype"] | null
+        }
+        Update: {
+          activity_date?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          multiplier?: number | null
+          participant_id?: string
+          points?: number
+          reward_type?: Database["public"]["Enums"]["reward_type"]
+          shram_subtype?: Database["public"]["Enums"]["shram_subtype"] | null
+          verified_by?: string | null
+          zakal_subtype?: Database["public"]["Enums"]["zakal_subtype"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kamp_activities_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kamp_activities_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       participant_activities: {
         Row: {
           activity_id: string
@@ -231,6 +323,99 @@ export type Database = {
           },
           {
             foreignKeyName: "participant_activities_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      participant_ascetics: {
+        Row: {
+          completion_percentage: number | null
+          created_at: string
+          description: string | null
+          duration_days: number
+          end_date: string
+          id: string
+          is_completed: boolean | null
+          name: string
+          participant_id: string
+          start_date: string
+        }
+        Insert: {
+          completion_percentage?: number | null
+          created_at?: string
+          description?: string | null
+          duration_days?: number
+          end_date: string
+          id?: string
+          is_completed?: boolean | null
+          name: string
+          participant_id: string
+          start_date: string
+        }
+        Update: {
+          completion_percentage?: number | null
+          created_at?: string
+          description?: string | null
+          duration_days?: number
+          end_date?: string
+          id?: string
+          is_completed?: boolean | null
+          name?: string
+          participant_id?: string
+          start_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participant_ascetics_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participant_ascetics_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      participant_totems: {
+        Row: {
+          earned_at: string
+          id: string
+          participant_id: string
+          requirements_met: Json | null
+          totem_type: Database["public"]["Enums"]["totem_type"]
+        }
+        Insert: {
+          earned_at?: string
+          id?: string
+          participant_id: string
+          requirements_met?: Json | null
+          totem_type: Database["public"]["Enums"]["totem_type"]
+        }
+        Update: {
+          earned_at?: string
+          id?: string
+          participant_id?: string
+          requirements_met?: Json | null
+          totem_type?: Database["public"]["Enums"]["totem_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "participant_totems_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "participant_totems_participant_id_fkey"
             columns: ["participant_id"]
             isOneToOne: false
             referencedRelation: "participants"
@@ -319,6 +504,36 @@ export type Database = {
           icon?: string
           id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      totem_requirements: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          requirements: Json
+          totem_type: Database["public"]["Enums"]["totem_type"]
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          requirements: Json
+          totem_type: Database["public"]["Enums"]["totem_type"]
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          requirements?: Json
+          totem_type?: Database["public"]["Enums"]["totem_type"]
         }
         Relationships: []
       }
@@ -519,6 +734,10 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_participant_progress: {
+        Args: { p_participant_id: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -529,6 +748,20 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      reward_type: "zakal" | "gran" | "shram" | "totem"
+      shram_subtype: "bjj" | "kick" | "ofp" | "tactics"
+      totem_type:
+        | "snake"
+        | "paw"
+        | "hammer"
+        | "star"
+        | "sprout"
+        | "compass"
+        | "monk"
+        | "blade"
+        | "lighthouse"
+        | "bear"
+      zakal_subtype: "bjj" | "kick" | "ofp"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -657,6 +890,21 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      reward_type: ["zakal", "gran", "shram", "totem"],
+      shram_subtype: ["bjj", "kick", "ofp", "tactics"],
+      totem_type: [
+        "snake",
+        "paw",
+        "hammer",
+        "star",
+        "sprout",
+        "compass",
+        "monk",
+        "blade",
+        "lighthouse",
+        "bear",
+      ],
+      zakal_subtype: ["bjj", "kick", "ofp"],
     },
   },
 } as const
