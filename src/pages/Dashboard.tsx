@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Layout } from '@/components/Layout';
-import { Achievements } from '@/components/achievements';
+import { KampSystem } from '@/components/kamp';
 import { Button } from '@/components/ui/button';
 import { LogOut, User } from 'lucide-react';
 
@@ -68,8 +68,8 @@ export const Dashboard: React.FC = () => {
           </div>
         </section>
 
-        {/* User Achievements */}
-        <Achievements />
+        {/* KAMP System */}
+        <KampSystem />
       </div>
     </Layout>
   );
