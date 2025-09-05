@@ -40,7 +40,7 @@ export const AsceticTracker: React.FC = () => {
       if (!user) return null;
       
       const { data, error } = await supabase
-        .from('participants')
+        .from('участники')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
@@ -56,7 +56,7 @@ export const AsceticTracker: React.FC = () => {
       if (!participant?.id) return [];
       
       const { data, error } = await supabase
-        .from('participant_ascetics')
+        .from('аскезы_участников')
         .select('*')
         .eq('participant_id', participant.id)
         .order('start_date', { ascending: false });
@@ -96,7 +96,7 @@ export const AsceticTracker: React.FC = () => {
       endDate.setDate(startDate.getDate() + newAsceticDuration - 1);
 
       const { error } = await supabase
-        .from('participant_ascetics')
+        .from('аскезы_участников')
         .insert({
           participant_id: participant.id,
           name: newAsceticName.trim(),
@@ -135,9 +135,9 @@ export const AsceticTracker: React.FC = () => {
 
   const handleMarkDay = async (asceticId: string, date: string, completed: boolean) => {
     try {
-      const { error } = await supabase
-        .from('ascetic_progress')
-        .upsert({
+    const { error } = await supabase
+      .from('прогресс_аскез')
+      .upsert({
           ascetic_id: asceticId,
           date,
           completed
@@ -164,13 +164,13 @@ export const AsceticTracker: React.FC = () => {
     try {
       // Получаем данные об аскезе и её прогрессе
       const { data: ascetic } = await supabase
-        .from('participant_ascetics')
+        .from('аскезы_участников')
         .select('duration_days')
         .eq('id', asceticId)
         .single();
 
       const { data: progress } = await supabase
-        .from('ascetic_progress')
+        .from('прогресс_аскез')
         .select('completed')
         .eq('ascetic_id', asceticId);
 
@@ -180,7 +180,7 @@ export const AsceticTracker: React.FC = () => {
         const isCompleted = percentage >= 85; // 85% для завершения
 
         await supabase
-          .from('participant_ascetics')
+          .from('аскезы_участников')
           .update({
             completion_percentage: percentage,
             is_completed: isCompleted
@@ -339,7 +339,7 @@ const AsceticCard: React.FC<AsceticCardProps> = ({ ascetic, days, onMarkDay }) =
     queryKey: ['ascetic-progress', ascetic.id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('ascetic_progress')
+        .from('прогресс_аскез')
         .select('*')
         .eq('ascetic_id', ascetic.id);
       

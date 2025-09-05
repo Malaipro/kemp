@@ -39,7 +39,7 @@ export const KampProgress: React.FC = () => {
       if (!user) return null;
       
       const { data, error } = await supabase
-        .from('participants')
+        .from('участники')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
@@ -74,7 +74,7 @@ export const KampProgress: React.FC = () => {
     queryKey: ['totem-requirements'],
     queryFn: async (): Promise<TotemRequirement[]> => {
       const { data, error } = await supabase
-        .from('totem_requirements')
+        .from('требования_тотемов')
         .select('*')
         .order('totem_type');
       
@@ -89,7 +89,7 @@ export const KampProgress: React.FC = () => {
       if (!participant?.id) return [];
       
       const { data, error } = await supabase
-        .from('participant_totems')
+        .from('тотемы_участников')
         .select('totem_type, earned_at')
         .eq('participant_id', participant.id);
       

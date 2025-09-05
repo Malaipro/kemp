@@ -35,7 +35,7 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
       if (!user) return null;
       
       const { data, error } = await supabase
-        .from('participants')
+        .from('участники')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
@@ -142,7 +142,7 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
       }
 
       const { error } = await supabase
-        .from('kamp_activities')
+        .from('кэмп_активности')
         .insert(activityData);
 
       if (error) throw error;

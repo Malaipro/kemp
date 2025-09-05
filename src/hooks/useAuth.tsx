@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Create participant record for the new user
       if (data.user) {
         const { error: participantError } = await supabase
-          .from('participants')
+          .from('участники')
           .insert([
             {
               user_id: data.user.id,
@@ -79,6 +79,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (participantError) {
           console.error('Error creating participant:', participantError);
         }
+        setTimeout(() => {
+          // Отправляем приветственное письмо новому пользователю
+          supabase.functions.invoke('send-welcome-email', {
+            body: {
+              email: data.user.email,
+              name: name,
+              confirmUrl: redirectUrl
+            }
+          }).catch(error => {
+            console.error('Error sending welcome email:', error);
+          });
+        }, 0);
       }
 
       toast({

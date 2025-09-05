@@ -4,7 +4,9 @@ import { KampInstructions } from './KampInstructions';
 import { KampProgress } from './KampProgress';
 import { ActivityForm } from './ActivityForm';
 import { AsceticTracker } from './AsceticTracker';
-import { Book, Trophy, Plus, Target } from 'lucide-react';
+import { ParticipantsList } from '@/components/admin/ParticipantsList';
+import { KampManual } from '@/components/instructions/KampManual';
+import { Book, Trophy, Plus, Target, Users, FileText } from 'lucide-react';
 
 export const KampSystem: React.FC = () => {
   return (
@@ -16,7 +18,7 @@ export const KampSystem: React.FC = () => {
         </div>
 
         <Tabs defaultValue="instructions" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsList className="grid w-full grid-cols-6 mb-8">
             <TabsTrigger value="instructions" className="flex items-center gap-2">
               <Book className="w-4 h-4" />
               Инструкция
@@ -32,6 +34,14 @@ export const KampSystem: React.FC = () => {
             <TabsTrigger value="ascetics" className="flex items-center gap-2">
               <Target className="w-4 h-4" />
               Аскезы
+            </TabsTrigger>
+            <TabsTrigger value="participants" className="flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              Участники
+            </TabsTrigger>
+            <TabsTrigger value="manual" className="flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              Руководство
             </TabsTrigger>
           </TabsList>
           
@@ -49,6 +59,14 @@ export const KampSystem: React.FC = () => {
           
           <TabsContent value="ascetics">
             <AsceticTracker />
+          </TabsContent>
+          
+          <TabsContent value="participants">
+            <ParticipantsList />
+          </TabsContent>
+          
+          <TabsContent value="manual">
+            <KampManual />
           </TabsContent>
         </Tabs>
       </div>
