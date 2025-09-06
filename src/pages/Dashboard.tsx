@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useRole } from '@/hooks/useRole';
 import { Layout } from '@/components/Layout';
 import { KampSystem } from '@/components/kamp';
+import { AdminPanel } from '@/components/admin/AdminPanel';
 import { Button } from '@/components/ui/button';
-import { LogOut, User } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LogOut, User, Shield } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user, signOut, loading } = useAuth();
+  const { isSuperAdmin, loading: roleLoading } = useRole();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -16,7 +20,7 @@ export const Dashboard: React.FC = () => {
     }
   }, [user, loading, navigate]);
 
-  if (loading) {
+  if (loading || roleLoading) {
     return (
       <Layout>
         <div className="kamp-section bg-black min-h-screen flex items-center justify-center">
@@ -52,6 +56,7 @@ export const Dashboard: React.FC = () => {
                   </h1>
                   <p className="text-gray-400">
                     {user.user_metadata?.name || user.email}
+                    {isSuperAdmin && <span className="ml-2 text-kamp-accent font-semibold">(Супер админ)</span>}
                   </p>
                 </div>
               </div>
@@ -68,8 +73,35 @@ export const Dashboard: React.FC = () => {
           </div>
         </section>
 
-        {/* KAMP System */}
-        <KampSystem />
+        {/* Dashboard Content */}
+        <section className="kamp-section">
+          <div className="kamp-container">
+            {isSuperAdmin ? (
+              <Tabs defaultValue="kamp" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="kamp" className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    КЭМП Система
+                  </TabsTrigger>
+                  <TabsTrigger value="admin" className="flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    Админ-панель
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="kamp">
+                  <KampSystem />
+                </TabsContent>
+                
+                <TabsContent value="admin">
+                  <AdminPanel />
+                </TabsContent>
+              </Tabs>
+            ) : (
+              <KampSystem />
+            )}
+          </div>
+        </section>
       </div>
     </Layout>
   );

@@ -19,6 +19,7 @@ export const Auth: React.FC = () => {
 
   // Signup form state
   const [signupName, setSignupName] = useState('');
+  const [signupLastName, setSignupLastName] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -52,11 +53,12 @@ export const Auth: React.FC = () => {
 
     setIsLoading(true);
 
-    const { error } = await signUp(signupEmail, signupPassword, signupName);
+    const { error } = await signUp(signupEmail, signupPassword, signupName, signupLastName);
     
     if (!error) {
       // Stay on auth page to show success message
       setSignupName('');
+      setSignupLastName('');
       setSignupEmail('');
       setSignupPassword('');
       setConfirmPassword('');
@@ -136,6 +138,19 @@ export const Auth: React.FC = () => {
                         placeholder="Ваше имя"
                         value={signupName}
                         onChange={(e) => setSignupName(e.target.value)}
+                        required
+                        className="kamp-input"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-lastname" className="text-muted-foreground">Фамилия</Label>
+                      <Input
+                        id="signup-lastname"
+                        type="text"
+                        placeholder="Ваша фамилия"
+                        value={signupLastName}
+                        onChange={(e) => setSignupLastName(e.target.value)}
                         required
                         className="kamp-input"
                       />
