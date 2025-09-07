@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Plus, Award } from 'lucide-react';
+import { validateEmail, validateName, validatePassword, sanitizeInput, rateLimiter } from '@/lib/validation';
 
 interface Participant {
   id: string;
@@ -20,6 +21,7 @@ export const AdminPanel: React.FC = () => {
   const { toast } = useToast();
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   // Состояние для добавления пользователя
   const [newUserEmail, setNewUserEmail] = useState('');
@@ -54,17 +56,56 @@ export const AdminPanel: React.FC = () => {
 
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Rate limiting for admin actions
+    if (!rateLimiter.isAllowed('admin-add-user', 10, 300000)) {
+      toast({
+        title: "Слишком много попыток",
+        description: "Попробуйте через 5 минут",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate inputs
+    const errors: Record<string, string> = {};
+    const sanitizedEmail = sanitizeInput(newUserEmail);
+    const sanitizedName = sanitizeInput(newUserName);
+    const sanitizedLastName = sanitizeInput(newUserLastName);
+    
+    if (!validateEmail(sanitizedEmail)) {
+      errors.email = 'Введите корректный email адрес';
+    }
+    
+    if (!validateName(sanitizedName)) {
+      errors.name = 'Имя должно содержать только буквы и пробелы';
+    }
+    
+    if (!validateName(sanitizedLastName)) {
+      errors.lastName = 'Фамилия должна содержать только буквы и пробелы';
+    }
+    
+    if (!validatePassword(newUserPassword)) {
+      errors.password = 'Пароль должен содержать минимум 8 символов, буквы и цифры';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    
+    setFormErrors({});
     setLoading(true);
 
     try {
-      // Создаем пользователя через admin API
+      // Создаем пользователя через admin API с валидированными данными
       const { data, error } = await supabase.auth.admin.createUser({
-        email: newUserEmail,
+        email: sanitizedEmail,
         password: newUserPassword,
         email_confirm: true,
         user_metadata: {
-          name: newUserName,
-          lastName: newUserLastName
+          name: sanitizedName,
+          lastName: sanitizedLastName
         }
       });
 
@@ -84,8 +125,8 @@ export const AdminPanel: React.FC = () => {
           .insert([
             {
               user_id: data.user.id,
-              name: newUserName,
-              last_name: newUserLastName,
+              name: sanitizedName,
+              last_name: sanitizedLastName,
               points: 0
             }
           ]);
@@ -103,7 +144,7 @@ export const AdminPanel: React.FC = () => {
 
       toast({
         title: "Пользователь создан",
-        description: `${newUserName} ${newUserLastName} успешно добавлен`
+        description: `${sanitizedName} ${sanitizedLastName} успешно добавлен`
       });
 
       // Очищаем форму
@@ -205,8 +246,12 @@ export const AdminPanel: React.FC = () => {
                     value={newUserName}
                     onChange={(e) => setNewUserName(e.target.value)}
                     required
-                    className="kamp-input"
+                    maxLength={50}
+                    className={`kamp-input ${formErrors.name ? 'border-red-500' : ''}`}
                   />
+                  {formErrors.name && (
+                    <p className="text-red-400 text-xs mt-1">{formErrors.name}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="new-lastname">Фамилия</Label>
@@ -215,8 +260,12 @@ export const AdminPanel: React.FC = () => {
                     value={newUserLastName}
                     onChange={(e) => setNewUserLastName(e.target.value)}
                     required
-                    className="kamp-input"
+                    maxLength={50}
+                    className={`kamp-input ${formErrors.lastName ? 'border-red-500' : ''}`}
                   />
+                  {formErrors.lastName && (
+                    <p className="text-red-400 text-xs mt-1">{formErrors.lastName}</p>
+                  )}
                 </div>
               </div>
               
@@ -228,8 +277,12 @@ export const AdminPanel: React.FC = () => {
                   value={newUserEmail}
                   onChange={(e) => setNewUserEmail(e.target.value)}
                   required
-                  className="kamp-input"
+                  maxLength={254}
+                  className={`kamp-input ${formErrors.email ? 'border-red-500' : ''}`}
                 />
+                {formErrors.email && (
+                  <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>
+                )}
               </div>
               
               <div className="space-y-2">
@@ -240,15 +293,19 @@ export const AdminPanel: React.FC = () => {
                   value={newUserPassword}
                   onChange={(e) => setNewUserPassword(e.target.value)}
                   required
-                  minLength={6}
-                  className="kamp-input"
+                  minLength={8}
+                  maxLength={50}
+                  className={`kamp-input ${formErrors.password ? 'border-red-500' : ''}`}
                 />
+                {formErrors.password && (
+                  <p className="text-red-400 text-xs mt-1">{formErrors.password}</p>
+                )}
               </div>
               
               <Button 
                 type="submit" 
                 className="kamp-button-primary w-full"
-                disabled={loading}
+                disabled={loading || Object.keys(formErrors).length > 0}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 {loading ? 'Создание...' : 'Создать пользователя'}
@@ -335,8 +392,9 @@ export const AdminPanel: React.FC = () => {
                 <Input
                   id="activity-description"
                   value={activityDescription}
-                  onChange={(e) => setActivityDescription(e.target.value)}
+                  onChange={(e) => setActivityDescription(sanitizeInput(e.target.value))}
                   placeholder="Описание активности"
+                  maxLength={200}
                   className="kamp-input"
                 />
               </div>

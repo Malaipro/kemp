@@ -7,11 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/Layout';
+import { validateEmail, validatePassword, validateName, sanitizeInput, rateLimiter } from '@/lib/validation';
 
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
   const { user, signIn, signUp } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
@@ -33,11 +35,38 @@ export const Auth: React.FC = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Rate limiting
+    if (!rateLimiter.isAllowed('signin-attempt', 5, 300000)) {
+      setFormErrors({ general: 'Слишком много попыток входа. Попробуйте через 5 минут.' });
+      return;
+    }
+
+    // Validate inputs
+    const errors: Record<string, string> = {};
+    const sanitizedEmail = sanitizeInput(loginEmail);
+    
+    if (!validateEmail(sanitizedEmail)) {
+      errors.email = 'Введите корректный email адрес';
+    }
+    
+    if (!loginPassword || loginPassword.length < 6) {
+      errors.password = 'Пароль должен содержать минимум 6 символов';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    
+    setFormErrors({});
     setIsLoading(true);
 
-    const { error } = await signIn(loginEmail, loginPassword);
+    const { error } = await signIn(sanitizedEmail, loginPassword);
     
-    if (!error) {
+    if (error) {
+      setFormErrors({ general: 'Неверный email или пароль' });
+    } else {
       navigate('/dashboard');
     }
     
@@ -47,15 +76,51 @@ export const Auth: React.FC = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (signupPassword !== confirmPassword) {
+    // Rate limiting
+    if (!rateLimiter.isAllowed('signup-attempt', 3, 300000)) {
+      setFormErrors({ general: 'Слишком много попыток регистрации. Попробуйте через 5 минут.' });
       return;
     }
 
+    // Validate inputs
+    const errors: Record<string, string> = {};
+    const sanitizedEmail = sanitizeInput(signupEmail);
+    const sanitizedName = sanitizeInput(signupName);
+    const sanitizedLastName = sanitizeInput(signupLastName);
+    
+    if (!validateEmail(sanitizedEmail)) {
+      errors.email = 'Введите корректный email адрес';
+    }
+    
+    if (!validateName(sanitizedName)) {
+      errors.name = 'Имя должно содержать только буквы и пробелы';
+    }
+    
+    if (!validateName(sanitizedLastName)) {
+      errors.lastName = 'Фамилия должна содержать только буквы и пробелы';
+    }
+    
+    if (!validatePassword(signupPassword)) {
+      errors.password = 'Пароль должен содержать минимум 8 символов, буквы и цифры';
+    }
+    
+    if (signupPassword !== confirmPassword) {
+      errors.confirmPassword = 'Пароли не совпадают';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    
+    setFormErrors({});
     setIsLoading(true);
 
-    const { error } = await signUp(signupEmail, signupPassword, signupName, signupLastName);
+    const { error } = await signUp(sanitizedEmail, signupPassword, sanitizedName, sanitizedLastName);
     
-    if (!error) {
+    if (error) {
+      setFormErrors({ general: error.message || 'Ошибка при регистрации' });
+    } else {
       // Stay on auth page to show success message
       setSignupName('');
       setSignupLastName('');
@@ -101,8 +166,12 @@ export const Auth: React.FC = () => {
                         value={loginEmail}
                         onChange={(e) => setLoginEmail(e.target.value)}
                         required
-                        className="kamp-input"
+                        maxLength={254}
+                        className={`kamp-input ${formErrors.email ? 'border-red-500' : ''}`}
                       />
+                      {formErrors.email && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>
+                      )}
                     </div>
                     
                     <div className="space-y-2">
@@ -114,14 +183,22 @@ export const Auth: React.FC = () => {
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}
                         required
-                        className="kamp-input"
+                        minLength={6}
+                        className={`kamp-input ${formErrors.password ? 'border-red-500' : ''}`}
                       />
+                      {formErrors.password && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.password}</p>
+                      )}
                     </div>
+
+                    {formErrors.general && (
+                      <p className="text-red-400 text-sm text-center">{formErrors.general}</p>
+                    )}
 
                     <Button 
                       type="submit" 
                       className="kamp-button-primary w-full"
-                      disabled={isLoading}
+                      disabled={isLoading || Object.keys(formErrors).length > 0}
                     >
                       {isLoading ? 'Вход...' : 'Войти'}
                     </Button>
@@ -139,8 +216,12 @@ export const Auth: React.FC = () => {
                         value={signupName}
                         onChange={(e) => setSignupName(e.target.value)}
                         required
-                        className="kamp-input"
+                        maxLength={50}
+                        className={`kamp-input ${formErrors.name ? 'border-red-500' : ''}`}
                       />
+                      {formErrors.name && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.name}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -152,8 +233,12 @@ export const Auth: React.FC = () => {
                         value={signupLastName}
                         onChange={(e) => setSignupLastName(e.target.value)}
                         required
-                        className="kamp-input"
+                        maxLength={50}
+                        className={`kamp-input ${formErrors.lastName ? 'border-red-500' : ''}`}
                       />
+                      {formErrors.lastName && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.lastName}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -165,8 +250,12 @@ export const Auth: React.FC = () => {
                         value={signupEmail}
                         onChange={(e) => setSignupEmail(e.target.value)}
                         required
-                        className="kamp-input"
+                        maxLength={254}
+                        className={`kamp-input ${formErrors.email ? 'border-red-500' : ''}`}
                       />
+                      {formErrors.email && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>
+                      )}
                     </div>
                     
                     <div className="space-y-2">
@@ -178,9 +267,15 @@ export const Auth: React.FC = () => {
                         value={signupPassword}
                         onChange={(e) => setSignupPassword(e.target.value)}
                         required
-                        minLength={6}
-                        className="kamp-input"
+                        minLength={8}
+                        className={`kamp-input ${formErrors.password ? 'border-red-500' : ''}`}
                       />
+                      {formErrors.password && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.password}</p>
+                      )}
+                      <p className="text-xs text-gray-400">
+                        Минимум 8 символов, включая буквы и цифры
+                      </p>
                     </div>
 
                     <div className="space-y-2">
@@ -192,17 +287,24 @@ export const Auth: React.FC = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
-                        className="kamp-input"
+                        className={`kamp-input ${formErrors.confirmPassword ? 'border-red-500' : ''}`}
                       />
-                      {confirmPassword && signupPassword !== confirmPassword && (
+                      {formErrors.confirmPassword && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.confirmPassword}</p>
+                      )}
+                      {confirmPassword && signupPassword !== confirmPassword && !formErrors.confirmPassword && (
                         <p className="text-sm text-red-400">Пароли не совпадают</p>
                       )}
                     </div>
 
+                    {formErrors.general && (
+                      <p className="text-red-400 text-sm text-center">{formErrors.general}</p>
+                    )}
+
                     <Button 
                       type="submit" 
                       className="kamp-button-primary w-full"
-                      disabled={isLoading || signupPassword !== confirmPassword}
+                      disabled={isLoading || signupPassword !== confirmPassword || Object.keys(formErrors).length > 0}
                     >
                       {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
                     </Button>

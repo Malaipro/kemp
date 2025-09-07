@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Send } from 'lucide-react';
+import { validateName, validatePhone, sanitizeInput, rateLimiter } from '@/lib/validation';
 
 interface ContactFormFieldsProps {
   formData: {
@@ -17,6 +18,48 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
   handleChange,
   isSubmitting,
 }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleSecureChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const sanitizedValue = sanitizeInput(value);
+    
+    // Validate input
+    const newErrors = { ...errors };
+    
+    if (name === 'name' && sanitizedValue && !validateName(sanitizedValue)) {
+      newErrors.name = 'Имя должно содержать только буквы, пробелы и дефисы';
+    } else {
+      delete newErrors.name;
+    }
+    
+    if (name === 'phone' && sanitizedValue && !validatePhone(sanitizedValue)) {
+      newErrors.phone = 'Введите корректный номер телефона';
+    } else {
+      delete newErrors.phone;
+    }
+    
+    setErrors(newErrors);
+    
+    // Call original handler with sanitized value
+    handleChange({
+      ...e,
+      target: {
+        ...e.target,
+        value: sanitizedValue
+      }
+    } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    // Rate limiting check
+    if (!rateLimiter.isAllowed('contact-form-submit', 3, 60000)) {
+      alert('Слишком много попыток отправки. Попробуйте через минуту.');
+      e.preventDefault();
+      return;
+    }
+  };
+
   return (
     <>
       <div>
@@ -31,11 +74,15 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
           id="name"
           name="name"
           value={formData.name}
-          onChange={handleChange}
+          onChange={handleSecureChange}
           required
-          className="kamp-input"
+          maxLength={50}
+          className={`kamp-input ${errors.name ? 'border-red-500' : ''}`}
           placeholder="Введите ваше имя"
         />
+        {errors.name && (
+          <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+        )}
       </div>
       
       <div className="mt-5">
@@ -50,11 +97,15 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
           id="phone"
           name="phone"
           value={formData.phone}
-          onChange={handleChange}
+          onChange={handleSecureChange}
           required
-          className="kamp-input"
+          maxLength={20}
+          className={`kamp-input ${errors.phone ? 'border-red-500' : ''}`}
           placeholder="+7 (___) ___-__-__"
         />
+        {errors.phone && (
+          <p className="text-red-400 text-xs mt-1">{errors.phone}</p>
+        )}
       </div>
       
       <div className="mt-5">
@@ -69,7 +120,8 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
           id="social"
           name="social"
           value={formData.social}
-          onChange={handleChange}
+          onChange={handleSecureChange}
+          maxLength={100}
           className="kamp-input"
           placeholder="Ваш Instagram, Telegram или другие соц. сети"
         />
@@ -78,8 +130,9 @@ export const ContactFormFields: React.FC<ContactFormFieldsProps> = ({
       <div className="mt-8">
         <button 
           type="submit"
+          onClick={handleSubmit}
           className="kamp-button-primary w-full flex items-center justify-center"
-          disabled={isSubmitting}
+          disabled={isSubmitting || Object.keys(errors).length > 0}
         >
           {isSubmitting ? (
             <span className="flex items-center">

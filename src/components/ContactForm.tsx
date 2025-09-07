@@ -3,21 +3,56 @@ import { AskQuestion } from './contact/AskQuestion';
 import { CountdownTimer } from './contact/CountdownTimer';
 import { CourseInfo } from './contact/CourseInfo';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+// Declare Bitrix form interface for TypeScript
+declare global {
+  interface Window {
+    B24Form?: {
+      init: (config: { id: number; type: string; container: string }) => void;
+    };
+  }
+}
 export const ContactForm: React.FC = () => {
   const isMobile = useIsMobile();
   useEffect(() => {
-    // Создаем скрипт Битрикс формы более простым способом
-    const script = document.createElement('script');
-    script.src = 'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js?' + (Date.now() / 180000 | 0);
-    script.async = true;
-    script.onload = () => {
-      console.log('Битрикс скрипт загружен');
+    // Безопасная загрузка Битрикс скрипта без dangerouslySetInnerHTML
+    const loadBitrixForm = () => {
+      // Проверяем, что скрипт еще не загружен
+      if (document.querySelector('[data-bitrix-form-loaded]')) {
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js?' + (Date.now() / 180000 | 0);
+      script.async = true;
+      script.setAttribute('data-bitrix-form-loaded', 'true');
+      
+      script.onload = () => {
+        console.log('Битрикс скрипт загружен безопасно');
+        
+        // Инициализируем форму после загрузки скрипта
+        if (window.B24Form) {
+          window.B24Form.init({
+            id: 134,
+            type: 'inline',
+            container: 'bitrix-form-container'
+          });
+        }
+      };
+      
+      script.onerror = () => {
+        console.error('Ошибка загрузки Битрикс формы');
+      };
+      
+      document.head.appendChild(script);
     };
-    document.head.appendChild(script);
+
+    loadBitrixForm();
 
     // Очистка при размонтировании компонента
     return () => {
-      if (document.head.contains(script)) {
+      const script = document.querySelector('[data-bitrix-form-loaded]');
+      if (script && document.head.contains(script)) {
         document.head.removeChild(script);
       }
     };
@@ -47,17 +82,16 @@ export const ContactForm: React.FC = () => {
             <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
               <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
-              {/* Битрикс форма - вставляем HTML напрямую */}
-              <div className="bitrix-form-container" dangerouslySetInnerHTML={{
-              __html: `
-                    <script data-b24-form="inline/134/km4hms" data-skip-moving="true">
-                      (function(w,d,u){
-                        var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
-                        var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-                      })(window,document,'https://cdn-ru.bitrix24.ru/b23536290/crm/form/loader_134.js');
-                    </script>
-                  `
-            }} />
+              {/* Безопасный контейнер для Битрикс формы */}
+              <div 
+                id="bitrix-form-container" 
+                className="bitrix-form-container min-h-[300px] flex items-center justify-center"
+              >
+                <div className="text-gray-400 text-center">
+                  <div className="animate-spin w-6 h-6 border-2 border-kamp-primary border-t-transparent rounded-full mx-auto mb-2"></div>
+                  <p className="text-sm">Загрузка формы...</p>
+                </div>
+              </div>
             </div>
             
             {/* Ask a Question Button */}
