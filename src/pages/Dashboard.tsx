@@ -1,24 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useRole } from '@/hooks/useRole';
 import { Layout } from '@/components/Layout';
 import { KampSystem } from '@/components/kamp';
 import { AdminPanel } from '@/components/admin/AdminPanel';
+import { CooperTestResults } from '@/components/cooper/CooperTestResults';
+import { ScheduleManagement } from '@/components/schedule/ScheduleManagement';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LogOut, User, Shield } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user, signOut, loading } = useAuth();
   const { isSuperAdmin, loading: roleLoading } = useRole();
+  const [participantData, setParticipantData] = useState<any>(null);
 
   useEffect(() => {
     if (!loading && !user) {
       navigate('/auth');
     }
   }, [user, loading, navigate]);
+
+  useEffect(() => {
+    const loadParticipantData = async () => {
+      if (!user) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('участники')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error loading participant data:', error);
+          return;
+        }
+
+        setParticipantData(data);
+      } catch (error) {
+        console.error('Error in loadParticipantData:', error);
+      }
+    };
+
+    if (user) {
+      loadParticipantData();
+    }
+  }, [user]);
 
   if (loading || roleLoading) {
     return (
@@ -45,16 +76,16 @@ export const Dashboard: React.FC = () => {
         {/* Dashboard Header */}
         <section className="kamp-section bg-gradient-to-b from-black to-gray-900">
           <div className="kamp-container">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-kamp-accent/20 rounded-full flex items-center justify-center">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center space-x-4 min-w-0 flex-1">
+                <div className="w-12 h-12 bg-kamp-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
                   <User className="w-6 h-6 text-kamp-accent" />
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-white">
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-xl sm:text-2xl font-bold text-white truncate">
                     Личный кабинет
                   </h1>
-                  <p className="text-gray-400">
+                  <p className="text-gray-400 text-sm sm:text-base truncate">
                     {user.user_metadata?.name || user.email}
                     {isSuperAdmin && <span className="ml-2 text-kamp-accent font-semibold">(Супер админ)</span>}
                   </p>
@@ -64,10 +95,11 @@ export const Dashboard: React.FC = () => {
               <Button
                 onClick={handleSignOut}
                 variant="outline"
-                className="border-kamp-accent text-kamp-accent hover:bg-kamp-accent hover:text-black"
+                size="sm"
+                className="border-kamp-accent text-kamp-accent hover:bg-kamp-accent hover:text-black flex-shrink-0"
               >
                 <LogOut className="w-4 h-4 mr-2" />
-                Выйти
+                <span className="hidden sm:inline">Выйти</span>
               </Button>
             </div>
           </div>
@@ -78,14 +110,26 @@ export const Dashboard: React.FC = () => {
           <div className="kamp-container">
             {isSuperAdmin ? (
               <Tabs defaultValue="kamp" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="kamp" className="flex items-center gap-2">
+                <TabsList className="grid w-full grid-cols-4 mb-6 h-auto p-1">
+                  <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <User className="w-4 h-4" />
-                    КЭМП Система
+                    <span className="hidden sm:inline">КЭМП Система</span>
+                    <span className="sm:hidden">КЭМП</span>
                   </TabsTrigger>
-                  <TabsTrigger value="admin" className="flex items-center gap-2">
+                  <TabsTrigger value="admin" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <Shield className="w-4 h-4" />
-                    Админ-панель
+                    <span className="hidden sm:inline">Админ-панель</span>
+                    <span className="sm:hidden">Админ</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="cooper" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <User className="w-4 h-4" />
+                    <span className="hidden sm:inline">Тест Купера</span>
+                    <span className="sm:hidden">Купер</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <Shield className="w-4 h-4" />
+                    <span className="hidden sm:inline">Расписание</span>
+                    <span className="sm:hidden">График</span>
                   </TabsTrigger>
                 </TabsList>
                 
@@ -96,9 +140,47 @@ export const Dashboard: React.FC = () => {
                 <TabsContent value="admin">
                   <AdminPanel />
                 </TabsContent>
+                
+                <TabsContent value="cooper">
+                  <CooperTestResults participantId={participantData?.id || ''} />
+                </TabsContent>
+                
+                <TabsContent value="schedule">
+                  <ScheduleManagement />
+                </TabsContent>
               </Tabs>
             ) : (
-              <KampSystem />
+              <Tabs defaultValue="kamp" className="w-full">
+                <TabsList className="grid w-full grid-cols-3 mb-6 h-auto p-1">
+                  <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <User className="w-4 h-4" />
+                    <span className="hidden sm:inline">КЭМП Система</span>
+                    <span className="sm:hidden">КЭМП</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="cooper" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <User className="w-4 h-4" />
+                    <span className="hidden sm:inline">Тест Купера</span>
+                    <span className="sm:hidden">Купер</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <Shield className="w-4 h-4" />
+                    <span className="hidden sm:inline">Расписание</span>
+                    <span className="sm:hidden">График</span>
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="kamp">
+                  <KampSystem />
+                </TabsContent>
+                
+                <TabsContent value="cooper">
+                  <CooperTestResults participantId={participantData?.id || ''} />
+                </TabsContent>
+                
+                <TabsContent value="schedule">
+                  <ScheduleManagement />
+                </TabsContent>
+              </Tabs>
             )}
           </div>
         </section>

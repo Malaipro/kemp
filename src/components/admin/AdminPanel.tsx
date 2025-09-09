@@ -227,41 +227,41 @@ export const AdminPanel: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Добавление пользователя */}
         <Card className="kamp-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-kamp-accent">
-              <Users className="w-5 h-5" />
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-kamp-accent responsive-text-base">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5" />
               Добавить пользователя
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <form onSubmit={handleAddUser} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="new-name">Имя</Label>
+                  <Label htmlFor="new-name" className="responsive-text-sm">Имя</Label>
                   <Input
                     id="new-name"
                     value={newUserName}
                     onChange={(e) => setNewUserName(e.target.value)}
                     required
                     maxLength={50}
-                    className={`kamp-input ${formErrors.name ? 'border-red-500' : ''}`}
+                    className={`kamp-input text-sm ${formErrors.name ? 'border-red-500' : ''}`}
                   />
                   {formErrors.name && (
                     <p className="text-red-400 text-xs mt-1">{formErrors.name}</p>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="new-lastname">Фамилия</Label>
+                  <Label htmlFor="new-lastname" className="responsive-text-sm">Фамилия</Label>
                   <Input
                     id="new-lastname"
                     value={newUserLastName}
                     onChange={(e) => setNewUserLastName(e.target.value)}
                     required
                     maxLength={50}
-                    className={`kamp-input ${formErrors.lastName ? 'border-red-500' : ''}`}
+                    className={`kamp-input text-sm ${formErrors.lastName ? 'border-red-500' : ''}`}
                   />
                   {formErrors.lastName && (
                     <p className="text-red-400 text-xs mt-1">{formErrors.lastName}</p>
@@ -270,7 +270,7 @@ export const AdminPanel: React.FC = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="new-email">Email</Label>
+                <Label htmlFor="new-email" className="responsive-text-sm">Email</Label>
                 <Input
                   id="new-email"
                   type="email"
@@ -278,7 +278,7 @@ export const AdminPanel: React.FC = () => {
                   onChange={(e) => setNewUserEmail(e.target.value)}
                   required
                   maxLength={254}
-                  className={`kamp-input ${formErrors.email ? 'border-red-500' : ''}`}
+                  className={`kamp-input text-sm ${formErrors.email ? 'border-red-500' : ''}`}
                 />
                 {formErrors.email && (
                   <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>
@@ -286,7 +286,7 @@ export const AdminPanel: React.FC = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="new-password">Пароль</Label>
+                <Label htmlFor="new-password" className="responsive-text-sm">Пароль</Label>
                 <Input
                   id="new-password"
                   type="password"
@@ -295,7 +295,7 @@ export const AdminPanel: React.FC = () => {
                   required
                   minLength={8}
                   maxLength={50}
-                  className={`kamp-input ${formErrors.password ? 'border-red-500' : ''}`}
+                  className={`kamp-input text-sm ${formErrors.password ? 'border-red-500' : ''}`}
                 />
                 {formErrors.password && (
                   <p className="text-red-400 text-xs mt-1">{formErrors.password}</p>
@@ -304,7 +304,7 @@ export const AdminPanel: React.FC = () => {
               
               <Button 
                 type="submit" 
-                className="kamp-button-primary w-full"
+                className="kamp-button-primary w-full tap-target responsive-text-sm"
                 disabled={loading || Object.keys(formErrors).length > 0}
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -316,18 +316,18 @@ export const AdminPanel: React.FC = () => {
 
         {/* Добавление активности */}
         <Card className="kamp-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-kamp-accent">
-              <Award className="w-5 h-5" />
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-kamp-accent responsive-text-base">
+              <Award className="w-4 h-4 sm:w-5 sm:h-5" />
               Добавить активность
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <form onSubmit={handleAddActivity} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="participant-select">Участник</Label>
+                <Label htmlFor="participant-select" className="responsive-text-sm">Участник</Label>
                 <Select value={selectedParticipant} onValueChange={setSelectedParticipant} required>
-                  <SelectTrigger className="kamp-input">
+                  <SelectTrigger className="kamp-input h-10">
                     <SelectValue placeholder="Выберите участника" />
                   </SelectTrigger>
                   <SelectContent>
@@ -340,11 +340,11 @@ export const AdminPanel: React.FC = () => {
                 </Select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="activity-type">Тип награды</Label>
+                  <Label htmlFor="activity-type" className="responsive-text-sm">Тип награды</Label>
                   <Select value={activityType} onValueChange={(value: 'zakal' | 'gran' | 'shram') => setActivityType(value)}>
-                    <SelectTrigger className="kamp-input">
+                    <SelectTrigger className="kamp-input h-10">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -357,9 +357,9 @@ export const AdminPanel: React.FC = () => {
 
                 {(activityType === 'zakal' || activityType === 'shram') && (
                   <div className="space-y-2">
-                    <Label htmlFor="activity-subtype">Подтип</Label>
+                    <Label htmlFor="activity-subtype" className="responsive-text-sm">Подтип</Label>
                     <Select value={activitySubtype} onValueChange={setActivitySubtype} required>
-                      <SelectTrigger className="kamp-input">
+                      <SelectTrigger className="kamp-input h-10">
                         <SelectValue placeholder="Выберите подтип" />
                       </SelectTrigger>
                       <SelectContent>
@@ -376,32 +376,32 @@ export const AdminPanel: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="activity-points">Баллы</Label>
+                <Label htmlFor="activity-points" className="responsive-text-sm">Баллы</Label>
                 <Input
                   id="activity-points"
                   type="number"
                   value={activityPoints}
                   onChange={(e) => setActivityPoints(parseInt(e.target.value) || 1)}
                   min={1}
-                  className="kamp-input"
+                  className="kamp-input text-sm"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="activity-description">Описание</Label>
+                <Label htmlFor="activity-description" className="responsive-text-sm">Описание</Label>
                 <Input
                   id="activity-description"
                   value={activityDescription}
                   onChange={(e) => setActivityDescription(sanitizeInput(e.target.value))}
                   placeholder="Описание активности"
                   maxLength={200}
-                  className="kamp-input"
+                  className="kamp-input text-sm"
                 />
               </div>
 
               <Button 
                 type="submit" 
-                className="kamp-button-primary w-full"
+                className="kamp-button-primary w-full tap-target responsive-text-sm"
                 disabled={loading || !selectedParticipant}
               >
                 <Award className="w-4 h-4 mr-2" />
@@ -414,20 +414,22 @@ export const AdminPanel: React.FC = () => {
 
       {/* Список участников */}
       <Card className="kamp-card">
-        <CardHeader>
-          <CardTitle className="text-kamp-accent">Все участники ({participants.length})</CardTitle>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-kamp-accent responsive-text-base">
+            Все участники ({participants.length})
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
             {participants.map((participant) => (
               <div 
                 key={participant.id}
-                className="p-4 border border-gray-700 rounded-lg bg-gray-900/50"
+                className="p-3 sm:p-4 border border-gray-700 rounded-lg bg-gray-900/50 hover:bg-gray-900/70 transition-colors touch-card"
               >
-                <h3 className="font-semibold text-kamp-accent">
+                <h3 className="font-semibold text-kamp-accent responsive-text-sm line-clamp-1">
                   {participant.name} {participant.last_name}
                 </h3>
-                <p className="text-sm text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-400">
                   Баллы: {participant.points}
                 </p>
               </div>

@@ -95,6 +95,57 @@ export type Database = {
         }
         Relationships: []
       }
+      cooper_test_results: {
+        Row: {
+          created_at: string
+          distance_meters: number
+          fitness_level: string | null
+          id: string
+          notes: string | null
+          participant_id: string
+          test_date: string
+          time_minutes: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          distance_meters: number
+          fitness_level?: string | null
+          id?: string
+          notes?: string | null
+          participant_id: string
+          test_date?: string
+          time_minutes?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          distance_meters?: number
+          fitness_level?: string | null
+          id?: string
+          notes?: string | null
+          participant_id?: string
+          test_date?: string
+          time_minutes?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cooper_test_results_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cooper_test_results_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "участники"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       direction_progress: {
         Row: {
           activities_completed: number | null
@@ -237,6 +288,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      schedule: {
+        Row: {
+          activity_name: string
+          created_at: string
+          day_of_week: number
+          description: string | null
+          id: string
+          instructor: string | null
+          is_active: boolean
+          location: string | null
+          max_participants: number | null
+          time_end: string
+          time_start: string
+          updated_at: string
+        }
+        Insert: {
+          activity_name: string
+          created_at?: string
+          day_of_week: number
+          description?: string | null
+          id?: string
+          instructor?: string | null
+          is_active?: boolean
+          location?: string | null
+          max_participants?: number | null
+          time_end: string
+          time_start: string
+          updated_at?: string
+        }
+        Update: {
+          activity_name?: string
+          created_at?: string
+          day_of_week?: number
+          description?: string | null
+          id?: string
+          instructor?: string | null
+          is_active?: boolean
+          location?: string | null
+          max_participants?: number | null
+          time_end?: string
+          time_start?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       service_bookings: {
         Row: {
