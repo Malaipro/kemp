@@ -93,11 +93,11 @@
 
 @layer components {
   .kamp-container {
-    @apply container max-w-7xl mx-auto px-3 md:px-8;
+    @apply container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
   .kamp-section {
-    @apply py-8 md:py-16 lg:py-24;
+    @apply py-6 sm:py-12 md:py-16 lg:py-24;
   }
 
   .kamp-card {
@@ -105,7 +105,7 @@
   }
 
   .kamp-button {
-    @apply px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95;
+    @apply px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 text-sm sm:text-base min-h-[44px] min-w-[44px];
   }
 
   .kamp-button-primary {
@@ -269,12 +269,22 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .safe-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+  /* Improved touch interactions */
+  .touch-friendly {
+    @apply active:bg-black/5 active:scale-[0.98] transform transition-all duration-200 touch-manipulation;
   }
 
-  .safe-top {
-    padding-top: env(safe-area-inset-top);
+  /* Mobile viewport safe areas */
+  .safe-area-padding {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-left: max(1rem, env(safe-area-inset-left)); 
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  /* Enhanced focus states for mobile */
+  .mobile-focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kamp-primary focus-visible:ring-offset-2 focus-visible:ring-offset-white;
   }
 
   .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
@@ -312,12 +322,12 @@
     @apply h-[50%] bg-kamp-primary/30;
   }
 
-  /* Mobile optimizations */
+  /* Mobile touch targets - improved accessibility */
   .tap-target {
-    @apply min-h-[44px] min-w-[44px];
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
   }
   
-  /* Horizontal snap scrolling for mobile - FIXED to avoid circular dependency */
+  /* Enhanced scroll behavior for mobile */
   .mobile-snap-scroll {
     scroll-snap-type: x mandatory;
     overflow-x: auto;
@@ -332,20 +342,39 @@
   
   .snap-item {
     scroll-snap-align: start;
+    flex-shrink: 0;
   }
   
-  /* Prevent content from being too wide on mobile */
+  /* Better content width control */
   .text-compact {
     @apply text-sm md:text-base max-w-[90vw] md:max-w-none break-words;
   }
   
-  /* Mobile-friendly spacing */
+  /* Mobile-friendly spacing utilities */
   .mobile-p {
-    @apply p-2 md:p-6;
+    @apply p-3 sm:p-4 md:p-6;
   }
   
   .mobile-m {
-    @apply m-2 md:m-6;
+    @apply m-3 sm:m-4 md:m-6;
+  }
+
+  /* Responsive padding for better mobile experience */
+  .responsive-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Mobile-friendly grid layouts */
+  .mobile-grid-1 {
+    @apply grid grid-cols-1 gap-4 md:gap-6;
+  }
+
+  .mobile-grid-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6;
+  }
+
+  .mobile-grid-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6;
   }
 
   /* Better text sizing for different viewport sizes */

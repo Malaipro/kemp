@@ -83,12 +83,15 @@ export const Header: React.FC = () => {
         }`}
       >
         <div className="kamp-container">
-          <div className="flex items-center justify-between py-1.5">
+          <div className="flex items-center justify-between py-2 h-14">
             <Logo onClick={handleLogoClick} />
-            <MobileMenuButton 
-              isOpen={isOpen} 
-              toggleMenu={toggleMenu} 
-            />
+            <div className="flex items-center space-x-2">
+              <AuthButtons />
+              <MobileMenuButton 
+                isOpen={isOpen} 
+                toggleMenu={toggleMenu} 
+              />
+            </div>
           </div>
         </div>
 

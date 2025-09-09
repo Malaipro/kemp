@@ -116,36 +116,38 @@ export const Dashboard: React.FC = () => {
           <div className="kamp-container">
             {isSuperAdmin ? (
               <Tabs defaultValue="kamp" className="w-full">
-                <TabsList className="grid w-full grid-cols-7 mb-6 h-auto p-1">
-                  <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">КЭМП</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="activities" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">Активности</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="participants" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">Участники</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="streams" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">Потоки</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="cooper" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">Купер</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">Расписание</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="cms" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">CMS</span>
-                  </TabsTrigger>
-                </TabsList>
+                <div className="mb-6">
+                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7 h-auto p-1 gap-1">
+                    <TabsTrigger value="kamp" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
+                      <User className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>КЭМП</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="activities" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>Актив.</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="participants" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
+                      <User className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>Участн.</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="streams" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>Потоки</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="cooper" className="flex flex-col items-center gap-1 text-xs px-1 py-2 lg:grid-cols-auto">
+                      <User className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>Купер</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="schedule" className="flex flex-col items-center gap-1 text-xs px-1 py-2 lg:grid-cols-auto">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>Расписан.</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="cms" className="flex flex-col items-center gap-1 text-xs px-1 py-2 lg:grid-cols-auto">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                      <span>CMS</span>
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
                 
                 <TabsContent value="kamp">
                   <KampSystem />
@@ -177,23 +179,22 @@ export const Dashboard: React.FC = () => {
               </Tabs>
             ) : (
               <Tabs defaultValue="kamp" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-6 h-auto p-1">
-                  <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">КЭМП Система</span>
-                    <span className="sm:hidden">КЭМП</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="cooper" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">Тест Купера</span>
-                    <span className="sm:hidden">Купер</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">Расписание</span>
-                    <span className="sm:hidden">График</span>
-                  </TabsTrigger>
-                </TabsList>
+                <div className="mb-6">
+                  <TabsList className="grid w-full grid-cols-3 h-auto p-1 gap-1">
+                    <TabsTrigger value="kamp" className="flex flex-col items-center gap-1 text-xs px-2 py-3">
+                      <User className="w-4 h-4" />
+                      <span className="text-center">КЭМП Система</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="cooper" className="flex flex-col items-center gap-1 text-xs px-2 py-3">
+                      <User className="w-4 h-4" />
+                      <span className="text-center">Тест Купера</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="schedule" className="flex flex-col items-center gap-1 text-xs px-2 py-3">
+                      <Shield className="w-4 h-4" />
+                      <span className="text-center">Расписание</span>
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
                 
                 <TabsContent value="kamp">
                   <KampSystemUser />

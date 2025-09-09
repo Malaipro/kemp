@@ -76,9 +76,9 @@ export const ContactForm: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-8 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-12">
+        <div className="mt-6 md:mt-16 grid grid-cols-1 gap-6 md:gap-12">
           {/* Contact Form */}
-          <div className="reveal-on-scroll">
+          <div className="reveal-on-scroll order-2 md:order-1">
             <div id="contact-form" className={`bg-[#111] rounded-xl shadow-soft ${isMobile ? 'p-4' : 'p-8'} border border-gray-800`}>
               <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold text-white mb-4 md:mb-6`}>Оставить заявку</h3>
               
@@ -99,13 +99,18 @@ export const ContactForm: React.FC = () => {
           </div>
 
           {/* Timer and Info */}
-          <div className="reveal-on-scroll">
+          <div className="reveal-on-scroll order-1 md:order-2">
             <div className="bg-gradient-to-r from-kamp-accent to-kamp-primary text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
               <div className={`flex-grow ${isMobile ? 'p-4' : 'p-8'}`}>
                 <h3 className={`${isMobile ? 'text-lg mb-3' : 'text-xl mb-6'} font-bold`}>Новый интенсив</h3>
-                {isMobile ? <p className="text-white/80 mb-4 text-sm">
+                {isMobile ? 
+                  <p className="text-white/80 mb-4 text-sm">
                     Интенсив начинается 1 сентября! Записывайся сейчас - количество мест ограничено!
-                  </p> : <p className="text-white/80 mb-8">Новый интенсив стартует 8 сентября 2025! Записывайся сейчас - количество мест ограничено, чтобы мы могли уделить внимание каждому участнику.</p>}
+                  </p> : 
+                  <p className="text-white/80 mb-8">
+                    Новый интенсив стартует 8 сентября 2025! Записывайся сейчас - количество мест ограничено, чтобы мы могли уделить внимание каждому участнику.
+                  </p>
+                }
 
                 <CountdownTimer targetDate={new Date('2025-09-01T00:00:00')} />
                 
@@ -118,7 +123,10 @@ export const ContactForm: React.FC = () => {
                     <div className={`${isMobile ? 'text-base' : 'text-xl'} font-bold`}>Ограниченный набор</div>
                     <div className="text-white/70 text-xs md:text-sm">Запишись прямо сейчас</div>
                   </div>
-                  <button onClick={scrollToContactForm} className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-3 py-1.5' : ''}`}>
+                  <button 
+                    onClick={scrollToContactForm} 
+                    className={`kamp-button text-kamp-primary bg-white hover:bg-white/90 ${isMobile ? 'text-xs px-3 py-2' : 'px-4 py-2.5'}`}
+                  >
                     Записаться
                   </button>
                 </div>
