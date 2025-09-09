@@ -15,13 +15,17 @@ export const participants: Participant[] = [
   { id: '10', name: 'Антон Орлов', points: 130, rank: 10 },
 ];
 
-// Static data for activities
+// Static data for activities - Геймификация КЭМП
 export const activities: Activity[] = [
-  { id: '1', title: 'Тренировка', icon: 'Target', points: 1 },
-  { id: '2', title: 'Самостоятельная тренировка', icon: 'Sun', points: 1 },
-  { id: '3', title: 'Закаливание', icon: 'DropletIcon', points: 1 },
-  { id: '4', title: 'Правильное питание', icon: 'Utensils', points: 1 },
-  { id: '5', title: 'Посещение лекций и мастер классов', icon: 'Book', points: 1 },
-  { id: '6', title: 'Участие в финальном испытании', icon: 'Trophy', points: 3 },
-  { id: '7', title: 'Публикация в соц. сети', icon: 'Share2', points: 1 },
+  { id: '1', title: 'Закал БЖЖ (тренировка)', icon: 'Target', points: 1 },
+  { id: '2', title: 'Закал Кикбоксинг (тренировка)', icon: 'Zap', points: 1 },
+  { id: '3', title: 'Закал ОФП (тренировка)', icon: 'Dumbbell', points: 1 },
+  { id: '4', title: 'Грань - лекция КЭМП', icon: 'Book', points: 1 },
+  { id: '5', title: 'Грань - домашнее задание', icon: 'FileText', points: 1 },
+  { id: '6', title: 'Шрам БЖЖ (испытание)', icon: 'Shield', points: 6 },
+  { id: '7', title: 'Шрам Кикбоксинг (испытание)', icon: 'Flame', points: 6 },
+  { id: '8', title: 'Шрам ОФП (испытание)', icon: 'Mountain', points: 6 },
+  { id: '9', title: 'Шрам Тактика (испытание)', icon: 'Crosshair', points: 3 },
+  { id: '10', title: 'Гонка Героев', icon: 'Trophy', points: 8 },
+  { id: '11', title: 'Аскеза (14 дней)', icon: 'Heart', points: 0 },
 ];

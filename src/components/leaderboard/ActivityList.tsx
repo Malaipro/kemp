@@ -15,7 +15,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({ activities }) => {
   return (
     <Card className="overflow-hidden border-gray-700 bg-black bg-opacity-60 text-gray-200 h-full">
       <CardHeader className={`flex flex-row justify-between items-center ${isMobile ? 'p-3' : 'p-6'} border-b border-gray-800`}>
-        <h3 className={`font-bold text-kamp-primary ${isMobile ? 'text-sm' : 'text-base'}`}>Как заработать баллы?</h3>
+        <h3 className={`font-bold text-kamp-primary ${isMobile ? 'text-sm' : 'text-base'}`}>Система геймификации КЭМП</h3>
       </CardHeader>
       <CardContent className="p-0">
         <div className="p-2 md:p-4 space-y-2 md:space-y-4">
