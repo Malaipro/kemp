@@ -1184,33 +1184,6 @@ export type Database = {
       }
     }
     Views: {
-      contact_submissions_secure: {
-        Row: {
-          course: string | null
-          created_at: string | null
-          id: string | null
-          name: string | null
-          phone: string | null
-          social: string | null
-        }
-        Insert: {
-          course?: string | null
-          created_at?: string | null
-          id?: string | null
-          name?: string | null
-          phone?: never
-          social?: string | null
-        }
-        Update: {
-          course?: string | null
-          created_at?: string | null
-          id?: string | null
-          name?: string | null
-          phone?: never
-          social?: string | null
-        }
-        Relationships: []
-      }
       leaderboard: {
         Row: {
           id: string | null
