@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useRole } from '@/hooks/useRole';
 import { useAuth } from '@/hooks/useAuth';
-import { Activity, Clock, User, Plus, Edit2, Trash2 } from 'lucide-react';
+import { Activity, Clock, User, Plus, Edit2, Trash2, TrendingUp, TrendingDown } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface CooperTestResult {
@@ -46,7 +46,7 @@ export const CooperTestManagement: React.FC = () => {
   const [selectedParticipantId, setSelectedParticipantId] = useState<string>('');
   const [testNumber, setTestNumber] = useState<number>(1);
   const [testDate, setTestDate] = useState(new Date().toISOString().split('T')[0]);
-  const [completionTimeSeconds, setCompletionTimeSeconds] = useState<number>(720); // 12 minutes in seconds
+  const [completionTimeSeconds, setCompletionTimeSeconds] = useState<number>(180); // 3 minutes in seconds
   const [notes, setNotes] = useState('');
 
   // Get current user's participant data
@@ -102,21 +102,16 @@ export const CooperTestManagement: React.FC = () => {
         .select('*')
         .order('test_date', { ascending: false });
 
-      // If not admin, only show current user's results
       if (!isSuperAdmin && currentParticipant) {
         query = query.eq('participant_id', currentParticipant.id);
-      } else if (!isSuperAdmin) {
-        return [];
       }
 
-      const { data: results, error: resultsError } = await query;
-      if (resultsError) throw resultsError;
+      const { data: results, error } = await query;
+      if (error) throw error;
 
-      if (!results) return [];
-
-      // Get participant info for admin
-      if (isSuperAdmin && results.length > 0) {
-        const participantIds = Array.from(new Set(results.map(r => r.participant_id)));
+      // If admin, also get participant info
+      if (isSuperAdmin && results?.length) {
+        const participantIds = [...new Set(results.map(r => r.participant_id))];
         const { data: participants, error: participantsError } = await supabase
           .from('участники')
           .select('id, name, last_name')
@@ -125,7 +120,7 @@ export const CooperTestManagement: React.FC = () => {
         if (participantsError) throw participantsError;
 
         const participantMap = new Map(participants?.map(p => [p.id, p]) || []);
-
+        
         return results.map(result => ({
           ...result,
           participant: participantMap.get(result.participant_id) || null
@@ -138,12 +133,14 @@ export const CooperTestManagement: React.FC = () => {
   });
 
   const calculateFitnessLevel = (timeSeconds: number) => {
-    // Основано на времени прохождения теста (чем меньше время, тем лучше)
-    if (timeSeconds <= 540) return 'Отлично'; // 9 минут или меньше
-    if (timeSeconds <= 600) return 'Хорошо';   // до 10 минут
-    if (timeSeconds <= 720) return 'Удовлетворительно'; // до 12 минут
-    if (timeSeconds <= 900) return 'Слабо';    // до 15 минут
-    return 'Очень слабо'; // больше 15 минут
+    // Основано на времени прохождения 4 кругов в зале (чем меньше время, тем лучше)
+    if (timeSeconds <= 180) return 'Отлично'; // 3 минуты или меньше
+    if (timeSeconds <= 240) return 'Хорошо';  // до 4 минут
+    if (timeSeconds <= 300) return 'Нормально'; // до 5 минут
+    if (timeSeconds <= 360) return 'Удовлетворительно'; // до 6 минут
+    if (timeSeconds <= 420) return 'Слабо'; // до 7 минут
+    if (timeSeconds <= 480) return 'Очень слабо'; // до 8 минут
+    return 'Критично'; // больше 8 минут
   };
 
   const formatTime = (seconds: number) => {
@@ -156,7 +153,7 @@ export const CooperTestManagement: React.FC = () => {
     mutationFn: async (testData: any) => {
       const { error } = await supabase
         .from('cooper_test_results')
-        .insert(testData);
+        .insert([testData]);
 
       if (error) throw error;
     },
@@ -213,7 +210,7 @@ export const CooperTestManagement: React.FC = () => {
     setSelectedParticipantId('');
     setTestNumber(1);
     setTestDate(new Date().toISOString().split('T')[0]);
-    setCompletionTimeSeconds(720);
+    setCompletionTimeSeconds(180);
     setNotes('');
   };
 
@@ -248,7 +245,7 @@ export const CooperTestManagement: React.FC = () => {
     setSelectedParticipantId(result.participant_id);
     setTestNumber(result.test_number);
     setTestDate(result.test_date);
-    setCompletionTimeSeconds(result.completion_time_seconds || 720);
+    setCompletionTimeSeconds(result.completion_time_seconds || 180);
     setNotes(result.notes || '');
     setShowAddForm(true);
   };
@@ -259,32 +256,85 @@ export const CooperTestManagement: React.FC = () => {
     }
   };
 
-  // Group results by test number
+  // Group results by test number and participant for comparison
   const test1Results = testResults?.filter(r => r.test_number === 1) || [];
   const test2Results = testResults?.filter(r => r.test_number === 2) || [];
 
+  // Create comparison data
+  const comparisonData = () => {
+    if (!isSuperAdmin && currentParticipant) {
+      const test1 = test1Results.find(r => r.participant_id === currentParticipant.id);
+      const test2 = test2Results.find(r => r.participant_id === currentParticipant.id);
+      
+      if (test1 && test2) {
+        return [{
+          participant: { name: currentParticipant.name, last_name: currentParticipant.last_name },
+          test1: test1,
+          test2: test2,
+          improvement: test1.completion_time_seconds && test2.completion_time_seconds 
+            ? test1.completion_time_seconds - test2.completion_time_seconds 
+            : null
+        }];
+      }
+      return [];
+    }
+
+    // For admin - group by participant
+    const participantMap = new Map();
+    
+    test1Results.forEach(result => {
+      if (!participantMap.has(result.participant_id)) {
+        participantMap.set(result.participant_id, { 
+          participant: result.participant,
+          test1: result,
+          test2: null,
+          improvement: null
+        });
+      }
+    });
+
+    test2Results.forEach(result => {
+      const existing = participantMap.get(result.participant_id);
+      if (existing) {
+        existing.test2 = result;
+        if (existing.test1?.completion_time_seconds && result.completion_time_seconds) {
+          existing.improvement = existing.test1.completion_time_seconds - result.completion_time_seconds;
+        }
+      } else {
+        participantMap.set(result.participant_id, {
+          participant: result.participant,
+          test1: null,
+          test2: result,
+          improvement: null
+        });
+      }
+    });
+
+    return Array.from(participantMap.values()).filter(item => item.test1 && item.test2);
+  };
+
   if (isLoading) {
     return (
-      <Card className="bg-gray-900/50 border-gray-800">
+      <Card className="bg-white border-gray-300">
         <CardContent className="p-6 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kamp-accent mx-auto"></div>
-          <p className="text-gray-400 mt-2">Загрузка результатов...</p>
+          <p className="text-gray-600 mt-2">Загрузка результатов...</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white p-6 rounded-lg">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Activity className="w-6 h-6 text-kamp-accent" />
             Тест Купера
           </h2>
-          <p className="text-gray-400">
-            {isSuperAdmin ? 'Управление результатами всех участников' : 'Ваши результаты тестов'}
+          <p className="text-gray-600">
+            {isSuperAdmin ? 'Управление результатами всех участников (4 круга в зале)' : 'Ваши результаты тестов (4 круга в зале)'}
           </p>
         </div>
         <Button
@@ -298,42 +348,45 @@ export const CooperTestManagement: React.FC = () => {
 
       {/* Add/Edit Form */}
       {showAddForm && (
-        <Card className="bg-gray-900/50 border-gray-800">
+        <Card className="bg-white border-gray-300">
           <CardHeader>
-            <CardTitle className="text-white">
+            <CardTitle className="text-gray-900">
               {editingResult ? 'Редактировать результат' : 'Добавить новый результат'}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Participant Selection (Admin only) */}
-                {isSuperAdmin && (
-                  <div>
-                    <Label>Участник *</Label>
-                    <Select value={selectedParticipantId} onValueChange={setSelectedParticipantId}>
-                      <SelectTrigger className="bg-gray-800 border-gray-700">
-                        <SelectValue placeholder="Выберите участника" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {allParticipants?.map(participant => (
-                          <SelectItem key={participant.id} value={participant.id}>
+              {/* Participant Selection (Admin only) */}
+              {isSuperAdmin && (
+                <div>
+                  <Label className="text-gray-700">Участник *</Label>
+                  <Select value={selectedParticipantId} onValueChange={setSelectedParticipantId}>
+                    <SelectTrigger className="bg-white border-gray-300">
+                      <SelectValue placeholder="Выберите участника" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-gray-300 z-50">
+                      {allParticipants?.map((participant) => (
+                        <SelectItem key={participant.id} value={participant.id}>
+                          <div className="flex items-center gap-2">
+                            <User className="w-4 h-4" />
                             {participant.name} {participant.last_name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
+              <div className="grid grid-cols-2 gap-4">
                 {/* Test Number */}
                 <div>
-                  <Label>Номер теста *</Label>
+                  <Label className="text-gray-700">Номер теста *</Label>
                   <Select value={testNumber.toString()} onValueChange={(value) => setTestNumber(parseInt(value))}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700">
+                    <SelectTrigger className="bg-white border-gray-300">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-gray-300 z-50">
                       <SelectItem value="1">Тест 1</SelectItem>
                       <SelectItem value="2">Тест 2</SelectItem>
                     </SelectContent>
@@ -342,27 +395,29 @@ export const CooperTestManagement: React.FC = () => {
 
                 {/* Test Date */}
                 <div>
-                  <Label>Дата теста *</Label>
+                  <Label className="text-gray-700">Дата теста *</Label>
                   <Input
                     type="date"
                     value={testDate}
                     onChange={(e) => setTestDate(e.target.value)}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
+              </div>
 
-                {/* Completion Time */}
+              {/* Completion Time */}
+              <div>
+                <Label className="text-gray-700">Время выполнения (секунды) *</Label>
                 <div>
-                  <Label>Время прохождения (секунды) *</Label>
                   <Input
                     type="number"
                     value={completionTimeSeconds}
                     onChange={(e) => setCompletionTimeSeconds(parseInt(e.target.value) || 0)}
                     min="0"
-                    className="bg-gray-800 border-gray-700"
-                    placeholder="720"
+                    className="bg-white border-gray-300"
+                    placeholder="180"
                   />
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     Текущее значение: {formatTime(completionTimeSeconds)}
                   </p>
                 </div>
@@ -370,25 +425,27 @@ export const CooperTestManagement: React.FC = () => {
 
               {/* Notes */}
               <div>
-                <Label>Заметки</Label>
+                <Label className="text-gray-700">Заметки</Label>
                 <Textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Дополнительные заметки о тесте"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
 
               {/* Fitness Level Preview */}
-              <div className="p-3 bg-gray-800/50 rounded-lg">
-                <p className="text-sm text-gray-300">
+              <div className="p-3 bg-gray-100 rounded-lg">
+                <p className="text-sm text-gray-700">
                   Уровень подготовки: 
                   <span className={`ml-2 px-2 py-1 rounded text-xs font-semibold ${
                     calculateFitnessLevel(completionTimeSeconds) === 'Отлично' ? 'bg-green-600 text-white' :
                     calculateFitnessLevel(completionTimeSeconds) === 'Хорошо' ? 'bg-blue-600 text-white' :
-                    calculateFitnessLevel(completionTimeSeconds) === 'Удовлетворительно' ? 'bg-yellow-600 text-black' :
-                    calculateFitnessLevel(completionTimeSeconds) === 'Слабо' ? 'bg-orange-600 text-white' :
-                    'bg-red-600 text-white'
+                    calculateFitnessLevel(completionTimeSeconds) === 'Нормально' ? 'bg-yellow-600 text-black' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Удовлетворительно' ? 'bg-orange-600 text-white' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Слабо' ? 'bg-red-600 text-white' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Очень слабо' ? 'bg-red-700 text-white' :
+                    'bg-red-900 text-white'
                   }`}>
                     {calculateFitnessLevel(completionTimeSeconds)}
                   </span>
@@ -403,7 +460,7 @@ export const CooperTestManagement: React.FC = () => {
                 >
                   {editingResult ? 'Обновить' : 'Добавить'}
                 </Button>
-                <Button type="button" variant="outline" onClick={resetForm}>
+                <Button type="button" variant="outline" onClick={resetForm} className="border-gray-300">
                   Отмена
                 </Button>
               </div>
@@ -414,36 +471,40 @@ export const CooperTestManagement: React.FC = () => {
 
       {/* Results */}
       <Tabs defaultValue="test1" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="test1" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100">
+          <TabsTrigger value="test1" className="flex items-center gap-2 data-[state=active]:bg-white">
             <Activity className="w-4 h-4" />
             Тест 1 ({test1Results.length})
           </TabsTrigger>
-          <TabsTrigger value="test2" className="flex items-center gap-2">
+          <TabsTrigger value="test2" className="flex items-center gap-2 data-[state=active]:bg-white">
             <Activity className="w-4 h-4" />
             Тест 2 ({test2Results.length})
+          </TabsTrigger>
+          <TabsTrigger value="comparison" className="flex items-center gap-2 data-[state=active]:bg-white">
+            <TrendingUp className="w-4 h-4" />
+            Сравнение ({comparisonData().length})
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="test1" className="space-y-4">
           {test1Results.length === 0 ? (
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-gray-50 border-gray-300">
               <CardContent className="p-6 text-center">
-                <p className="text-gray-400">Нет результатов для теста 1</p>
+                <p className="text-gray-600">Нет результатов для теста 1</p>
               </CardContent>
             </Card>
           ) : (
             <div className="grid gap-4">
               {test1Results.map(result => (
-                <Card key={result.id} className="bg-gray-900/50 border-gray-800">
+                <Card key={result.id} className="bg-gray-50 border-gray-300">
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-4 mb-2 flex-wrap">
                           {isSuperAdmin && result.participant && (
                             <div className="flex items-center gap-2">
-                              <User className="w-4 h-4 text-gray-400" />
-                              <span className="font-semibold text-white">
+                              <User className="w-4 h-4 text-gray-600" />
+                              <span className="font-semibold text-gray-900">
                                 {result.participant.name} {result.participant.last_name}
                               </span>
                             </div>
@@ -457,22 +518,21 @@ export const CooperTestManagement: React.FC = () => {
                         </div>
                         
                         <div className="flex items-center gap-4 mb-2 flex-wrap">
-                          <span className="text-lg font-bold text-white">
-                            {result.distance_meters}м
-                          </span>
                           {result.completion_time_seconds && (
                             <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4 text-gray-400" />
-                              <span className="text-white">{formatTime(result.completion_time_seconds)}</span>
+                              <Clock className="w-4 h-4 text-gray-600" />
+                              <span className="text-lg font-bold text-gray-900">{formatTime(result.completion_time_seconds)}</span>
                             </div>
                           )}
                           {result.fitness_level && (
                             <Badge className={
                               result.fitness_level === 'Отлично' ? 'bg-green-600' :
                               result.fitness_level === 'Хорошо' ? 'bg-blue-600' :
-                              result.fitness_level === 'Удовлетворительно' ? 'bg-yellow-600' :
-                              result.fitness_level === 'Слабо' ? 'bg-orange-600' :
-                              'bg-red-600'
+                              result.fitness_level === 'Нормально' ? 'bg-yellow-600' :
+                              result.fitness_level === 'Удовлетворительно' ? 'bg-orange-600' :
+                              result.fitness_level === 'Слабо' ? 'bg-red-600' :
+                              result.fitness_level === 'Очень слабо' ? 'bg-red-700' :
+                              'bg-red-900'
                             }>
                               {result.fitness_level}
                             </Badge>
@@ -480,15 +540,16 @@ export const CooperTestManagement: React.FC = () => {
                         </div>
                         
                         {result.notes && (
-                          <p className="text-gray-400 text-sm">{result.notes}</p>
+                          <p className="text-gray-600 text-sm">{result.notes}</p>
                         )}
                       </div>
                       
                       <div className="flex gap-2">
                         <Button
                           size="sm"
-                          variant="outline"
+                          variant="outline" 
                           onClick={() => handleEdit(result)}
+                          className="border-gray-400"
                         >
                           <Edit2 className="w-4 h-4" />
                         </Button>
@@ -497,7 +558,7 @@ export const CooperTestManagement: React.FC = () => {
                             size="sm"
                             variant="outline"
                             onClick={() => handleDelete(result.id)}
-                            className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
+                            className="border-red-400 text-red-600 hover:bg-red-600 hover:text-white"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -513,23 +574,23 @@ export const CooperTestManagement: React.FC = () => {
 
         <TabsContent value="test2" className="space-y-4">
           {test2Results.length === 0 ? (
-            <Card className="bg-gray-900/50 border-gray-800">
+            <Card className="bg-gray-50 border-gray-300">
               <CardContent className="p-6 text-center">
-                <p className="text-gray-400">Нет результатов для теста 2</p>
+                <p className="text-gray-600">Нет результатов для теста 2</p>
               </CardContent>
             </Card>
           ) : (
             <div className="grid gap-4">
               {test2Results.map(result => (
-                <Card key={result.id} className="bg-gray-900/50 border-gray-800">
+                <Card key={result.id} className="bg-gray-50 border-gray-300">
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-4 mb-2 flex-wrap">
                           {isSuperAdmin && result.participant && (
                             <div className="flex items-center gap-2">
-                              <User className="w-4 h-4 text-gray-400" />
-                              <span className="font-semibold text-white">
+                              <User className="w-4 h-4 text-gray-600" />
+                              <span className="font-semibold text-gray-900">
                                 {result.participant.name} {result.participant.last_name}
                               </span>
                             </div>
@@ -537,28 +598,27 @@ export const CooperTestManagement: React.FC = () => {
                           <span className="text-kamp-accent font-semibold">
                             {new Date(result.test_date).toLocaleDateString('ru-RU')}
                           </span>
-                          <Badge variant="secondary" className="bg-green-600 text-white">
+                          <Badge variant="secondary" className="bg-purple-600 text-white">
                             Тест 2
                           </Badge>
                         </div>
                         
                         <div className="flex items-center gap-4 mb-2 flex-wrap">
-                          <span className="text-lg font-bold text-white">
-                            {result.distance_meters}м
-                          </span>
                           {result.completion_time_seconds && (
                             <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4 text-gray-400" />
-                              <span className="text-white">{formatTime(result.completion_time_seconds)}</span>
+                              <Clock className="w-4 h-4 text-gray-600" />
+                              <span className="text-lg font-bold text-gray-900">{formatTime(result.completion_time_seconds)}</span>
                             </div>
                           )}
                           {result.fitness_level && (
                             <Badge className={
                               result.fitness_level === 'Отлично' ? 'bg-green-600' :
                               result.fitness_level === 'Хорошо' ? 'bg-blue-600' :
-                              result.fitness_level === 'Удовлетворительно' ? 'bg-yellow-600' :
-                              result.fitness_level === 'Слабо' ? 'bg-orange-600' :
-                              'bg-red-600'
+                              result.fitness_level === 'Нормально' ? 'bg-yellow-600' :
+                              result.fitness_level === 'Удовлетворительно' ? 'bg-orange-600' :
+                              result.fitness_level === 'Слабо' ? 'bg-red-600' :
+                              result.fitness_level === 'Очень слабо' ? 'bg-red-700' :
+                              'bg-red-900'
                             }>
                               {result.fitness_level}
                             </Badge>
@@ -566,7 +626,7 @@ export const CooperTestManagement: React.FC = () => {
                         </div>
                         
                         {result.notes && (
-                          <p className="text-gray-400 text-sm">{result.notes}</p>
+                          <p className="text-gray-600 text-sm">{result.notes}</p>
                         )}
                       </div>
                       
@@ -575,6 +635,7 @@ export const CooperTestManagement: React.FC = () => {
                           size="sm"
                           variant="outline"
                           onClick={() => handleEdit(result)}
+                          className="border-gray-400"
                         >
                           <Edit2 className="w-4 h-4" />
                         </Button>
@@ -583,12 +644,130 @@ export const CooperTestManagement: React.FC = () => {
                             size="sm"
                             variant="outline"
                             onClick={() => handleDelete(result.id)}
-                            className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
+                            className="border-red-400 text-red-600 hover:bg-red-600 hover:text-white"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         )}
                       </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="comparison" className="space-y-4">
+          {comparisonData().length === 0 ? (
+            <Card className="bg-gray-50 border-gray-300">
+              <CardContent className="p-6 text-center">
+                <p className="text-gray-600">Нет данных для сравнения (нужны результаты обоих тестов)</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-4">
+              {comparisonData().map((comparison, index) => (
+                <Card key={index} className="bg-gray-50 border-gray-300">
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      {/* Participant Info */}
+                      {comparison.participant && (
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4 text-gray-600" />
+                          <span className="font-semibold text-gray-900">
+                            {comparison.participant.name} {comparison.participant.last_name}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Test Results Comparison */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Test 1 */}
+                        <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Badge className="bg-blue-600 text-white">Тест 1</Badge>
+                            <span className="text-sm text-gray-600">
+                              {new Date(comparison.test1.test_date).toLocaleDateString('ru-RU')}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-gray-600" />
+                            <span className="font-bold text-gray-900">
+                              {formatTime(comparison.test1.completion_time_seconds || 0)}
+                            </span>
+                            <Badge className={
+                              comparison.test1.fitness_level === 'Отлично' ? 'bg-green-600' :
+                              comparison.test1.fitness_level === 'Хорошо' ? 'bg-blue-600' :
+                              comparison.test1.fitness_level === 'Нормально' ? 'bg-yellow-600' :
+                              comparison.test1.fitness_level === 'Удовлетворительно' ? 'bg-orange-600' :
+                              'bg-red-600'
+                            }>
+                              {comparison.test1.fitness_level}
+                            </Badge>
+                          </div>
+                        </div>
+
+                        {/* Test 2 */}
+                        <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Badge className="bg-purple-600 text-white">Тест 2</Badge>
+                            <span className="text-sm text-gray-600">
+                              {new Date(comparison.test2.test_date).toLocaleDateString('ru-RU')}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-gray-600" />
+                            <span className="font-bold text-gray-900">
+                              {formatTime(comparison.test2.completion_time_seconds || 0)}
+                            </span>
+                            <Badge className={
+                              comparison.test2.fitness_level === 'Отлично' ? 'bg-green-600' :
+                              comparison.test2.fitness_level === 'Хорошо' ? 'bg-blue-600' :
+                              comparison.test2.fitness_level === 'Нормально' ? 'bg-yellow-600' :
+                              comparison.test2.fitness_level === 'Удовлетворительно' ? 'bg-orange-600' :
+                              'bg-red-600'
+                            }>
+                              {comparison.test2.fitness_level}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Improvement Analysis */}
+                      {comparison.improvement !== null && (
+                        <div className={`p-3 rounded-lg border ${
+                          comparison.improvement > 0 
+                            ? 'bg-green-50 border-green-200' 
+                            : comparison.improvement < 0 
+                            ? 'bg-red-50 border-red-200'
+                            : 'bg-gray-50 border-gray-200'
+                        }`}>
+                          <div className="flex items-center gap-2">
+                            {comparison.improvement > 0 ? (
+                              <TrendingUp className="w-4 h-4 text-green-600" />
+                            ) : comparison.improvement < 0 ? (
+                              <TrendingDown className="w-4 h-4 text-red-600" />
+                            ) : (
+                              <Clock className="w-4 h-4 text-gray-600" />
+                            )}
+                            <span className="font-semibold">
+                              {comparison.improvement > 0 
+                                ? 'Улучшение: ' 
+                                : comparison.improvement < 0 
+                                ? 'Ухудшение: ' 
+                                : 'Без изменений'}
+                            </span>
+                            {comparison.improvement !== 0 && (
+                              <span className={`font-bold ${
+                                comparison.improvement > 0 ? 'text-green-600' : 'text-red-600'
+                              }`}>
+                                {formatTime(Math.abs(comparison.improvement))}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
