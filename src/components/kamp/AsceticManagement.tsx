@@ -327,9 +327,9 @@ export const AsceticManagement: React.FC = () => {
                   <SelectTrigger className="bg-gray-800 border-gray-700">
                     <SelectValue placeholder="Выберите участника" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-gray-800 border-gray-700 z-50">
                     {allParticipants?.map(participant => (
-                      <SelectItem key={participant.id} value={participant.id}>
+                      <SelectItem key={participant.id} value={participant.id} className="hover:bg-gray-700">
                         <div className="flex items-center gap-2">
                           <User className="w-4 h-4" />
                           {participant.name} {participant.last_name}
@@ -417,9 +417,9 @@ export const AsceticManagement: React.FC = () => {
                   <SelectTrigger className="bg-gray-800 border-gray-700">
                     <SelectValue placeholder="Выберите участника" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-gray-800 border-gray-700 z-50">
                     {allParticipants?.map(participant => (
-                      <SelectItem key={participant.id} value={participant.id}>
+                      <SelectItem key={participant.id} value={participant.id} className="hover:bg-gray-700">
                         <div className="flex items-center gap-2">
                           <User className="w-4 h-4" />
                           {participant.name} {participant.last_name} ({participant.points} баллов)
