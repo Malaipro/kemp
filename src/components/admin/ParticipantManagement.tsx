@@ -39,8 +39,10 @@ export const ParticipantManagement: React.FC = () => {
     name: '',
     last_name: '',
     email: '',
-    stream_id: ''
+    stream_id: '',
+    password: ''
   });
+  const [editPassword, setEditPassword] = useState('');
 
   const queryClient = useQueryClient();
 
@@ -81,6 +83,19 @@ export const ParticipantManagement: React.FC = () => {
 
   const createParticipantMutation = useMutation({
     mutationFn: async (participantData: typeof newParticipant) => {
+      // Сначала создаем пользователя в Auth, если указан email и пароль
+      let userId = null;
+      if (participantData.email && participantData.password) {
+        const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+          email: participantData.email,
+          password: participantData.password,
+          email_confirm: true
+        });
+        
+        if (authError) throw authError;
+        userId = authData.user.id;
+      }
+
       const { data, error } = await supabase
         .from('участники')
         .insert([{
@@ -88,6 +103,7 @@ export const ParticipantManagement: React.FC = () => {
           last_name: participantData.last_name || null,
           email: participantData.email || null,
           stream_id: participantData.stream_id || null,
+          user_id: userId,
           points: 0
         }])
         .select()
@@ -99,7 +115,7 @@ export const ParticipantManagement: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['participants-management'] });
       setShowCreateForm(false);
-      setNewParticipant({ name: '', last_name: '', email: '', stream_id: '' });
+      setNewParticipant({ name: '', last_name: '', email: '', stream_id: '', password: '' });
       toast.success('Участник создан успешно');
     },
     onError: (error) => {
@@ -108,7 +124,19 @@ export const ParticipantManagement: React.FC = () => {
   });
 
   const updateParticipantMutation = useMutation({
-    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Participant> }) => {
+    mutationFn: async ({ id, updates, password }: { id: string; updates: Partial<Participant>; password?: string }) => {
+      // Если указан новый пароль, обновляем его
+      if (password && updates.email) {
+        const participant = participants?.find(p => p.id === id);
+        if (participant?.user_id) {
+          const { error: authError } = await supabase.auth.admin.updateUserById(
+            participant.user_id,
+            { password }
+          );
+          if (authError) throw authError;
+        }
+      }
+
       const { data, error } = await supabase
         .from('участники')
         .update(updates)
@@ -122,6 +150,7 @@ export const ParticipantManagement: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['participants-management'] });
       setEditingParticipant(null);
+      setEditPassword('');
       toast.success('Участник обновлен успешно');
     },
     onError: (error) => {
@@ -170,7 +199,8 @@ export const ParticipantManagement: React.FC = () => {
         weight_kg: editingParticipant.weight_kg,
         birth_date: editingParticipant.birth_date,
         stream_id: editingParticipant.stream_id
-      }
+      },
+      password: editPassword || undefined
     });
   };
 
@@ -257,6 +287,17 @@ export const ParticipantManagement: React.FC = () => {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            <div>
+              <Label htmlFor="password" className="text-gray-300">Пароль</Label>
+              <Input
+                id="password"
+                type="password"
+                value={newParticipant.password}
+                onChange={(e) => setNewParticipant(prev => ({ ...prev, password: e.target.value }))}
+                placeholder="Пароль для входа"
+                className="bg-white border-gray-300"
+              />
             </div>
             <div className="flex gap-2">
               <Button 
@@ -371,6 +412,17 @@ export const ParticipantManagement: React.FC = () => {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            <div>
+              <Label htmlFor="edit_password" className="text-gray-300">Новый пароль</Label>
+              <Input
+                id="edit_password"
+                type="password"
+                value={editPassword}
+                onChange={(e) => setEditPassword(e.target.value)}
+                placeholder="Оставьте пустым, чтобы не менять"
+                className="bg-white border-gray-300"
+              />
             </div>
             <div className="flex gap-2">
               <Button 

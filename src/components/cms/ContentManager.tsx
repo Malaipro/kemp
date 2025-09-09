@@ -8,8 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2, Save } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save } from 'lucide-react';
 
 // Типы для контента
 interface PageContent {
@@ -205,7 +207,7 @@ const PageContentManager: React.FC<{ content: PageContent[] }> = ({ content }) =
                   size="sm"
                   className="text-white border-gray-600"
                 >
-                  <Edit className="w-4 h-4" />
+                  <Edit2 className="w-4 h-4" />
                 </Button>
               </div>
             ))}
@@ -368,7 +370,7 @@ const TrainersManager: React.FC<{ trainers: Trainer[] }> = ({ trainers }) => {
                   size="sm"
                   className="flex-1 text-white border-gray-600"
                 >
-                  <Edit className="w-4 h-4 mr-1" />
+                  <Edit2 className="w-4 h-4 mr-1" />
                   Изменить
                 </Button>
                 <Button
@@ -459,18 +461,197 @@ const TrainersManager: React.FC<{ trainers: Trainer[] }> = ({ trainers }) => {
   );
 };
 
-// Компонент для управления программами (упрощенная версия)
+// Компонент для управления программами
 const ProgramsManager: React.FC<{ programs: TrainingProgram[] }> = ({ programs }) => {
+  const [editingProgram, setEditingProgram] = useState<TrainingProgram | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newProgram, setNewProgram] = useState({
+    title: '',
+    description: '',
+    price_info: '',
+    image_url: ''
+  });
+  
+  const queryClient = useQueryClient();
+
+  const createProgramMutation = useMutation({
+    mutationFn: async (programData: typeof newProgram) => {
+      const { data, error } = await supabase
+        .from('training_programs')
+        .insert([programData])
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['training-programs'] });
+      setShowCreateForm(false);
+      setNewProgram({ title: '', description: '', price_info: '', image_url: '' });
+      toast.success('Программа создана успешно');
+    }
+  });
+
+  const updateProgramMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<TrainingProgram> }) => {
+      const { data, error } = await supabase
+        .from('training_programs')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['training-programs'] });
+      setEditingProgram(null);
+      toast.success('Программа обновлена успешно');
+    }
+  });
+
+  const deleteProgramMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('training_programs')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['training-programs'] });
+      toast.success('Программа удалена успешно');
+    }
+  });
+
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-white">Управление программами тренировок</h2>
-      <p className="text-gray-400">Функционал в разработке...</p>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Управление программами тренировок</h2>
+        <Button 
+          onClick={() => setShowCreateForm(true)}
+          className="bg-kamp-accent hover:bg-kamp-accent/90 text-black"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Добавить программу
+        </Button>
+      </div>
+
+      {showCreateForm && (
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-lg font-bold text-white">Новая программа</h3>
+            <Input
+              placeholder="Название программы"
+              value={newProgram.title}
+              onChange={(e) => setNewProgram(prev => ({ ...prev, title: e.target.value }))}
+              className="bg-white"
+            />
+            <Textarea
+              placeholder="Описание программы"
+              value={newProgram.description}
+              onChange={(e) => setNewProgram(prev => ({ ...prev, description: e.target.value }))}
+              className="bg-white"
+            />
+            <Input
+              placeholder="Информация о цене"
+              value={newProgram.price_info}
+              onChange={(e) => setNewProgram(prev => ({ ...prev, price_info: e.target.value }))}
+              className="bg-white"
+            />
+            <Input
+              placeholder="URL изображения"
+              value={newProgram.image_url}
+              onChange={(e) => setNewProgram(prev => ({ ...prev, image_url: e.target.value }))}
+              className="bg-white"
+            />
+            <div className="flex gap-2">
+              <Button onClick={() => createProgramMutation.mutate(newProgram)}>
+                Создать
+              </Button>
+              <Button variant="outline" onClick={() => setShowCreateForm(false)}>
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {editingProgram && (
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-lg font-bold text-white">Редактировать программу</h3>
+            <Input
+              placeholder="Название программы"
+              value={editingProgram.title}
+              onChange={(e) => setEditingProgram(prev => prev ? { ...prev, title: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Textarea
+              placeholder="Описание программы"
+              value={editingProgram.description || ''}
+              onChange={(e) => setEditingProgram(prev => prev ? { ...prev, description: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Input
+              placeholder="Информация о цене"
+              value={editingProgram.price_info || ''}
+              onChange={(e) => setEditingProgram(prev => prev ? { ...prev, price_info: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Input
+              placeholder="URL изображения"
+              value={editingProgram.image_url || ''}
+              onChange={(e) => setEditingProgram(prev => prev ? { ...prev, image_url: e.target.value } : null)}
+              className="bg-white"
+            />
+            <div className="flex gap-2">
+              <Button onClick={() => updateProgramMutation.mutate({ 
+                id: editingProgram.id, 
+                updates: editingProgram 
+              })}>
+                Сохранить
+              </Button>
+              <Button variant="outline" onClick={() => setEditingProgram(null)}>
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {programs.map((program) => (
           <Card key={program.id} className="bg-gray-800 border-gray-700">
             <CardContent className="p-6">
-              <h3 className="text-lg font-bold text-white mb-2">{program.title}</h3>
-              <p className="text-gray-300 text-sm">{program.description}</p>
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-lg font-bold text-white">{program.title}</h3>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setEditingProgram(program)}
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      if (confirm('Удалить программу?')) {
+                        deleteProgramMutation.mutate(program.id);
+                      }
+                    }}
+                    className="border-red-600 text-red-400"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm mb-2">{program.description}</p>
+              {program.price_info && (
+                <p className="text-kamp-accent text-sm font-semibold">{program.price_info}</p>
+              )}
             </CardContent>
           </Card>
         ))}
@@ -479,22 +660,219 @@ const ProgramsManager: React.FC<{ programs: TrainingProgram[] }> = ({ programs }
   );
 };
 
-// Компонент для управления галереей (упрощенная версия)
+// Компонент для управления галереей
 const GalleryManager: React.FC<{ images: GalleryImage[] }> = ({ images }) => {
+  const [editingImage, setEditingImage] = useState<GalleryImage | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newImage, setNewImage] = useState({
+    title: '',
+    image_url: '',
+    description: '',
+    category: 'general'
+  });
+  
+  const queryClient = useQueryClient();
+
+  const createImageMutation = useMutation({
+    mutationFn: async (imageData: typeof newImage) => {
+      const { data, error } = await supabase
+        .from('gallery_images')
+        .insert([imageData])
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['gallery-images'] });
+      setShowCreateForm(false);
+      setNewImage({ title: '', image_url: '', description: '', category: 'general' });
+      toast.success('Изображение добавлено успешно');
+    }
+  });
+
+  const updateImageMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<GalleryImage> }) => {
+      const { data, error } = await supabase
+        .from('gallery_images')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['gallery-images'] });
+      setEditingImage(null);
+      toast.success('Изображение обновлено успешно');
+    }
+  });
+
+  const deleteImageMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('gallery_images')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['gallery-images'] });
+      toast.success('Изображение удалено успешно');
+    }
+  });
+
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-white">Управление галереей</h2>
-      <p className="text-gray-400">Функционал в разработке...</p>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Управление галереей</h2>
+        <Button 
+          onClick={() => setShowCreateForm(true)}
+          className="bg-kamp-accent hover:bg-kamp-accent/90 text-black"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Добавить изображение
+        </Button>
+      </div>
+
+      {showCreateForm && (
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-lg font-bold text-white">Новое изображение</h3>
+            <Input
+              placeholder="Название изображения"
+              value={newImage.title}
+              onChange={(e) => setNewImage(prev => ({ ...prev, title: e.target.value }))}
+              className="bg-white"
+            />
+            <Input
+              placeholder="URL изображения"
+              value={newImage.image_url}
+              onChange={(e) => setNewImage(prev => ({ ...prev, image_url: e.target.value }))}
+              className="bg-white"
+            />
+            <Textarea
+              placeholder="Описание"
+              value={newImage.description}
+              onChange={(e) => setNewImage(prev => ({ ...prev, description: e.target.value }))}
+              className="bg-white"
+            />
+            <Select
+              value={newImage.category}
+              onValueChange={(value) => setNewImage(prev => ({ ...prev, category: value }))}
+            >
+              <SelectTrigger className="bg-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="general">Общее</SelectItem>
+                <SelectItem value="training">Тренировки</SelectItem>
+                <SelectItem value="events">События</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="flex gap-2">
+              <Button onClick={() => createImageMutation.mutate(newImage)}>
+                Добавить
+              </Button>
+              <Button variant="outline" onClick={() => setShowCreateForm(false)}>
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {editingImage && (
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-lg font-bold text-white">Редактировать изображение</h3>
+            <Input
+              placeholder="Название изображения"
+              value={editingImage.title || ''}
+              onChange={(e) => setEditingImage(prev => prev ? { ...prev, title: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Input
+              placeholder="URL изображения"
+              value={editingImage.image_url}
+              onChange={(e) => setEditingImage(prev => prev ? { ...prev, image_url: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Textarea
+              placeholder="Описание"
+              value={editingImage.description || ''}
+              onChange={(e) => setEditingImage(prev => prev ? { ...prev, description: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Select
+              value={editingImage.category || 'general'}
+              onValueChange={(value) => setEditingImage(prev => prev ? { ...prev, category: value } : null)}
+            >
+              <SelectTrigger className="bg-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="general">Общее</SelectItem>
+                <SelectItem value="training">Тренировки</SelectItem>
+                <SelectItem value="events">События</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="flex gap-2">
+              <Button onClick={() => updateImageMutation.mutate({ 
+                id: editingImage.id, 
+                updates: editingImage 
+              })}>
+                Сохранить
+              </Button>
+              <Button variant="outline" onClick={() => setEditingImage(null)}>
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {images.map((image) => (
           <Card key={image.id} className="bg-gray-800 border-gray-700">
             <CardContent className="p-4">
-              <img
-                src={image.image_url}
-                alt={image.title}
-                className="w-full h-32 object-cover rounded-lg mb-2"
-              />
-              <p className="text-white text-sm">{image.title}</p>
+              <div className="relative group">
+                <img
+                  src={image.image_url}
+                  alt={image.title}
+                  className="w-full h-32 object-cover rounded-lg mb-2"
+                />
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setEditingImage(image)}
+                    className="bg-white/90"
+                  >
+                    <Edit2 className="w-3 h-3" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      if (confirm('Удалить изображение?')) {
+                        deleteImageMutation.mutate(image.id);
+                      }
+                    }}
+                    className="bg-red-500/90 text-white"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              </div>
+              <p className="text-white text-sm font-medium">{image.title}</p>
+              {image.description && (
+                <p className="text-gray-400 text-xs mt-1">{image.description}</p>
+              )}
+              <Badge variant="secondary" className="mt-2 text-xs">
+                {image.category}
+              </Badge>
             </CardContent>
           </Card>
         ))}
