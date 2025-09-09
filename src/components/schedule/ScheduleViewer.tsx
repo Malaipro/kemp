@@ -46,6 +46,12 @@ export const ScheduleViewer: React.FC = () => {
       case 'yellow': return 'bg-yellow-500/10 border-yellow-500/30';
       case 'green': return 'bg-green-500/10 border-green-500/30';
       case 'blue': return 'bg-blue-500/10 border-blue-500/30';
+      case 'purple': return 'bg-purple-500/10 border-purple-500/30';
+      case 'orange': return 'bg-orange-500/10 border-orange-500/30';
+      case 'pink': return 'bg-pink-500/10 border-pink-500/30';
+      case 'cyan': return 'bg-cyan-500/10 border-cyan-500/30';
+      case 'indigo': return 'bg-indigo-500/10 border-indigo-500/30';
+      case 'teal': return 'bg-teal-500/10 border-teal-500/30';
       default: return 'bg-gray-800/30 border-gray-700';
     }
   };

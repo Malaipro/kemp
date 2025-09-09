@@ -209,6 +209,12 @@ export const DetailedScheduleManagement: React.FC = () => {
       case 'yellow': return 'bg-yellow-500/20 border-yellow-500/50';
       case 'green': return 'bg-green-500/20 border-green-500/50';
       case 'blue': return 'bg-blue-500/20 border-blue-500/50';
+      case 'purple': return 'bg-purple-500/20 border-purple-500/50';
+      case 'orange': return 'bg-orange-500/20 border-orange-500/50';
+      case 'pink': return 'bg-pink-500/20 border-pink-500/50';
+      case 'cyan': return 'bg-cyan-500/20 border-cyan-500/50';
+      case 'indigo': return 'bg-indigo-500/20 border-indigo-500/50';
+      case 'teal': return 'bg-teal-500/20 border-teal-500/50';
       default: return 'bg-gray-800/30 border-gray-700';
     }
   };
@@ -351,10 +357,16 @@ export const DetailedScheduleManagement: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent className="bg-white border-gray-300 z-50">
                       <SelectItem value="none">Без выделения</SelectItem>
-                      <SelectItem value="red">Красный</SelectItem>
-                      <SelectItem value="yellow">Желтый</SelectItem>
-                      <SelectItem value="green">Зеленый</SelectItem>
-                      <SelectItem value="blue">Синий</SelectItem>
+                      <SelectItem value="red">🔴 Красный</SelectItem>
+                      <SelectItem value="yellow">🟡 Желтый</SelectItem>
+                      <SelectItem value="green">🟢 Зеленый</SelectItem>
+                      <SelectItem value="blue">🔵 Синий</SelectItem>
+                      <SelectItem value="purple">🟣 Фиолетовый</SelectItem>
+                      <SelectItem value="orange">🟠 Оранжевый</SelectItem>
+                      <SelectItem value="pink">🩷 Розовый</SelectItem>
+                      <SelectItem value="cyan">🩵 Голубой</SelectItem>
+                      <SelectItem value="indigo">🔷 Индиго</SelectItem>
+                      <SelectItem value="teal">🔸 Бирюзовый</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
