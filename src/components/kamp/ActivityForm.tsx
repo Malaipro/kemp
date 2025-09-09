@@ -81,24 +81,34 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
 
   const rewardTypes = [
     { value: 'zakal', label: 'Закал (физика)', icon: <Target className="w-4 h-4" />, subtypes: ['bjj', 'kick', 'ofp'] },
-    { value: 'gran', label: 'Грань (теория)', icon: <Book className="w-4 h-4" />, subtypes: [] },
-    { value: 'shram', label: 'Шрам (испытания)', icon: <Zap className="w-4 h-4" />, subtypes: ['bjj', 'kick', 'ofp', 'tactics'] }
+    { value: 'gran', label: 'Грань (теория)', icon: <Book className="w-4 h-4" />, subtypes: ['homework_pyramid', 'nutrition'] },
+    { value: 'shram', label: 'Шрам (испытания)', icon: <Zap className="w-4 h-4" />, subtypes: ['bjj', 'kick', 'ofp', 'tactics', 'crash_test_bjj', 'crash_test_kick', 'heroes_race'] }
   ];
 
   const subtypeLabels: Record<string, string> = {
     bjj: 'БЖЖ',
     kick: 'Кикбоксинг',
     ofp: 'ОФП',
-    tactics: 'Тактика'
+    tactics: 'Тактика',
+    homework_pyramid: 'ДЗ по Пирамиде',
+    nutrition: 'Нутрициология',
+    crash_test_bjj: 'Краш-тест БЖЖ',
+    crash_test_kick: 'Краш-тест Кикбоксинг',
+    heroes_race: 'Гонка героев'
   };
 
   const pointsPresets: Record<string, number> = {
     zakal: 1,
     gran: 1,
+    'gran-homework_pyramid': 1,
+    'gran-nutrition': 1,
     'shram-bjj': 6,
     'shram-kick': 6,
     'shram-ofp': 8,
-    'shram-tactics': 3
+    'shram-tactics': 3,
+    'shram-crash_test_bjj': 6,
+    'shram-crash_test_kick': 6,
+    'shram-heroes_race': 8
   };
 
   const handleRewardTypeChange = (value: string) => {
