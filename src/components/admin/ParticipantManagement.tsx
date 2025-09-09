@@ -215,7 +215,7 @@ export const ParticipantManagement: React.FC = () => {
                   value={newParticipant.name}
                   onChange={(e) => setNewParticipant(prev => ({ ...prev, name: e.target.value }))}
                   placeholder="Имя участника"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
               <div>
@@ -225,7 +225,7 @@ export const ParticipantManagement: React.FC = () => {
                   value={newParticipant.last_name}
                   onChange={(e) => setNewParticipant(prev => ({ ...prev, last_name: e.target.value }))}
                   placeholder="Фамилия участника"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
             </div>
@@ -237,7 +237,7 @@ export const ParticipantManagement: React.FC = () => {
                 value={newParticipant.email}
                 onChange={(e) => setNewParticipant(prev => ({ ...prev, email: e.target.value }))}
                 placeholder="email@example.com"
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div>
@@ -292,7 +292,7 @@ export const ParticipantManagement: React.FC = () => {
                   id="edit_name"
                   value={editingParticipant.name}
                   onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, name: e.target.value } : null)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
               <div>
@@ -301,7 +301,7 @@ export const ParticipantManagement: React.FC = () => {
                   id="edit_last_name"
                   value={editingParticipant.last_name || ''}
                   onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, last_name: e.target.value } : null)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
             </div>
@@ -313,7 +313,7 @@ export const ParticipantManagement: React.FC = () => {
                 value={editingParticipant.email || ''}
                 onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, email: e.target.value } : null)}
                 placeholder="email@example.com"
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
@@ -327,7 +327,7 @@ export const ParticipantManagement: React.FC = () => {
                   value={editingParticipant.height_cm || ''}
                   onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, height_cm: e.target.value ? Number(e.target.value) : null } : null)}
                   placeholder="175"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
               <div>
@@ -340,7 +340,7 @@ export const ParticipantManagement: React.FC = () => {
                   value={editingParticipant.weight_kg || ''}
                   onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, weight_kg: e.target.value ? Number(e.target.value) : null } : null)}
                   placeholder="70"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
               <div>
@@ -350,7 +350,7 @@ export const ParticipantManagement: React.FC = () => {
                   type="date"
                   value={editingParticipant.birth_date || ''}
                   onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, birth_date: e.target.value } : null)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
             </div>

@@ -259,7 +259,7 @@ export const ActivityFormAdmin: React.FC = () => {
                 min="1"
                 value={points}
                 onChange={(e) => setPoints(parseInt(e.target.value) || 1)}
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div>
@@ -292,7 +292,7 @@ export const ActivityFormAdmin: React.FC = () => {
               type="date"
               value={activityDate}
               onChange={(e) => setActivityDate(e.target.value)}
-              className="bg-gray-800 border-gray-700"
+              className="bg-white border-gray-300"
             />
           </div>
 
@@ -304,7 +304,7 @@ export const ActivityFormAdmin: React.FC = () => {
               value={verifiedBy}
               onChange={(e) => setVerifiedBy(e.target.value)}
               placeholder="Имя тренера или куратора"
-              className="bg-gray-800 border-gray-700"
+              className="bg-white border-gray-300"
             />
           </div>
 
@@ -317,7 +317,7 @@ export const ActivityFormAdmin: React.FC = () => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Дополнительная информация об активности"
               rows={3}
-              className="bg-gray-800 border-gray-700"
+              className="bg-white border-gray-300"
             />
           </div>
 

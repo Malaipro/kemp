@@ -346,7 +346,7 @@ export const AsceticManagement: React.FC = () => {
                   value={asceticName}
                   onChange={(e) => setAsceticName(e.target.value)}
                   placeholder="Например: Без сахара, Медитация 10 мин"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
 
@@ -356,7 +356,7 @@ export const AsceticManagement: React.FC = () => {
                   value={asceticDescription}
                   onChange={(e) => setAsceticDescription(e.target.value)}
                   placeholder="Подробное описание правил аскезы"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
 
@@ -369,7 +369,7 @@ export const AsceticManagement: React.FC = () => {
                     max="365"
                     value={asceticDuration}
                     onChange={(e) => setAsceticDuration(parseInt(e.target.value) || 14)}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
                 <div>
@@ -378,7 +378,7 @@ export const AsceticManagement: React.FC = () => {
                     type="date"
                     value={asceticStartDate}
                     onChange={(e) => setAsceticStartDate(e.target.value)}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
               </div>
@@ -438,7 +438,7 @@ export const AsceticManagement: React.FC = () => {
                   max="50"
                   value={points}
                   onChange={(e) => setPoints(parseInt(e.target.value) || 1)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
 
@@ -448,7 +448,7 @@ export const AsceticManagement: React.FC = () => {
                   value={pointsDescription}
                   onChange={(e) => setPointsDescription(e.target.value)}
                   placeholder="Например: Завершение аскезы, особые достижения"
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
 

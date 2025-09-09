@@ -209,7 +209,7 @@ export const StreamManagement: React.FC = () => {
                 value={editingStream.name}
                 onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
                 placeholder="3-й поток"
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div>
@@ -219,7 +219,7 @@ export const StreamManagement: React.FC = () => {
                 value={editingStream.description || ''}
                 onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, description: e.target.value }) : null)}
                 placeholder="Описание интенсива"
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -230,7 +230,7 @@ export const StreamManagement: React.FC = () => {
                   type="date"
                   value={editingStream.start_date}
                   onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, start_date: e.target.value }) : null)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
               <div>
@@ -240,7 +240,7 @@ export const StreamManagement: React.FC = () => {
                   type="date"
                   value={editingStream.end_date}
                   onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, end_date: e.target.value }) : null)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
             </div>
@@ -278,7 +278,7 @@ export const StreamManagement: React.FC = () => {
                 value={newStream.name}
                 onChange={(e) => setNewStream(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="3-й поток"
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div>
@@ -288,7 +288,7 @@ export const StreamManagement: React.FC = () => {
                 value={newStream.description}
                 onChange={(e) => setNewStream(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="Описание интенсива"
-                className="bg-gray-800 border-gray-700"
+                className="bg-white border-gray-300"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -299,7 +299,7 @@ export const StreamManagement: React.FC = () => {
                   type="date"
                   value={newStream.start_date}
                   onChange={(e) => setNewStream(prev => ({ ...prev, start_date: e.target.value }))}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
               <div>
@@ -309,7 +309,7 @@ export const StreamManagement: React.FC = () => {
                   type="date"
                   value={newStream.end_date}
                   onChange={(e) => setNewStream(prev => ({ ...prev, end_date: e.target.value }))}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-white border-gray-300"
                 />
               </div>
             </div>

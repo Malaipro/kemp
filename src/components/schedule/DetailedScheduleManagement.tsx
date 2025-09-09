@@ -286,7 +286,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     type="date"
                     value={dateSpecific}
                     onChange={(e) => setDateSpecific(e.target.value)}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
 
@@ -314,7 +314,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     type="time"
                     value={timeStart}
                     onChange={(e) => setTimeStart(e.target.value)}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
 
@@ -324,7 +324,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     type="time"
                     value={timeEnd}
                     onChange={(e) => setTimeEnd(e.target.value)}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
 
@@ -368,7 +368,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={activityName}
                     onChange={(e) => setActivityName(e.target.value)}
                     placeholder="Тренировка по БЖЖ, Лекция по питанию..."
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
 
@@ -378,7 +378,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="Зал 1, Лекционная..."
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
               </div>
@@ -391,7 +391,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={asceticMeaningKemp}
                     onChange={(e) => setAsceticMeaningKemp(e.target.value)}
                     placeholder="Смысл аскезы для КЭМП"
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                     rows={2}
                   />
                 </div>
@@ -402,7 +402,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={asceticMeaningNutrition}
                     onChange={(e) => setAsceticMeaningNutrition(e.target.value)}
                     placeholder="Смысл аскезы для нутрициологии"
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                     rows={2}
                   />
                 </div>
@@ -416,7 +416,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={instructor}
                     onChange={(e) => setInstructor(e.target.value)}
                     placeholder="Имя инструктора"
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
 
@@ -426,7 +426,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={lecturer}
                     onChange={(e) => setLecturer(e.target.value)}
                     placeholder="Дмитрий Шеларушев"
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
               </div>
@@ -439,7 +439,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Подробное описание мероприятия"
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
 
@@ -451,7 +451,7 @@ export const DetailedScheduleManagement: React.FC = () => {
                     value={maxParticipants || ''}
                     onChange={(e) => setMaxParticipants(e.target.value ? parseInt(e.target.value) : null)}
                     placeholder="Неограниченно"
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-white border-gray-300"
                   />
                 </div>
               </div>

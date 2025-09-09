@@ -147,7 +147,7 @@ export const PersonalProfile: React.FC = () => {
                   id="name"
                   value={formData.name || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white border-gray-300 text-black"
                   placeholder="Ваше имя"
                 />
               ) : (
@@ -164,7 +164,7 @@ export const PersonalProfile: React.FC = () => {
                   id="last_name"
                   value={formData.last_name || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, last_name: e.target.value }))}
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white border-gray-300 text-black"
                   placeholder="Ваша фамилия"
                 />
               ) : (
@@ -182,7 +182,7 @@ export const PersonalProfile: React.FC = () => {
                   type="email"
                   value={formData.email || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white border-gray-300 text-black"
                   placeholder="email@example.com"
                 />
               ) : (
@@ -200,7 +200,7 @@ export const PersonalProfile: React.FC = () => {
                   type="date"
                   value={formData.birth_date || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, birth_date: e.target.value }))}
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white border-gray-300 text-black"
                 />
               ) : (
                 <p className="text-white bg-gray-800 px-3 py-2 rounded-md min-h-[40px] flex items-center">
@@ -221,7 +221,7 @@ export const PersonalProfile: React.FC = () => {
                   max="250"
                   value={formData.height_cm || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, height_cm: e.target.value ? Number(e.target.value) : null }))}
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white border-gray-300 text-black"
                   placeholder="175"
                 />
               ) : (
@@ -241,7 +241,7 @@ export const PersonalProfile: React.FC = () => {
                   max="200"
                   value={formData.weight_kg || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, weight_kg: e.target.value ? Number(e.target.value) : null }))}
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white border-gray-300 text-black"
                   placeholder="70"
                 />
               ) : (
