@@ -14,6 +14,7 @@ interface Participant {
   id: string;
   name: string;
   last_name: string | null;
+  email: string | null;
   points: number;
   user_id: string | null;
   stream_id: string | null;
@@ -34,6 +35,7 @@ export const ParticipantManagement: React.FC = () => {
   const [newParticipant, setNewParticipant] = useState({
     name: '',
     last_name: '',
+    email: '',
     stream_id: ''
   });
 
@@ -81,6 +83,7 @@ export const ParticipantManagement: React.FC = () => {
         .insert([{
           name: participantData.name,
           last_name: participantData.last_name || null,
+          email: participantData.email || null,
           stream_id: participantData.stream_id || null,
           points: 0
         }])
@@ -93,7 +96,7 @@ export const ParticipantManagement: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['participants-management'] });
       setShowCreateForm(false);
-      setNewParticipant({ name: '', last_name: '', stream_id: '' });
+      setNewParticipant({ name: '', last_name: '', email: '', stream_id: '' });
       toast.success('Участник создан успешно');
     },
     onError: (error) => {
@@ -159,6 +162,7 @@ export const ParticipantManagement: React.FC = () => {
       updates: {
         name: editingParticipant.name,
         last_name: editingParticipant.last_name,
+        email: editingParticipant.email,
         stream_id: editingParticipant.stream_id
       }
     });
@@ -218,6 +222,17 @@ export const ParticipantManagement: React.FC = () => {
                   className="bg-gray-800 border-gray-700"
                 />
               </div>
+            </div>
+            <div>
+              <Label htmlFor="email" className="text-gray-300">Электронная почта</Label>
+              <Input
+                id="email"
+                type="email"
+                value={newParticipant.email}
+                onChange={(e) => setNewParticipant(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="email@example.com"
+                className="bg-gray-800 border-gray-700"
+              />
             </div>
             <div>
               <Label htmlFor="stream" className="text-gray-300">Поток</Label>
@@ -285,6 +300,17 @@ export const ParticipantManagement: React.FC = () => {
               </div>
             </div>
             <div>
+              <Label htmlFor="edit_email" className="text-gray-300">Электронная почта</Label>
+              <Input
+                id="edit_email"
+                type="email"
+                value={editingParticipant.email || ''}
+                onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, email: e.target.value } : null)}
+                placeholder="email@example.com"
+                className="bg-gray-800 border-gray-700"
+              />
+            </div>
+            <div>
               <Label htmlFor="edit_stream" className="text-gray-300">Поток</Label>
               <Select
                 value={editingParticipant.stream_id || ''}
@@ -338,6 +364,9 @@ export const ParticipantManagement: React.FC = () => {
                     </h4>
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                       <span>{participant.points} баллов</span>
+                      {participant.email && (
+                        <span>• {participant.email}</span>
+                      )}
                       {participant.stream && (
                         <Badge variant="secondary" className="bg-gray-700 text-gray-300">
                           {participant.stream.name}
