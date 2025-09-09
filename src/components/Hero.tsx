@@ -32,12 +32,12 @@ export const Hero: React.FC = () => {
           </span>
           
           <h1 className="text-3xl md:text-5xl lg:text-6xl text-white font-display font-bold leading-tight">
-            КЭМП — интенсив для тех, кто готов пройти испытания и стать 
+            КЭМП — интенсив и клуб для тех, кто готов пройти испытания и стать 
             <span className="text-gradient bg-gradient-to-r from-kamp-accent to-kamp-primary"> сильнее.</span>
           </h1>
           
           <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto font-light">
-            Вступай в клуб выносливости, дисциплины и лидерства. Тренировки по кикбоксингу, джиу-джитсу, стрельбище, выездные испытания, закаливание и реальные вызовы.
+            Вступай в клуб выносливости, дисциплины и лидерства. Тренировки по Бразильскому Джиу-Джитсу, Кикбоксингу, ОФП, выездные испытания, закаливания, тактической подготовке и самобороне.
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 pt-4">
