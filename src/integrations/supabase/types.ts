@@ -201,13 +201,6 @@ export type Database = {
             foreignKeyName: "cooper_test_results_participant_id_fkey"
             columns: ["participant_id"]
             isOneToOne: false
-            referencedRelation: "leaderboard_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cooper_test_results_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
             referencedRelation: "участники"
             referencedColumns: ["id"]
           },
@@ -263,13 +256,6 @@ export type Database = {
             columns: ["participant_id"]
             isOneToOne: false
             referencedRelation: "leaderboard"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "direction_progress_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
-            referencedRelation: "leaderboard_cache"
             referencedColumns: ["id"]
           },
           {
@@ -460,13 +446,6 @@ export type Database = {
             columns: ["participant_id"]
             isOneToOne: false
             referencedRelation: "leaderboard"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "participant_activities_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
-            referencedRelation: "leaderboard_cache"
             referencedColumns: ["id"]
           },
           {
@@ -826,13 +805,6 @@ export type Database = {
             foreignKeyName: "user_achievements_participant_id_fkey"
             columns: ["participant_id"]
             isOneToOne: false
-            referencedRelation: "leaderboard_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_achievements_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
             referencedRelation: "участники"
             referencedColumns: ["id"]
           },
@@ -907,13 +879,6 @@ export type Database = {
             foreignKeyName: "user_special_badges_participant_id_fkey"
             columns: ["participant_id"]
             isOneToOne: false
-            referencedRelation: "leaderboard_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_special_badges_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
             referencedRelation: "участники"
             referencedColumns: ["id"]
           },
@@ -962,13 +927,6 @@ export type Database = {
             columns: ["participant_id"]
             isOneToOne: false
             referencedRelation: "leaderboard"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "participant_ascetics_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
-            referencedRelation: "leaderboard_cache"
             referencedColumns: ["id"]
           },
           {
@@ -1065,13 +1023,6 @@ export type Database = {
             foreignKeyName: "kamp_activities_participant_id_fkey"
             columns: ["participant_id"]
             isOneToOne: false
-            referencedRelation: "leaderboard_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "kamp_activities_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
             referencedRelation: "участники"
             referencedColumns: ["id"]
           },
@@ -1140,13 +1091,6 @@ export type Database = {
             columns: ["participant_id"]
             isOneToOne: false
             referencedRelation: "leaderboard"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "participant_totems_participant_id_fkey"
-            columns: ["participant_id"]
-            isOneToOne: false
-            referencedRelation: "leaderboard_cache"
             referencedColumns: ["id"]
           },
           {
@@ -1249,15 +1193,6 @@ export type Database = {
         }
         Relationships: []
       }
-      leaderboard_cache: {
-        Row: {
-          id: string | null
-          name: string | null
-          points: number | null
-          rank: number | null
-        }
-        Relationships: []
-      }
     }
     Functions: {
       calculate_activity_points: {
@@ -1290,6 +1225,15 @@ export type Database = {
           social: string | null
         }[]
       }
+      get_leaderboard_data: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          points: number
+          rank: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1303,10 +1247,6 @@ export type Database = {
       }
       log_admin_access: {
         Args: { p_action: string; p_table_name: string }
-        Returns: undefined
-      }
-      refresh_leaderboard_cache: {
-        Args: Record<PropertyKey, never>
         Returns: undefined
       }
     }
