@@ -46,8 +46,6 @@ export const CooperTestManagement: React.FC = () => {
   const [selectedParticipantId, setSelectedParticipantId] = useState<string>('');
   const [testNumber, setTestNumber] = useState<number>(1);
   const [testDate, setTestDate] = useState(new Date().toISOString().split('T')[0]);
-  const [distance, setDistance] = useState<number>(2000);
-  const [timeMinutes, setTimeMinutes] = useState<number>(12);
   const [completionTimeSeconds, setCompletionTimeSeconds] = useState<number>(720); // 12 minutes in seconds
   const [notes, setNotes] = useState('');
 
@@ -139,12 +137,13 @@ export const CooperTestManagement: React.FC = () => {
     enabled: isSuperAdmin || !!currentParticipant
   });
 
-  const calculateFitnessLevel = (distance: number) => {
-    if (distance >= 2800) return 'Отлично';
-    if (distance >= 2400) return 'Хорошо';
-    if (distance >= 2200) return 'Удовлетворительно';
-    if (distance >= 1600) return 'Слабо';
-    return 'Очень слабо';
+  const calculateFitnessLevel = (timeSeconds: number) => {
+    // Основано на времени прохождения теста (чем меньше время, тем лучше)
+    if (timeSeconds <= 540) return 'Отлично'; // 9 минут или меньше
+    if (timeSeconds <= 600) return 'Хорошо';   // до 10 минут
+    if (timeSeconds <= 720) return 'Удовлетворительно'; // до 12 минут
+    if (timeSeconds <= 900) return 'Слабо';    // до 15 минут
+    return 'Очень слабо'; // больше 15 минут
   };
 
   const formatTime = (seconds: number) => {
@@ -214,8 +213,6 @@ export const CooperTestManagement: React.FC = () => {
     setSelectedParticipantId('');
     setTestNumber(1);
     setTestDate(new Date().toISOString().split('T')[0]);
-    setDistance(2000);
-    setTimeMinutes(12);
     setCompletionTimeSeconds(720);
     setNotes('');
   };
@@ -234,10 +231,8 @@ export const CooperTestManagement: React.FC = () => {
       participant_id: participantId,
       test_number: testNumber,
       test_date: testDate,
-      distance_meters: distance,
-      time_minutes: timeMinutes,
       completion_time_seconds: completionTimeSeconds,
-      fitness_level: calculateFitnessLevel(distance),
+      fitness_level: calculateFitnessLevel(completionTimeSeconds),
       notes: notes || null
     };
 
@@ -253,8 +248,6 @@ export const CooperTestManagement: React.FC = () => {
     setSelectedParticipantId(result.participant_id);
     setTestNumber(result.test_number);
     setTestDate(result.test_date);
-    setDistance(result.distance_meters);
-    setTimeMinutes(result.time_minutes);
     setCompletionTimeSeconds(result.completion_time_seconds || 720);
     setNotes(result.notes || '');
     setShowAddForm(true);
@@ -358,18 +351,6 @@ export const CooperTestManagement: React.FC = () => {
                   />
                 </div>
 
-                {/* Distance */}
-                <div>
-                  <Label>Дистанция (метры) *</Label>
-                  <Input
-                    type="number"
-                    value={distance}
-                    onChange={(e) => setDistance(parseInt(e.target.value) || 0)}
-                    min="0"
-                    className="bg-gray-800 border-gray-700"
-                  />
-                </div>
-
                 {/* Completion Time */}
                 <div>
                   <Label>Время прохождения (секунды) *</Label>
@@ -403,13 +384,13 @@ export const CooperTestManagement: React.FC = () => {
                 <p className="text-sm text-gray-300">
                   Уровень подготовки: 
                   <span className={`ml-2 px-2 py-1 rounded text-xs font-semibold ${
-                    calculateFitnessLevel(distance) === 'Отлично' ? 'bg-green-600 text-white' :
-                    calculateFitnessLevel(distance) === 'Хорошо' ? 'bg-blue-600 text-white' :
-                    calculateFitnessLevel(distance) === 'Удовлетворительно' ? 'bg-yellow-600 text-black' :
-                    calculateFitnessLevel(distance) === 'Слабо' ? 'bg-orange-600 text-white' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Отлично' ? 'bg-green-600 text-white' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Хорошо' ? 'bg-blue-600 text-white' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Удовлетворительно' ? 'bg-yellow-600 text-black' :
+                    calculateFitnessLevel(completionTimeSeconds) === 'Слабо' ? 'bg-orange-600 text-white' :
                     'bg-red-600 text-white'
                   }`}>
-                    {calculateFitnessLevel(distance)}
+                    {calculateFitnessLevel(completionTimeSeconds)}
                   </span>
                 </p>
               </div>
