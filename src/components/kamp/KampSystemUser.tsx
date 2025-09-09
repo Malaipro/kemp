@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { KampInstructions } from './KampInstructions';
 import { KampProgress } from './KampProgress';
-import { AsceticTracker } from './AsceticTracker';
+import { AsceticManagement } from './AsceticManagement';
 import { KampManual } from '@/components/instructions/KampManual';
 import { Book, Trophy, Target, FileText } from 'lucide-react';
 
@@ -44,7 +44,7 @@ export const KampSystemUser: React.FC = () => {
           </TabsContent>
           
           <TabsContent value="ascetics">
-            <AsceticTracker />
+            <AsceticManagement />
           </TabsContent>
           
           <TabsContent value="manual">

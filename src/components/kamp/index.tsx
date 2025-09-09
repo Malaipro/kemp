@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { KampInstructions } from './KampInstructions';
 import { KampProgress } from './KampProgress';
 import { ActivityForm } from './ActivityForm';
-import { AsceticTracker } from './AsceticTracker';
+import { AsceticManagement } from './AsceticManagement';
 import { ParticipantsList } from '@/components/admin/ParticipantsList';
 import { KampManual } from '@/components/instructions/KampManual';
 import { Book, Trophy, Plus, Target, Users, FileText } from 'lucide-react';
@@ -58,7 +58,7 @@ export const KampSystem: React.FC = () => {
           </TabsContent>
           
           <TabsContent value="ascetics">
-            <AsceticTracker />
+            <AsceticManagement />
           </TabsContent>
           
           <TabsContent value="participants">
