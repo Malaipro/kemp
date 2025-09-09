@@ -144,6 +144,31 @@ export const StreamManagement: React.FC = () => {
     });
   };
 
+  const handleEditStream = (stream: Stream) => {
+    setEditingStream({
+      ...stream,
+      start_date: stream.start_date.split('T')[0], // Convert to YYYY-MM-DD format
+      end_date: stream.end_date.split('T')[0]
+    });
+  };
+
+  const handleUpdateStream = () => {
+    if (!editingStream || !editingStream.name || !editingStream.start_date || !editingStream.end_date) {
+      toast.error('Заполните все обязательные поля');
+      return;
+    }
+    
+    updateStreamMutation.mutate({
+      id: editingStream.id,
+      updates: {
+        name: editingStream.name,
+        description: editingStream.description,
+        start_date: editingStream.start_date,
+        end_date: editingStream.end_date
+      }
+    });
+  };
+
   if (isLoading) {
     return (
       <Card>
@@ -169,6 +194,75 @@ export const StreamManagement: React.FC = () => {
           Создать поток
         </Button>
       </div>
+
+      {/* Edit Form */}
+      {editingStream && (
+        <Card className="bg-gray-900/50 border-gray-800">
+          <CardHeader>
+            <CardTitle className="text-white">Редактировать поток</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="edit-name" className="text-gray-300">Название потока</Label>
+              <Input
+                id="edit-name"
+                value={editingStream.name}
+                onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                placeholder="3-й поток"
+                className="bg-gray-800 border-gray-700"
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-description" className="text-gray-300">Описание</Label>
+              <Textarea
+                id="edit-description"
+                value={editingStream.description || ''}
+                onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, description: e.target.value }) : null)}
+                placeholder="Описание интенсива"
+                className="bg-gray-800 border-gray-700"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="edit-start_date" className="text-gray-300">Дата начала</Label>
+                <Input
+                  id="edit-start_date"
+                  type="date"
+                  value={editingStream.start_date}
+                  onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, start_date: e.target.value }) : null)}
+                  className="bg-gray-800 border-gray-700"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-end_date" className="text-gray-300">Дата окончания</Label>
+                <Input
+                  id="edit-end_date"
+                  type="date"
+                  value={editingStream.end_date}
+                  onChange={(e) => setEditingStream(prev => prev ? ({ ...prev, end_date: e.target.value }) : null)}
+                  className="bg-gray-800 border-gray-700"
+                />
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                onClick={handleUpdateStream}
+                disabled={updateStreamMutation.isPending}
+                className="bg-kamp-accent hover:bg-kamp-accent/90 text-black"
+              >
+                Сохранить
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => setEditingStream(null)}
+                className="border-gray-700"
+              >
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Create Form */}
       {showCreateForm && (
@@ -268,6 +362,14 @@ export const StreamManagement: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleEditStream(stream)}
+                    className="border-gray-700 text-gray-300 hover:bg-gray-800"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </Button>
                   <div className="flex items-center gap-2">
                     <Label htmlFor={`active-${stream.id}`} className="text-gray-300 text-sm">
                       {stream.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
