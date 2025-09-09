@@ -33,20 +33,54 @@ export const AsceticTracker: React.FC = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: participant } = useQuery({
-    queryKey: ['current-participant'],
+  const { data: participant, isLoading } = useQuery({
+    queryKey: ['current-participant-ascetic'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return null;
+      console.log('AsceticTracker: Current user:', user?.id, user?.email);
       
-      const { data, error } = await supabase
+      if (!user) {
+        console.log('AsceticTracker: No user found');
+        return null;
+      }
+      
+      // Сначала пытаемся найти существующую запись участника
+      const { data: existingParticipant, error: selectError } = await supabase
         .from('участники')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
       
-      if (error) throw error;
-      return data;
+      if (selectError) {
+        console.error('AsceticTracker: Error finding participant:', selectError);
+        throw selectError;
+      }
+
+      if (existingParticipant) {
+        console.log('AsceticTracker: Found existing participant:', existingParticipant.id);
+        return existingParticipant;
+      }
+
+      // Если записи нет, создаем новую
+      console.log('AsceticTracker: Creating new participant for user:', user.id);
+      const { data: newParticipant, error: insertError } = await supabase
+        .from('участники')
+        .insert([{
+          user_id: user.id,
+          name: user.user_metadata?.name || user.email?.split('@')[0] || 'Участник',
+          last_name: user.user_metadata?.lastName || '',
+          points: 0
+        }])
+        .select()
+        .single();
+
+      if (insertError) {
+        console.error('AsceticTracker: Error creating participant:', insertError);
+        throw insertError;
+      }
+
+      console.log('AsceticTracker: Created new participant:', newParticipant.id);
+      return newParticipant;
     },
   });
 
@@ -205,11 +239,28 @@ export const AsceticTracker: React.FC = () => {
     return days;
   };
 
+  if (isLoading) {
+    return (
+      <Card className="kamp-card">
+        <CardContent className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kamp-accent mx-auto mb-4"></div>
+          <p className="text-gray-400">Загрузка данных участника...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (!participant) {
     return (
       <Card className="kamp-card">
         <CardContent className="text-center py-8">
-          <p className="text-gray-400">Для отслеживания аскез необходимо войти в систему</p>
+          <p className="text-gray-400 mb-4">Для отслеживания аскез необходимо войти в систему</p>
+          <Button 
+            onClick={() => window.location.href = '/auth'}
+            className="bg-kamp-accent text-black hover:bg-kamp-accent/80"
+          >
+            Войти в систему
+          </Button>
         </CardContent>
       </Card>
     );

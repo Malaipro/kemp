@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Trophy, Target, Book, Zap, Star } from 'lucide-react';
 
@@ -32,20 +33,54 @@ interface ParticipantTotem {
 }
 
 export const KampProgress: React.FC = () => {
-  const { data: participant } = useQuery({
-    queryKey: ['current-participant'],
+  const { data: participant, isLoading } = useQuery({
+    queryKey: ['current-participant-progress'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return null;
+      console.log('KampProgress: Current user:', user?.id, user?.email);
       
-      const { data, error } = await supabase
+      if (!user) {
+        console.log('KampProgress: No user found');
+        return null;
+      }
+      
+      // Сначала пытаемся найти существующую запись участника
+      const { data: existingParticipant, error: selectError } = await supabase
         .from('участники')
         .select('*')
         .eq('user_id', user.id)
         .maybeSingle();
       
-      if (error) throw error;
-      return data;
+      if (selectError) {
+        console.error('KampProgress: Error finding participant:', selectError);
+        throw selectError;
+      }
+
+      if (existingParticipant) {
+        console.log('KampProgress: Found existing participant:', existingParticipant.id);
+        return existingParticipant;
+      }
+
+      // Если записи нет, создаем новую
+      console.log('KampProgress: Creating new participant for user:', user.id);
+      const { data: newParticipant, error: insertError } = await supabase
+        .from('участники')
+        .insert([{
+          user_id: user.id,
+          name: user.user_metadata?.name || user.email?.split('@')[0] || 'Участник',
+          last_name: user.user_metadata?.lastName || '',
+          points: 0
+        }])
+        .select()
+        .single();
+
+      if (insertError) {
+        console.error('KampProgress: Error creating participant:', insertError);
+        throw insertError;
+      }
+
+      console.log('KampProgress: Created new participant:', newParticipant.id);
+      return newParticipant;
     },
   });
 
@@ -99,11 +134,28 @@ export const KampProgress: React.FC = () => {
     enabled: !!participant?.id,
   });
 
+  if (isLoading) {
+    return (
+      <Card className="kamp-card">
+        <CardContent className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kamp-accent mx-auto mb-4"></div>
+          <p className="text-gray-400">Загрузка прогресса...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (!participant || !progressData) {
     return (
       <Card className="kamp-card">
         <CardContent className="text-center py-8">
-          <p className="text-gray-400">Для просмотра прогресса необходимо войти в систему</p>
+          <p className="text-gray-400 mb-4">Для просмотра прогресса необходимо войти в систему</p>
+          <Button 
+            onClick={() => window.location.href = '/auth'}
+            className="bg-kamp-accent text-black hover:bg-kamp-accent/80"
+          >
+            Войти в систему
+          </Button>
         </CardContent>
       </Card>
     );
