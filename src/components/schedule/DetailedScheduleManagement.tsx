@@ -293,10 +293,10 @@ export const DetailedScheduleManagement: React.FC = () => {
                 <div>
                   <Label>День недели</Label>
                   <Select value={dayOfWeek.toString()} onValueChange={(value) => setDayOfWeek(parseInt(value))}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700">
+                    <SelectTrigger className="bg-white border-gray-300">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700 z-50">
+                    <SelectContent className="bg-white border-gray-300 z-50">
                       <SelectItem value="1">Понедельник</SelectItem>
                       <SelectItem value="2">Вторник</SelectItem>
                       <SelectItem value="3">Среда</SelectItem>
@@ -331,10 +331,10 @@ export const DetailedScheduleManagement: React.FC = () => {
                 <div>
                   <Label>Тип мероприятия</Label>
                   <Select value={eventType} onValueChange={setEventType}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700">
+                    <SelectTrigger className="bg-white border-gray-300">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700 z-50">
+                    <SelectContent className="bg-white border-gray-300 z-50">
                       <SelectItem value="training">Тренировка</SelectItem>
                       <SelectItem value="lecture">Лекция</SelectItem>
                       <SelectItem value="test">Тестирование</SelectItem>
@@ -346,10 +346,10 @@ export const DetailedScheduleManagement: React.FC = () => {
                 <div>
                   <Label>Цвет выделения</Label>
                   <Select value={highlightColor} onValueChange={setHighlightColor}>
-                    <SelectTrigger className="bg-gray-800 border-gray-700">
+                    <SelectTrigger className="bg-white border-gray-300">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700 z-50">
+                    <SelectContent className="bg-white border-gray-300 z-50">
                       <SelectItem value="none">Без выделения</SelectItem>
                       <SelectItem value="red">Красный</SelectItem>
                       <SelectItem value="yellow">Желтый</SelectItem>

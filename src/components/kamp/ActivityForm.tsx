@@ -260,7 +260,7 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
               <SelectTrigger>
                 <SelectValue placeholder="Выберите тип награды" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white border-gray-300 z-50">
                 {rewardTypes.map((type) => (
                   <SelectItem key={type.value} value={type.value}>
                     <div className="flex items-center gap-2">
@@ -280,7 +280,7 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
                 <SelectTrigger>
                   <SelectValue placeholder="Выберите подтип" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-300 z-50">
                   {selectedRewardType.subtypes.map((st) => (
                     <SelectItem key={st} value={st}>
                       {subtypeLabels[st]}
@@ -308,7 +308,7 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-300 z-50">
                   <SelectItem value="1.0">×1.0 (обычно)</SelectItem>
                   <SelectItem value="1.5">×1.5 (за сверхусилие)</SelectItem>
                 </SelectContent>

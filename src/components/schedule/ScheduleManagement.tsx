@@ -263,10 +263,10 @@ export const ScheduleManagement: React.FC = () => {
               <div className="space-y-2">
                 <Label htmlFor="day-of-week">День недели</Label>
                 <Select value={dayOfWeek.toString()} onValueChange={(value) => setDayOfWeek(parseInt(value))}>
-                  <SelectTrigger className="kamp-input">
+                  <SelectTrigger className="kamp-input-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border-gray-300 z-50">
                     {DAYS_OF_WEEK.map((day) => (
                       <SelectItem key={day.value} value={day.value.toString()}>
                         {day.label}

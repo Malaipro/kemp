@@ -193,10 +193,10 @@ export const RegisteredParticipants: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-gray-400" />
                 <Select value={sortBy} onValueChange={(value: 'points' | 'name' | 'achievements') => setSortBy(value)}>
-                  <SelectTrigger className={`${isMobile ? 'w-full' : 'w-48'} bg-black/50 border-gray-700 text-kamp-light`}>
+                  <SelectTrigger className={`${isMobile ? 'w-full' : 'w-48'} bg-white border-gray-300 text-gray-900`}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border-gray-300 z-50">
                     <SelectItem value="points">По баллам</SelectItem>
                     <SelectItem value="name">По имени</SelectItem>
                     <SelectItem value="achievements">По достижениям</SelectItem>

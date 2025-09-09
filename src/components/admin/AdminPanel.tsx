@@ -327,10 +327,10 @@ export const AdminPanel: React.FC = () => {
               <div className="space-y-2">
                 <Label htmlFor="participant-select" className="responsive-text-sm">Участник</Label>
                 <Select value={selectedParticipant} onValueChange={setSelectedParticipant} required>
-                  <SelectTrigger className="kamp-input h-10">
+                  <SelectTrigger className="kamp-input-white h-10">
                     <SelectValue placeholder="Выберите участника" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border-gray-300 z-50">
                     {participants.map((participant) => (
                       <SelectItem key={participant.id} value={participant.id}>
                         {participant.name} {participant.last_name}
@@ -344,10 +344,10 @@ export const AdminPanel: React.FC = () => {
                 <div className="space-y-2">
                   <Label htmlFor="activity-type" className="responsive-text-sm">Тип награды</Label>
                   <Select value={activityType} onValueChange={(value: 'zakal' | 'gran' | 'shram') => setActivityType(value)}>
-                    <SelectTrigger className="kamp-input h-10">
+                    <SelectTrigger className="kamp-input-white h-10">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-gray-300 z-50">
                       <SelectItem value="zakal">Закал</SelectItem>
                       <SelectItem value="gran">Грань</SelectItem>
                       <SelectItem value="shram">Шрам</SelectItem>
@@ -359,10 +359,10 @@ export const AdminPanel: React.FC = () => {
                   <div className="space-y-2">
                     <Label htmlFor="activity-subtype" className="responsive-text-sm">Подтип</Label>
                     <Select value={activitySubtype} onValueChange={setActivitySubtype} required>
-                      <SelectTrigger className="kamp-input h-10">
+                      <SelectTrigger className="kamp-input-white h-10">
                         <SelectValue placeholder="Выберите подтип" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white border-gray-300 z-50">
                         <SelectItem value="bjj">БЖЖ</SelectItem>
                         <SelectItem value="kick">Кикбоксинг</SelectItem>
                         <SelectItem value="ofp">ОФП</SelectItem>

@@ -225,10 +225,10 @@ export const ParticipantManagement: React.FC = () => {
                 value={newParticipant.stream_id}
                 onValueChange={(value) => setNewParticipant(prev => ({ ...prev, stream_id: value }))}
               >
-                <SelectTrigger className="bg-gray-800 border-gray-700">
+                <SelectTrigger className="bg-white border-gray-300">
                   <SelectValue placeholder="Выберите поток" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-300 z-50">
                   {streams?.map(stream => (
                     <SelectItem key={stream.id} value={stream.id}>
                       {stream.name}
@@ -290,10 +290,10 @@ export const ParticipantManagement: React.FC = () => {
                 value={editingParticipant.stream_id || ''}
                 onValueChange={(value) => setEditingParticipant(prev => prev ? { ...prev, stream_id: value } : null)}
               >
-                <SelectTrigger className="bg-gray-800 border-gray-700">
+                <SelectTrigger className="bg-white border-gray-300">
                   <SelectValue placeholder="Выберите поток" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-300 z-50">
                   {streams?.map(stream => (
                     <SelectItem key={stream.id} value={stream.id}>
                       {stream.name}

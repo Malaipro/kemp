@@ -124,6 +124,10 @@
     @apply w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-kamp-primary focus:border-transparent transition-all duration-200 bg-black/50 text-white;
   }
 
+  .kamp-input-white {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-kamp-primary focus:border-transparent transition-all duration-200 bg-white text-gray-900;
+  }
+
   .kamp-badge {
     @apply inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium;
   }

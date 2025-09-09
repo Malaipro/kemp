@@ -324,19 +324,19 @@ export const AsceticManagement: React.FC = () => {
               <div>
                 <Label>Участник *</Label>
                 <Select value={selectedParticipantId} onValueChange={setSelectedParticipantId}>
-                  <SelectTrigger className="bg-gray-800 border-gray-700">
+                  <SelectTrigger className="bg-white border-gray-300">
                     <SelectValue placeholder="Выберите участника" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700 z-50">
-                    {allParticipants?.map(participant => (
-                      <SelectItem key={participant.id} value={participant.id} className="hover:bg-gray-700">
-                        <div className="flex items-center gap-2">
-                          <User className="w-4 h-4" />
-                          {participant.name} {participant.last_name}
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
+                    <SelectContent className="bg-white border-gray-300 z-50">
+                      {allParticipants?.map(participant => (
+                        <SelectItem key={participant.id} value={participant.id} className="hover:bg-gray-100">
+                          <div className="flex items-center gap-2">
+                            <User className="w-4 h-4" />
+                            {participant.name} {participant.last_name}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                 </Select>
               </div>
 
@@ -414,12 +414,12 @@ export const AsceticManagement: React.FC = () => {
               <div>
                 <Label>Участник *</Label>
                 <Select value={pointsParticipantId} onValueChange={setPointsParticipantId}>
-                  <SelectTrigger className="bg-gray-800 border-gray-700">
+                  <SelectTrigger className="bg-white border-gray-300">
                     <SelectValue placeholder="Выберите участника" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700 z-50">
+                  <SelectContent className="bg-white border-gray-300 z-50">
                     {allParticipants?.map(participant => (
-                      <SelectItem key={participant.id} value={participant.id} className="hover:bg-gray-700">
+                      <SelectItem key={participant.id} value={participant.id} className="hover:bg-gray-100">
                         <div className="flex items-center gap-2">
                           <User className="w-4 h-4" />
                           {participant.name} {participant.last_name} ({participant.points} баллов)
