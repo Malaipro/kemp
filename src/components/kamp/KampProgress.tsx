@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Target, Book, Zap, Star } from 'lucide-react';
+import { Trophy, Target, Book, Zap, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface KampProgressData {
   zakal_bjj: number;
@@ -17,6 +18,18 @@ interface KampProgressData {
   shram_ofp: number;
   shram_tactics: number;
   total_points: number;
+}
+
+interface ActivityDetail {
+  id: string;
+  description: string;
+  activity_date: string;
+  points: number;
+  reward_type: string;
+  zakal_subtype?: string;
+  shram_subtype?: string;
+  lecture_subtype?: string;
+  training_subtype?: string;
 }
 
 interface TotemRequirement {
@@ -33,6 +46,7 @@ interface ParticipantTotem {
 }
 
 export const KampProgress: React.FC = () => {
+  const [expandedSections, setExpandedSections] = React.useState<{[key: string]: boolean}>({});
   const { data: participant, isLoading } = useQuery({
     queryKey: ['current-participant-progress'],
     queryFn: async () => {
@@ -134,6 +148,33 @@ export const KampProgress: React.FC = () => {
     enabled: !!participant?.id,
   });
 
+  const { data: activityDetails = [] } = useQuery({
+    queryKey: ['participant-activity-details', participant?.id],
+    queryFn: async (): Promise<ActivityDetail[]> => {
+      if (!participant?.id) return [];
+      
+      const { data, error } = await supabase
+        .from('кэмп_активности')
+        .select(`
+          id,
+          description,
+          activity_date,
+          points,
+          reward_type,
+          zakal_subtype,
+          shram_subtype,
+          lecture_subtype,
+          training_subtype
+        `)
+        .eq('participant_id', participant.id)
+        .order('activity_date', { ascending: false });
+      
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!participant?.id,
+  });
+
   if (isLoading) {
     return (
       <Card className="kamp-card">
@@ -192,6 +233,36 @@ export const KampProgress: React.FC = () => {
     };
   };
 
+  const getActivitiesByType = (rewardType: string, subtype?: string) => {
+    return activityDetails.filter(activity => {
+      if (activity.reward_type !== rewardType) return false;
+      if (subtype) {
+        switch (rewardType) {
+          case 'zakal':
+            return activity.zakal_subtype === subtype;
+          case 'shram':
+            return activity.shram_subtype === subtype;
+          case 'gran':
+            return activity.lecture_subtype === subtype;
+          default:
+            return true;
+        }
+      }
+      return true;
+    });
+  };
+
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('ru-RU');
+  };
+
   return (
     <div className="space-y-6">
       <Card className="kamp-card">
@@ -231,65 +302,209 @@ export const KampProgress: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
-                <h4 className="font-semibold text-blue-400 mb-3 flex items-center gap-2">
-                  <Target className="w-4 h-4" />
-                  Закалы (физика)
-                </h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>БЖЖ:</span>
-                    <span className="text-blue-400">{progressData.zakal_bjj}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Кикбоксинг:</span>
-                    <span className="text-blue-400">{progressData.zakal_kick}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>ОФП:</span>
-                    <span className="text-blue-400">{progressData.zakal_ofp}</span>
-                  </div>
-                </div>
+                <Collapsible 
+                  open={expandedSections.zakals} 
+                  onOpenChange={() => toggleSection('zakals')}
+                >
+                  <CollapsibleTrigger className="w-full">
+                    <h4 className="font-semibold text-blue-400 mb-3 flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Target className="w-4 h-4" />
+                        Закалы (физика)
+                      </div>
+                      {expandedSections.zakals ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </h4>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <div className="space-y-4 text-sm">
+                      {/* БЖЖ Закалы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>БЖЖ:</span>
+                          <span className="text-blue-400">{progressData.zakal_bjj}</span>
+                        </div>
+                        {getActivitiesByType('zakal', 'bjj').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('zakal', 'bjj').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'Тренировка БЖЖ'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Кикбоксинг Закалы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>Кикбоксинг:</span>
+                          <span className="text-blue-400">{progressData.zakal_kick}</span>
+                        </div>
+                        {getActivitiesByType('zakal', 'kick').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('zakal', 'kick').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'Тренировка кикбоксинга'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* ОФП Закалы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>ОФП:</span>
+                          <span className="text-blue-400">{progressData.zakal_ofp}</span>
+                        </div>
+                        {getActivitiesByType('zakal', 'ofp').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('zakal', 'ofp').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'ОФП тренировка'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </div>
 
               <div className="p-4 bg-green-500/10 rounded-lg border border-green-500/30">
-                <h4 className="font-semibold text-green-400 mb-3 flex items-center gap-2">
-                  <Book className="w-4 h-4" />
-                  Грани (теория)
-                </h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Всего:</span>
-                    <span className="text-green-400">{progressData.gran}</span>
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    Лекции + ДЗ по Пирамиде КЭМП и нутрициологии
-                  </div>
-                </div>
+                <Collapsible 
+                  open={expandedSections.grans} 
+                  onOpenChange={() => toggleSection('grans')}
+                >
+                  <CollapsibleTrigger className="w-full">
+                    <h4 className="font-semibold text-green-400 mb-3 flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Book className="w-4 h-4" />
+                        Грани (теория)
+                      </div>
+                      {expandedSections.grans ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </h4>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <div className="space-y-4 text-sm">
+                      <div className="flex justify-between mb-2">
+                        <span>Всего:</span>
+                        <span className="text-green-400">{progressData.gran}</span>
+                      </div>
+                      
+                      {getActivitiesByType('gran').length > 0 && (
+                        <div className="space-y-1 max-h-32 overflow-y-auto">
+                          {getActivitiesByType('gran').map(activity => (
+                            <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                              <span>
+                                {activity.lecture_subtype === 'homework_pyramid' ? 'ДЗ по Пирамиде КЭМП' : 
+                                 activity.lecture_subtype === 'nutrition' ? 'ДЗ по нутрициологии' :
+                                 activity.description || 'Лекция'}
+                              </span>
+                              <span>{formatDate(activity.activity_date)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </div>
 
               <div className="p-4 bg-red-500/10 rounded-lg border border-red-500/30">
-                <h4 className="font-semibold text-red-400 mb-3 flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  Шрамы (испытания)
-                </h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>БЖЖ:</span>
-                    <span className="text-red-400">{progressData.shram_bjj}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Кикбоксинг:</span>
-                    <span className="text-red-400">{progressData.shram_kick}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>ОФП:</span>
-                    <span className="text-red-400">{progressData.shram_ofp}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Тактика:</span>
-                    <span className="text-red-400">{progressData.shram_tactics}</span>
-                  </div>
-                </div>
+                <Collapsible 
+                  open={expandedSections.shrams} 
+                  onOpenChange={() => toggleSection('shrams')}
+                >
+                  <CollapsibleTrigger className="w-full">
+                    <h4 className="font-semibold text-red-400 mb-3 flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Zap className="w-4 h-4" />
+                        Шрамы (испытания)
+                      </div>
+                      {expandedSections.shrams ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </h4>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <div className="space-y-4 text-sm">
+                      {/* БЖЖ Шрамы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>БЖЖ:</span>
+                          <span className="text-red-400">{progressData.shram_bjj}</span>
+                        </div>
+                        {getActivitiesByType('shram', 'bjj').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('shram', 'bjj').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'Краш-тест БЖЖ'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Кикбоксинг Шрамы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>Кикбоксинг:</span>
+                          <span className="text-red-400">{progressData.shram_kick}</span>
+                        </div>
+                        {getActivitiesByType('shram', 'kick').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('shram', 'kick').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'Краш-тест Кикбоксинг'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* ОФП Шрамы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>ОФП:</span>
+                          <span className="text-red-400">{progressData.shram_ofp}</span>
+                        </div>
+                        {getActivitiesByType('shram', 'ofp').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('shram', 'ofp').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'Гонка героев'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Тактика Шрамы */}
+                      <div>
+                        <div className="flex justify-between mb-2">
+                          <span>Тактика:</span>
+                          <span className="text-red-400">{progressData.shram_tactics}</span>
+                        </div>
+                        {getActivitiesByType('shram', 'tactics').length > 0 && (
+                          <div className="ml-4 space-y-1 max-h-32 overflow-y-auto">
+                            {getActivitiesByType('shram', 'tactics').map(activity => (
+                              <div key={activity.id} className="text-xs text-gray-400 flex justify-between">
+                                <span>{activity.description || 'Тактика медицины'}</span>
+                                <span>{formatDate(activity.activity_date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </div>
             </div>
           </div>
