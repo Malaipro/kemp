@@ -1193,6 +1193,15 @@ export type Database = {
         }
         Relationships: []
       }
+      safe_leaderboard: {
+        Row: {
+          id: string | null
+          name: string | null
+          points: number | null
+          rank: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       calculate_activity_points: {
@@ -1223,6 +1232,15 @@ export type Database = {
           name: string
           phone: string
           social: string | null
+        }[]
+      }
+      get_public_leaderboard: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          points: number
+          rank: number
         }[]
       }
       has_role: {
