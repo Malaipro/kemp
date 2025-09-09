@@ -695,40 +695,73 @@ export type Database = {
       кэмп_активности: {
         Row: {
           activity_date: string
+          activity_type_new:
+            | Database["public"]["Enums"]["activity_type_new"]
+            | null
+          attendance_counted: boolean | null
+          auto_points: number | null
           created_at: string
           description: string | null
           id: string
+          lecture_subtype:
+            | Database["public"]["Enums"]["lecture_subtype_new"]
+            | null
           multiplier: number | null
           participant_id: string
           points: number
           reward_type: Database["public"]["Enums"]["reward_type"]
           shram_subtype: Database["public"]["Enums"]["shram_subtype"] | null
+          training_subtype:
+            | Database["public"]["Enums"]["training_subtype_new"]
+            | null
           verified_by: string | null
           zakal_subtype: Database["public"]["Enums"]["zakal_subtype"] | null
         }
         Insert: {
           activity_date?: string
+          activity_type_new?:
+            | Database["public"]["Enums"]["activity_type_new"]
+            | null
+          attendance_counted?: boolean | null
+          auto_points?: number | null
           created_at?: string
           description?: string | null
           id?: string
+          lecture_subtype?:
+            | Database["public"]["Enums"]["lecture_subtype_new"]
+            | null
           multiplier?: number | null
           participant_id: string
           points?: number
           reward_type: Database["public"]["Enums"]["reward_type"]
           shram_subtype?: Database["public"]["Enums"]["shram_subtype"] | null
+          training_subtype?:
+            | Database["public"]["Enums"]["training_subtype_new"]
+            | null
           verified_by?: string | null
           zakal_subtype?: Database["public"]["Enums"]["zakal_subtype"] | null
         }
         Update: {
           activity_date?: string
+          activity_type_new?:
+            | Database["public"]["Enums"]["activity_type_new"]
+            | null
+          attendance_counted?: boolean | null
+          auto_points?: number | null
           created_at?: string
           description?: string | null
           id?: string
+          lecture_subtype?:
+            | Database["public"]["Enums"]["lecture_subtype_new"]
+            | null
           multiplier?: number | null
           participant_id?: string
           points?: number
           reward_type?: Database["public"]["Enums"]["reward_type"]
           shram_subtype?: Database["public"]["Enums"]["shram_subtype"] | null
+          training_subtype?:
+            | Database["public"]["Enums"]["training_subtype_new"]
+            | null
           verified_by?: string | null
           zakal_subtype?: Database["public"]["Enums"]["zakal_subtype"] | null
         }
@@ -904,6 +937,13 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_activity_points: {
+        Args: {
+          p_activity_type: Database["public"]["Enums"]["activity_type_new"]
+          p_multiplier?: number
+        }
+        Returns: number
+      }
       calculate_participant_progress: {
         Args: { p_participant_id: string }
         Returns: Json
@@ -925,9 +965,19 @@ export type Database = {
       }
     }
     Enums: {
+      activity_type_new:
+        | "training"
+        | "lecture"
+        | "homework"
+        | "crash_test_bjj"
+        | "crash_test_kick"
+        | "heroes_race"
+        | "tactics"
+        | "ascetic"
       app_role: "admin" | "moderator" | "user"
       event_type_enum: "training" | "lecture" | "test" | "special"
       highlight_color_enum: "none" | "red" | "yellow" | "green" | "blue"
+      lecture_subtype_new: "kemp" | "nutrition"
       reward_type: "zakal" | "gran" | "shram" | "totem"
       shram_subtype: "bjj" | "kick" | "ofp" | "tactics"
       totem_type:
@@ -941,6 +991,7 @@ export type Database = {
         | "blade"
         | "lighthouse"
         | "bear"
+      training_subtype_new: "bjj" | "kick" | "ofp"
       zakal_subtype: "bjj" | "kick" | "ofp"
     }
     CompositeTypes: {
@@ -1069,9 +1120,20 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      activity_type_new: [
+        "training",
+        "lecture",
+        "homework",
+        "crash_test_bjj",
+        "crash_test_kick",
+        "heroes_race",
+        "tactics",
+        "ascetic",
+      ],
       app_role: ["admin", "moderator", "user"],
       event_type_enum: ["training", "lecture", "test", "special"],
       highlight_color_enum: ["none", "red", "yellow", "green", "blue"],
+      lecture_subtype_new: ["kemp", "nutrition"],
       reward_type: ["zakal", "gran", "shram", "totem"],
       shram_subtype: ["bjj", "kick", "ofp", "tactics"],
       totem_type: [
@@ -1086,6 +1148,7 @@ export const Constants = {
         "lighthouse",
         "bear",
       ],
+      training_subtype_new: ["bjj", "kick", "ofp"],
       zakal_subtype: ["bjj", "kick", "ofp"],
     },
   },

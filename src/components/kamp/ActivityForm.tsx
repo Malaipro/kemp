@@ -183,6 +183,8 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onClose }) => {
         activityData.zakal_subtype = subtype;
       } else if (rewardType === 'shram' && subtype) {
         activityData.shram_subtype = subtype;
+      } else if (rewardType === 'gran' && subtype) {
+        activityData.lecture_subtype = subtype;
       }
 
       const { error } = await supabase

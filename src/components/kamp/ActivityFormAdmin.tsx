@@ -165,6 +165,8 @@ export const ActivityFormAdmin: React.FC = () => {
       activityData.zakal_subtype = subtype;
     } else if (rewardType === 'shram' && subtype) {
       activityData.shram_subtype = subtype;
+    } else if (rewardType === 'gran' && subtype) {
+      activityData.lecture_subtype = subtype;
     }
 
     addActivityMutation.mutate(activityData);
