@@ -1,11 +1,13 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, Trophy, Target, Book, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Users, Trophy, Target, Book, Zap, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { toast } from 'sonner';
 
 interface Participant {
   id: string;
@@ -31,6 +33,8 @@ interface Participant {
 }
 
 export const ParticipantsList: React.FC = () => {
+  const queryClient = useQueryClient();
+  
   const { data: participants = [], isLoading } = useQuery({
     queryKey: ['participants-list'],
     queryFn: async (): Promise<Participant[]> => {
@@ -81,6 +85,30 @@ export const ParticipantsList: React.FC = () => {
       return participantsWithProgress;
     },
   });
+
+  const deleteParticipantMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('участники')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['participants-list'] });
+      toast.success('Участник удален успешно');
+    },
+    onError: (error) => {
+      toast.error('Ошибка удаления участника: ' + error.message);
+    }
+  });
+
+  const handleDeleteParticipant = (participant: Participant) => {
+    if (confirm(`Вы уверены, что хотите удалить участника ${participant.name}? Все его активности и прогресс будут потеряны.`)) {
+      deleteParticipantMutation.mutate(participant.id);
+    }
+  };
 
   const getTotemIcon = (totemType: string) => {
     const icons: Record<string, string> = {
@@ -135,11 +163,23 @@ export const ParticipantsList: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-kamp-accent">
-                    {participant.progress?.total_points || participant.points}
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-kamp-accent">
+                      {participant.progress?.total_points || participant.points}
+                    </div>
+                    <div className="text-sm text-gray-400">баллов</div>
                   </div>
-                  <div className="text-sm text-gray-400">баллов</div>
+                  
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleDeleteParticipant(participant)}
+                    disabled={deleteParticipantMutation.isPending}
+                    className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
 
