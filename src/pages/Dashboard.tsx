@@ -9,7 +9,7 @@ import { AdminPanel } from '@/components/admin/AdminPanel';
 import { ParticipantManagement } from '@/components/admin/ParticipantManagement';
 import { StreamManagement } from '@/components/admin/StreamManagement';
 import { ActivityFormAdmin } from '@/components/kamp/ActivityFormAdmin';
-import { CooperTestResults } from '@/components/cooper/CooperTestResults';
+import { CooperTestManagement } from '@/components/cooper/CooperTestManagement';
 import { ScheduleManagement } from '@/components/schedule/ScheduleManagement';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -154,7 +154,7 @@ export const Dashboard: React.FC = () => {
                 </TabsContent>
                 
                 <TabsContent value="cooper">
-                  <CooperTestResults participantId={participantData?.id || ''} />
+                  <CooperTestManagement />
                 </TabsContent>
               </Tabs>
             ) : (
@@ -182,7 +182,7 @@ export const Dashboard: React.FC = () => {
                 </TabsContent>
                 
                 <TabsContent value="cooper">
-                  <CooperTestResults participantId={participantData?.id || ''} />
+                  <CooperTestManagement />
                 </TabsContent>
                 
                 <TabsContent value="schedule">

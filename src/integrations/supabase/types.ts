@@ -97,6 +97,7 @@ export type Database = {
       }
       cooper_test_results: {
         Row: {
+          completion_time_seconds: number | null
           created_at: string
           distance_meters: number
           fitness_level: string | null
@@ -104,10 +105,12 @@ export type Database = {
           notes: string | null
           participant_id: string
           test_date: string
+          test_number: number
           time_minutes: number
           updated_at: string
         }
         Insert: {
+          completion_time_seconds?: number | null
           created_at?: string
           distance_meters: number
           fitness_level?: string | null
@@ -115,10 +118,12 @@ export type Database = {
           notes?: string | null
           participant_id: string
           test_date?: string
+          test_number?: number
           time_minutes?: number
           updated_at?: string
         }
         Update: {
+          completion_time_seconds?: number | null
           created_at?: string
           distance_meters?: number
           fitness_level?: string | null
@@ -126,6 +131,7 @@ export type Database = {
           notes?: string | null
           participant_id?: string
           test_date?: string
+          test_number?: number
           time_minutes?: number
           updated_at?: string
         }
