@@ -888,34 +888,43 @@ export type Database = {
       }
       участники: {
         Row: {
+          birth_date: string | null
           created_at: string
           email: string | null
+          height_cm: number | null
           id: string
           last_name: string | null
           name: string
           points: number
           stream_id: string | null
           user_id: string | null
+          weight_kg: number | null
         }
         Insert: {
+          birth_date?: string | null
           created_at?: string
           email?: string | null
+          height_cm?: number | null
           id?: string
           last_name?: string | null
           name: string
           points?: number
           stream_id?: string | null
           user_id?: string | null
+          weight_kg?: number | null
         }
         Update: {
+          birth_date?: string | null
           created_at?: string
           email?: string | null
+          height_cm?: number | null
           id?: string
           last_name?: string | null
           name?: string
           points?: number
           stream_id?: string | null
           user_id?: string | null
+          weight_kg?: number | null
         }
         Relationships: [
           {

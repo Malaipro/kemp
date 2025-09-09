@@ -4,7 +4,8 @@ import { KampInstructions } from './KampInstructions';
 import { KampProgress } from './KampProgress';
 import { AsceticManagement } from './AsceticManagement';
 import { KampManual } from '@/components/instructions/KampManual';
-import { Book, Trophy, Target, FileText } from 'lucide-react';
+import { PersonalProfile } from '@/components/profile/PersonalProfile';
+import { Book, Trophy, Target, FileText, User } from 'lucide-react';
 
 export const KampSystemUser: React.FC = () => {
   return (
@@ -16,10 +17,14 @@ export const KampSystemUser: React.FC = () => {
         </div>
 
         <Tabs defaultValue="progress" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="progress" className="flex items-center gap-2">
               <Trophy className="w-4 h-4" />
               Мой прогресс
+            </TabsTrigger>
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              Профиль
             </TabsTrigger>
             <TabsTrigger value="instructions" className="flex items-center gap-2">
               <Book className="w-4 h-4" />
@@ -37,6 +42,10 @@ export const KampSystemUser: React.FC = () => {
           
           <TabsContent value="progress">
             <KampProgress />
+          </TabsContent>
+          
+          <TabsContent value="profile">
+            <PersonalProfile />
           </TabsContent>
           
           <TabsContent value="instructions">

@@ -15,6 +15,9 @@ interface Participant {
   name: string;
   last_name: string | null;
   email: string | null;
+  height_cm: number | null;
+  weight_kg: number | null;
+  birth_date: string | null;
   points: number;
   user_id: string | null;
   stream_id: string | null;
@@ -163,6 +166,9 @@ export const ParticipantManagement: React.FC = () => {
         name: editingParticipant.name,
         last_name: editingParticipant.last_name,
         email: editingParticipant.email,
+        height_cm: editingParticipant.height_cm,
+        weight_kg: editingParticipant.weight_kg,
+        birth_date: editingParticipant.birth_date,
         stream_id: editingParticipant.stream_id
       }
     });
@@ -310,6 +316,44 @@ export const ParticipantManagement: React.FC = () => {
                 className="bg-gray-800 border-gray-700"
               />
             </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="edit_height" className="text-gray-300">Рост (см)</Label>
+                <Input
+                  id="edit_height"
+                  type="number"
+                  min="100"
+                  max="250"
+                  value={editingParticipant.height_cm || ''}
+                  onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, height_cm: e.target.value ? Number(e.target.value) : null } : null)}
+                  placeholder="175"
+                  className="bg-gray-800 border-gray-700"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit_weight" className="text-gray-300">Вес (кг)</Label>
+                <Input
+                  id="edit_weight"
+                  type="number"
+                  min="30"
+                  max="200"
+                  value={editingParticipant.weight_kg || ''}
+                  onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, weight_kg: e.target.value ? Number(e.target.value) : null } : null)}
+                  placeholder="70"
+                  className="bg-gray-800 border-gray-700"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit_birth_date" className="text-gray-300">Дата рождения</Label>
+                <Input
+                  id="edit_birth_date"
+                  type="date"
+                  value={editingParticipant.birth_date || ''}
+                  onChange={(e) => setEditingParticipant(prev => prev ? { ...prev, birth_date: e.target.value } : null)}
+                  className="bg-gray-800 border-gray-700"
+                />
+              </div>
+            </div>
             <div>
               <Label htmlFor="edit_stream" className="text-gray-300">Поток</Label>
               <Select
@@ -362,11 +406,24 @@ export const ParticipantManagement: React.FC = () => {
                     <h4 className="text-white font-semibold">
                       {participant.name} {participant.last_name}
                     </h4>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <span>{participant.points} баллов</span>
-                      {participant.email && (
-                        <span>• {participant.email}</span>
-                      )}
+                    <div className="flex flex-col gap-1 text-sm text-gray-400">
+                      <div className="flex items-center gap-2">
+                        <span>{participant.points} баллов</span>
+                        {participant.email && (
+                          <span>• {participant.email}</span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {participant.height_cm && (
+                          <span>Рост: {participant.height_cm} см</span>
+                        )}
+                        {participant.weight_kg && (
+                          <span>• Вес: {participant.weight_kg} кг</span>
+                        )}
+                        {participant.birth_date && (
+                          <span>• Дата рождения: {new Date(participant.birth_date).toLocaleDateString('ru-RU')}</span>
+                        )}
+                      </div>
                       {participant.stream && (
                         <Badge variant="secondary" className="bg-gray-700 text-gray-300">
                           {participant.stream.name}
