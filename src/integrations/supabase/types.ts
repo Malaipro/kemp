@@ -1189,7 +1189,6 @@ export type Database = {
           course: string | null
           created_at: string | null
           id: string | null
-          masked_phone: string | null
           name: string | null
           phone: string | null
           social: string | null
@@ -1198,18 +1197,16 @@ export type Database = {
           course?: string | null
           created_at?: string | null
           id?: string | null
-          masked_phone?: never
           name?: string | null
-          phone?: string | null
+          phone?: never
           social?: string | null
         }
         Update: {
           course?: string | null
           created_at?: string | null
           id?: string | null
-          masked_phone?: never
           name?: string | null
-          phone?: string | null
+          phone?: never
           social?: string | null
         }
         Relationships: []
