@@ -183,7 +183,7 @@ export const ActivityFormAdmin: React.FC = () => {
               </SelectTrigger>
               <SelectContent>
                 {participantsLoading ? (
-                  <SelectItem value="" disabled>Загрузка участников...</SelectItem>
+                  <SelectItem value="loading" disabled>Загрузка участников...</SelectItem>
                 ) : (
                   participants?.map((participant) => (
                     <SelectItem key={participant.id} value={participant.id}>
