@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { KampInstructions } from './KampInstructions';
 import { KampProgress } from './KampProgress';
-import { ActivityForm } from './ActivityForm';
+import { ActivityFormAdmin } from './ActivityFormAdmin';
 import { AsceticManagement } from './AsceticManagement';
 import { ParticipantsList } from '@/components/admin/ParticipantsList';
 import { KampManual } from '@/components/instructions/KampManual';
@@ -54,7 +54,7 @@ export const KampSystem: React.FC = () => {
           </TabsContent>
           
           <TabsContent value="activities">
-            <ActivityForm />
+            <ActivityFormAdmin />
           </TabsContent>
           
           <TabsContent value="ascetics">
@@ -76,5 +76,5 @@ export const KampSystem: React.FC = () => {
 
 export * from './KampInstructions';
 export * from './KampProgress';
-export * from './ActivityForm';
+export * from './ActivityFormAdmin';
 export * from './AsceticTracker';
