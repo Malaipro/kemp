@@ -40,10 +40,17 @@ export const CooperTestResults: React.FC<CooperTestResultsProps> = ({ participan
   const [notes, setNotes] = useState('');
 
   useEffect(() => {
-    loadResults();
+    if (participantId && participantId !== '') {
+      loadResults();
+    }
   }, [participantId]);
 
   const loadResults = async () => {
+    if (!participantId || participantId === '') {
+      setResults([]);
+      return;
+    }
+
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -76,6 +83,16 @@ export const CooperTestResults: React.FC<CooperTestResultsProps> = ({ participan
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!participantId || participantId === '') {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось определить участника",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -206,6 +223,7 @@ export const CooperTestResults: React.FC<CooperTestResultsProps> = ({ participan
             variant="outline"
             size="sm"
             className="border-kamp-accent text-kamp-accent hover:bg-kamp-accent hover:text-black"
+            disabled={!participantId || participantId === ''}
           >
             <Plus className="w-4 h-4 mr-2" />
             Добавить результат
@@ -213,135 +231,145 @@ export const CooperTestResults: React.FC<CooperTestResultsProps> = ({ participan
         </div>
       </CardHeader>
       <CardContent>
-        {showForm && (
-          <form onSubmit={handleSubmit} className="mb-6 p-4 border border-gray-700 rounded-lg bg-gray-900/50">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div className="space-y-2">
-                <Label htmlFor="test-date">Дата теста</Label>
-                <Input
-                  id="test-date"
-                  type="date"
-                  value={testDate}
-                  onChange={(e) => setTestDate(e.target.value)}
-                  required
-                  className="kamp-input"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="distance">Дистанция (метры)</Label>
-                <Input
-                  id="distance"
-                  type="number"
-                  value={distance}
-                  onChange={(e) => setDistance(parseInt(e.target.value) || 0)}
-                  min={0}
-                  max={5000}
-                  required
-                  className="kamp-input"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2 mb-4">
-              <Label htmlFor="notes">Заметки</Label>
-              <Textarea
-                id="notes"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Дополнительные заметки о тесте"
-                maxLength={500}
-                className="kamp-input"
-              />
-            </div>
-
-            <div className="flex gap-2 flex-wrap">
-              <Button 
-                type="submit" 
-                className="kamp-button-primary"
-                disabled={loading}
-              >
-                {loading ? 'Сохранение...' : editingResult ? 'Обновить' : 'Добавить'}
-              </Button>
-              <Button 
-                type="button" 
-                variant="outline"
-                onClick={() => {
-                  setShowForm(false);
-                  setEditingResult(null);
-                }}
-                className="border-gray-600 text-gray-300"
-              >
-                Отмена
-              </Button>
-            </div>
-          </form>
-        )}
-
-        {loading && results.length === 0 ? (
-          <div className="text-center py-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kamp-accent mx-auto"></div>
+        {!participantId || participantId === '' ? (
+          <div className="text-center py-8">
+            <p className="text-gray-400">
+              Для просмотра результатов теста Купера необходимо войти в систему
+            </p>
           </div>
-        ) : results.length === 0 ? (
-          <p className="text-gray-400 text-center py-4">
-            Результатов теста Купера пока нет
-          </p>
         ) : (
-          <div className="grid gap-4">
-            {results.map((result) => (
-              <div 
-                key={result.id}
-                className="p-4 border border-gray-700 rounded-lg bg-gray-900/30 hover:bg-gray-900/50 transition-colors"
-              >
-                <div className="flex items-start justify-between flex-wrap gap-2">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-4 mb-2 flex-wrap">
-                      <span className="text-kamp-accent font-semibold">
-                        {new Date(result.test_date).toLocaleDateString('ru-RU')}
-                      </span>
-                      <span className="text-lg font-bold text-white">
-                        {result.distance_meters}м
-                      </span>
-                      {result.fitness_level && (
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                          result.fitness_level === 'Отлично' ? 'bg-green-600 text-white' :
-                          result.fitness_level === 'Хорошо' ? 'bg-blue-600 text-white' :
-                          result.fitness_level === 'Удовлетворительно' ? 'bg-yellow-600 text-black' :
-                          result.fitness_level === 'Слабо' ? 'bg-orange-600 text-white' :
-                          'bg-red-600 text-white'
-                        }`}>
-                          {result.fitness_level}
-                        </span>
-                      )}
-                    </div>
-                    {result.notes && (
-                      <p className="text-gray-300 text-sm">{result.notes}</p>
-                    )}
+          <>
+            {showForm && (
+              <form onSubmit={handleSubmit} className="mb-6 p-4 border border-gray-700 rounded-lg bg-gray-900/50">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="test-date">Дата теста</Label>
+                    <Input
+                      id="test-date"
+                      type="date"
+                      value={testDate}
+                      onChange={(e) => setTestDate(e.target.value)}
+                      required
+                      className="kamp-input"
+                    />
                   </div>
-                  
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => handleEdit(result)}
-                      variant="outline"
-                      size="sm"
-                      className="border-gray-600 text-gray-300 hover:bg-gray-700"
-                    >
-                      <Edit className="w-3 h-3" />
-                    </Button>
-                    {isSuperAdmin && (
-                      <Button
-                        onClick={() => handleDelete(result.id)}
-                        variant="outline"
-                        size="sm"
-                        className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    )}
+                  <div className="space-y-2">
+                    <Label htmlFor="distance">Дистанция (метры)</Label>
+                    <Input
+                      id="distance"
+                      type="number"
+                      value={distance}
+                      onChange={(e) => setDistance(parseInt(e.target.value) || 0)}
+                      min={0}
+                      max={5000}
+                      required
+                      className="kamp-input"
+                    />
                   </div>
                 </div>
+                
+                <div className="space-y-2 mb-4">
+                  <Label htmlFor="notes">Заметки</Label>
+                  <Textarea
+                    id="notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Дополнительные заметки о тесте"
+                    maxLength={500}
+                    className="kamp-input"
+                  />
+                </div>
+
+                <div className="flex gap-2 flex-wrap">
+                  <Button 
+                    type="submit" 
+                    className="kamp-button-primary"
+                    disabled={loading}
+                  >
+                    {loading ? 'Сохранение...' : editingResult ? 'Обновить' : 'Добавить'}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingResult(null);
+                    }}
+                    className="border-gray-600 text-gray-300"
+                  >
+                    Отмена
+                  </Button>
+                </div>
+              </form>
+            )}
+
+            {loading && results.length === 0 ? (
+              <div className="text-center py-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kamp-accent mx-auto"></div>
               </div>
-            ))}
-          </div>
+            ) : results.length === 0 ? (
+              <p className="text-gray-400 text-center py-4">
+                Результатов теста Купера пока нет
+              </p>
+            ) : (
+              <div className="grid gap-4">
+                {results.map((result) => (
+                  <div 
+                    key={result.id}
+                    className="p-4 border border-gray-700 rounded-lg bg-gray-900/30 hover:bg-gray-900/50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between flex-wrap gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-4 mb-2 flex-wrap">
+                          <span className="text-kamp-accent font-semibold">
+                            {new Date(result.test_date).toLocaleDateString('ru-RU')}
+                          </span>
+                          <span className="text-lg font-bold text-white">
+                            {result.distance_meters}м
+                          </span>
+                          {result.fitness_level && (
+                            <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                              result.fitness_level === 'Отлично' ? 'bg-green-600 text-white' :
+                              result.fitness_level === 'Хорошо' ? 'bg-blue-600 text-white' :
+                              result.fitness_level === 'Удовлетворительно' ? 'bg-yellow-600 text-black' :
+                              result.fitness_level === 'Слабо' ? 'bg-orange-600 text-white' :
+                              'bg-red-600 text-white'
+                            }`}>
+                              {result.fitness_level}
+                            </span>
+                          )}
+                        </div>
+                        {result.notes && (
+                          <p className="text-gray-300 text-sm">{result.notes}</p>
+                        )}
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => handleEdit(result)}
+                          variant="outline"
+                          size="sm"
+                          className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                        >
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                        {isSuperAdmin && (
+                          <Button
+                            onClick={() => handleDelete(result.id)}
+                            variant="outline"
+                            size="sm"
+                            className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </CardContent>
     </Card>
