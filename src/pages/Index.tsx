@@ -6,7 +6,8 @@ import { Hero } from '@/components/Hero';
 import { AboutUs } from '@/components/AboutUs';
 import { Program } from '@/components/Program';
 import { Trainers } from '@/components/Trainers';
-import { Leaderboard } from '@/components/Leaderboard';
+import { Leaderboard } from '@/components/leaderboard';
+import { AllParticipantsProgress } from '@/components/AllParticipantsProgress';
 import { RegisteredParticipants } from '@/components/participants';
 import { Achievements } from '@/components/achievements';
 import { Testimonials } from '@/components/Testimonials';
@@ -40,6 +41,7 @@ const Index = () => {
       <Program />
       <Trainers />
       <PhotoGallery />
+      <AllParticipantsProgress />
       <Leaderboard />
       <RegisteredParticipants />
       <Achievements />

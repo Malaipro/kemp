@@ -4,7 +4,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useRole } from '@/hooks/useRole';
 import { Layout } from '@/components/Layout';
 import { KampSystem } from '@/components/kamp';
+import { KampSystemUser } from '@/components/kamp/KampSystemUser';
 import { AdminPanel } from '@/components/admin/AdminPanel';
+import { ParticipantManagement } from '@/components/admin/ParticipantManagement';
+import { StreamManagement } from '@/components/admin/StreamManagement';
+import { ActivityFormAdmin } from '@/components/kamp/ActivityFormAdmin';
 import { CooperTestResults } from '@/components/cooper/CooperTestResults';
 import { ScheduleManagement } from '@/components/schedule/ScheduleManagement';
 import { Button } from '@/components/ui/button';
@@ -110,26 +114,26 @@ export const Dashboard: React.FC = () => {
           <div className="kamp-container">
             {isSuperAdmin ? (
               <Tabs defaultValue="kamp" className="w-full">
-                <TabsList className="grid w-full grid-cols-4 mb-6 h-auto p-1">
+                <TabsList className="grid w-full grid-cols-5 mb-6 h-auto p-1">
                   <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">КЭМП Система</span>
-                    <span className="sm:hidden">КЭМП</span>
+                    <span className="hidden sm:inline">КЭМП</span>
                   </TabsTrigger>
-                  <TabsTrigger value="admin" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                  <TabsTrigger value="activities" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">Админ-панель</span>
-                    <span className="sm:hidden">Админ</span>
+                    <span className="hidden sm:inline">Активности</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="participants" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <User className="w-4 h-4" />
+                    <span className="hidden sm:inline">Участники</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="streams" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <Shield className="w-4 h-4" />
+                    <span className="hidden sm:inline">Потоки</span>
                   </TabsTrigger>
                   <TabsTrigger value="cooper" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">Тест Купера</span>
-                    <span className="sm:hidden">Купер</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
-                    <Shield className="w-4 h-4" />
-                    <span className="hidden sm:inline">Расписание</span>
-                    <span className="sm:hidden">График</span>
+                    <span className="hidden sm:inline">Купер</span>
                   </TabsTrigger>
                 </TabsList>
                 
@@ -137,16 +141,20 @@ export const Dashboard: React.FC = () => {
                   <KampSystem />
                 </TabsContent>
                 
-                <TabsContent value="admin">
-                  <AdminPanel />
+                <TabsContent value="activities">
+                  <ActivityFormAdmin />
+                </TabsContent>
+                
+                <TabsContent value="participants">
+                  <ParticipantManagement />
+                </TabsContent>
+                
+                <TabsContent value="streams">
+                  <StreamManagement />
                 </TabsContent>
                 
                 <TabsContent value="cooper">
                   <CooperTestResults participantId={participantData?.id || ''} />
-                </TabsContent>
-                
-                <TabsContent value="schedule">
-                  <ScheduleManagement />
                 </TabsContent>
               </Tabs>
             ) : (
@@ -170,7 +178,7 @@ export const Dashboard: React.FC = () => {
                 </TabsList>
                 
                 <TabsContent value="kamp">
-                  <KampSystem />
+                  <KampSystemUser />
                 </TabsContent>
                 
                 <TabsContent value="cooper">

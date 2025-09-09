@@ -246,6 +246,42 @@ export type Database = {
         }
         Relationships: []
       }
+      intensive_streams: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_date: string
+          id: string
+          is_active: boolean
+          is_current: boolean
+          name: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_date: string
+          id?: string
+          is_active?: boolean
+          is_current?: boolean
+          name: string
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          id?: string
+          is_active?: boolean
+          is_current?: boolean
+          name?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       participant_activities: {
         Row: {
           activity_id: string
@@ -800,6 +836,7 @@ export type Database = {
           last_name: string | null
           name: string
           points: number
+          stream_id: string | null
           user_id: string | null
         }
         Insert: {
@@ -808,6 +845,7 @@ export type Database = {
           last_name?: string | null
           name: string
           points?: number
+          stream_id?: string | null
           user_id?: string | null
         }
         Update: {
@@ -816,9 +854,18 @@ export type Database = {
           last_name?: string | null
           name?: string
           points?: number
+          stream_id?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "участники_stream_id_fkey"
+            columns: ["stream_id"]
+            isOneToOne: false
+            referencedRelation: "intensive_streams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
