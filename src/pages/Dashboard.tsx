@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LogOut, User, Shield } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { ContentManager } from '@/components/cms/ContentManager';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -115,7 +116,7 @@ export const Dashboard: React.FC = () => {
           <div className="kamp-container">
             {isSuperAdmin ? (
               <Tabs defaultValue="kamp" className="w-full">
-                <TabsList className="grid w-full grid-cols-6 mb-6 h-auto p-1">
+                <TabsList className="grid w-full grid-cols-7 mb-6 h-auto p-1">
                   <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <User className="w-4 h-4" />
                     <span className="hidden sm:inline">КЭМП</span>
@@ -139,6 +140,10 @@ export const Dashboard: React.FC = () => {
                   <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <Shield className="w-4 h-4" />
                     <span className="hidden sm:inline">Расписание</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="cms" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <Shield className="w-4 h-4" />
+                    <span className="hidden sm:inline">CMS</span>
                   </TabsTrigger>
                 </TabsList>
                 
@@ -164,6 +169,10 @@ export const Dashboard: React.FC = () => {
                 
                 <TabsContent value="schedule">
                   <DetailedScheduleManagement />
+                </TabsContent>
+                
+                <TabsContent value="cms">
+                  <ContentManager />
                 </TabsContent>
               </Tabs>
             ) : (

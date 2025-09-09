@@ -252,6 +252,42 @@ export type Database = {
         }
         Relationships: []
       }
+      gallery_images: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string
+          is_active: boolean | null
+          sort_order: number | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean | null
+          sort_order?: number | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean | null
+          sort_order?: number | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       intensive_streams: {
         Row: {
           created_at: string
@@ -284,6 +320,42 @@ export type Database = {
           is_current?: boolean
           name?: string
           start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      page_content: {
+        Row: {
+          content_type: string
+          content_value: string | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          page_name: string
+          section_name: string
+          sort_order: number | null
+          updated_at: string
+        }
+        Insert: {
+          content_type?: string
+          content_value?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          page_name: string
+          section_name: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Update: {
+          content_type?: string
+          content_value?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          page_name?: string
+          section_name?: string
+          sort_order?: number | null
           updated_at?: string
         }
         Relationships: []
@@ -491,6 +563,90 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      trainers: {
+        Row: {
+          bio: string | null
+          created_at: string
+          experience: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          name: string
+          quote: string | null
+          role: string
+          sort_order: number | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          experience?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name: string
+          quote?: string | null
+          role: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          experience?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          name?: string
+          quote?: string | null
+          role?: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      training_programs: {
+        Row: {
+          benefits: Json | null
+          created_at: string
+          description: string | null
+          features: Json | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          price_info: string | null
+          sort_order: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          benefits?: Json | null
+          created_at?: string
+          description?: string | null
+          features?: Json | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          price_info?: string | null
+          sort_order?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          benefits?: Json | null
+          created_at?: string
+          description?: string | null
+          features?: Json | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          price_info?: string | null
+          sort_order?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       user_achievements: {
         Row: {

@@ -1,49 +1,48 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from '@/integrations/supabase/client';
 
-const trainers = [
-  {
-    id: 1,
-    name: 'Дмитрий Андреев',
-    role: 'Бизнесмен, основатель проекта и руководитель клуба',
-    image: 'https://imgur.com/zCYntX0.jpeg',
-    quote: 'Джиу-джитсу учит не только технике, но и терпению и стратегическому мышлению.',
-    bio: 'Бизнесмен, сооснователь Ayboost.com и Malai.pro.\n\nЧемпион России по бразильскому джиу-джитсу.\n\nТренер по кикбоксингу, бразильскому джиу-джитсу и ОФП.\n\nВ КЭМПе — хедлайнер, лектор и наставник по Пирамиде КЭМП и тренер по BJJ, кикбоксингу и общей физической подготовке.'
-  },
-  {
-    id: 2,
-    name: 'Али Валеев',
-    role: 'Инструктор по гонкам с препятствиями, сертифицированный фитнес-инструктор, тренер по кроссфиту',
-    image: 'https://i.imgur.com/WjrhrWT.jpeg',
-    quote: 'Достигни своего максимума через дисциплину и упорство.',
-    experience: 'Марафонец, ультрамарафонец (на дистанции 100 км), триатлонист (финишер дистанции IRONMAN), участник Российского экстремального спортивно-развлекательного телешоу "Суперниндзя" 3 и 4 сезонов, неоднократный победитель соревнований по гонке с препятствиями среди любителей и профессионалов. Гвардии рядовой Воздушно-десантных войск.',
-    bio: 'Али специализируется на ударной технике и развитии бойцовского духа. Его методики помогают участникам КЭМП существенно улучшить физическую форму в кратчайшие сроки, одновременно развивая ментальную стойкость.'
-  },
-  {
-    id: 3,
-    name: 'Михаил Гришин',
-    role: 'Интегративный нутрициолог с навыками Health Coach',
-    image: 'https://i.imgur.com/3WHBCjU.jpeg',
-    quote: 'Правильное питание — основа прогресса и энергии для достижения целей.',
-    experience: 'Интегративный нутрициолог с навыками Health Coach. Одна из главных задач – превенция (раннее предупреждение критических изменений в организме и создание энергетического ресурса).',
-    bio: 'Михаил разрабатывает индивидуальные планы питания для участников КЭМП, учитывая интенсивность тренировок и персональные особенности. Его рекомендации помогают оптимизировать результаты тренировок и ускорить восстановление.'
-  },
-  {
-    id: 4,
-    name: 'Тагир Ахмеров',
-    role: 'Основатель парк отель MARI HOLIDAY VILLAGE, инструктор по тактической подготовке КЭМП',
-    image: '/lovable-uploads/e27de7f5-f9fd-4432-b8b6-b6d2fe2231fc.png',
-    quote: 'Тактическое мышление и готовность к любым ситуациям — ключ к выживанию.',
-    experience: 'Бронзовый призер чемпионата республики Татарстан по MMA. Инструктор по огневой подготовке / легкое пехотное вооружение.',
-    bio: 'Тагир Ахмеров — эксперт по тактической медицине и безопасности. Он обучает самообороне с разрешёнными средствами, практике в реальных сценариях и оказанию первой помощи. Его занятия развивают тактическое мышление, готовность к экстремальным ситуациям и командную работу.'
-  }
-];
+interface Trainer {
+  id: string;
+  name: string;
+  role: string;
+  image_url?: string;
+  quote?: string;
+  experience?: string;
+  bio?: string;
+  sort_order: number;
+}
 
 export const Trainers: React.FC = () => {
-  const [selectedTrainer, setSelectedTrainer] = useState<typeof trainers[0] | null>(null);
+  const [selectedTrainer, setSelectedTrainer] = useState<Trainer | null>(null);
   const isMobile = useIsMobile();
+
+  // Загружаем тренеров из базы данных
+  const { data: trainers = [], isLoading } = useQuery({
+    queryKey: ['trainers'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('trainers')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Trainer[];
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <section id="trainers" className="kamp-section bg-black py-4 md:py-16">
+        <div className="kamp-container flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kamp-primary"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section 
@@ -69,7 +68,7 @@ export const Trainers: React.FC = () => {
             >
               <div className={`${isMobile ? 'aspect-[3/4]' : 'aspect-[3/4]'} overflow-hidden`}>
                 <img 
-                  src={trainer.image} 
+                  src={trainer.image_url} 
                   alt={trainer.name}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
                 />
@@ -113,7 +112,7 @@ export const Trainers: React.FC = () => {
                 <div className="w-full md:w-1/3">
                   <div className="h-48 md:h-full">
                     <img 
-                      src={selectedTrainer.image} 
+                      src={selectedTrainer.image_url} 
                       alt={selectedTrainer.name}
                       className="w-full h-full object-cover object-top"
                     />
