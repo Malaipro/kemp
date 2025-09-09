@@ -31,17 +31,16 @@ export const Hero: React.FC = () => {
             Клуб Эффективного Мужского Прогресса
           </span>
           
-          <div className="flex items-center justify-center gap-4 mb-4">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl text-white font-display font-bold leading-tight flex items-center justify-center gap-3 md:gap-4 flex-wrap">
             <img 
               src="/lovable-uploads/dc02efeb-43ee-450d-a695-096ffa5ee61c.png" 
               alt="КЭМП Logo" 
-              className="w-12 h-12 md:w-20 md:h-20 object-contain"
+              className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain"
             />
-          </div>
-          
-          <h1 className="text-3xl md:text-5xl lg:text-6xl text-white font-display font-bold leading-tight">
-            КЭМП — интенсив и клуб для тех, кто готов пройти испытания и стать 
-            <span className="text-gradient bg-gradient-to-r from-kamp-accent to-kamp-primary"> сильнее.</span>
+            <span>
+              КЭМП — интенсив и клуб для тех, кто готов пройти испытания и стать 
+              <span className="text-gradient bg-gradient-to-r from-kamp-accent to-kamp-primary"> сильнее.</span>
+            </span>
           </h1>
           
           <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto font-light">
