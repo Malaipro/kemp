@@ -16,7 +16,8 @@ export const Leaderboard: React.FC = () => {
     queryKey: ['leaderboard'],
     queryFn: async (): Promise<Participant[]> => {
       console.log('Fetching leaderboard data from Supabase...');
-      // Используем представление leaderboard, которое уже содержит ранг участников
+      
+      // Получаем участников из представления leaderboard
       const { data, error } = await supabase
         .from('leaderboard')
         .select('*')
@@ -27,8 +28,15 @@ export const Leaderboard: React.FC = () => {
         throw new Error(error.message);
       }
       
-      console.log('Leaderboard data received:', data);
-      return data as Participant[];
+      // Фильтруем супер админа по имени или создаем отдельный запрос
+      const filteredData = data?.filter(participant => 
+        participant.name !== 'dishka' && 
+        participant.name !== 'Дима' &&
+        participant.name !== 'Димон'
+      ) || [];
+      
+      console.log('Leaderboard data received:', filteredData);
+      return filteredData as Participant[];
     }
   });
 

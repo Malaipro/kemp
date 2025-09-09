@@ -29,7 +29,7 @@ export const RegisteredParticipants: React.FC = () => {
   const { data: participants, isLoading, error } = useQuery({
     queryKey: ['registered-participants'],
     queryFn: async (): Promise<ParticipantWithAchievements[]> => {
-      // First get all participants with ranking
+      // Получаем всех участников из представления leaderboard
       const { data: leaderboardData, error: leaderboardError } = await supabase
         .from('leaderboard')
         .select('*')
@@ -37,8 +37,14 @@ export const RegisteredParticipants: React.FC = () => {
 
       if (leaderboardError) throw leaderboardError;
 
-      // Get achievements count for each participant
-      const participantIds = leaderboardData?.map(p => p.id) || [];
+      // Фильтруем супер админа
+      const filteredData = leaderboardData?.filter(participant => 
+        participant.name !== 'dishka' && 
+        participant.name !== 'Дима' &&
+        participant.name !== 'Димон'
+      ) || [];
+
+      const participantIds = filteredData?.map(p => p.id) || [];
       
       const [achievementsData, badgesData, directionsData, totalDirectionsData] = await Promise.all([
         // Get achievements count
@@ -85,15 +91,15 @@ export const RegisteredParticipants: React.FC = () => {
       const totalDirections = totalDirectionsData.data?.length || 0;
 
       // Combine all data
-      return leaderboardData?.map(participant => ({
+      return filteredData?.map((participant, index) => ({
         id: participant.id || '',
         name: participant.name || '',
         points: participant.points || 0,
-        rank: participant.rank || undefined,
-        achievements: [], // We only need count for now
+        rank: index + 1, // Пересчитываем ранг после фильтрации
+        achievements: [], // Массив достижений
         specialBadgesCount: badgesCounts[participant.id || ''] || 0,
         directionsCompleted: directionsCompleted[participant.id || ''] || 0,
-        totalDirections: totalDirections
+        totalDirections
       })) || [];
     },
     staleTime: 30000, // 30 seconds
