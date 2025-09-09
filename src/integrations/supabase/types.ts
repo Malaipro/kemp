@@ -68,6 +68,60 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_access_log: {
+        Row: {
+          accessed_at: string | null
+          action: string
+          admin_user_id: string | null
+          id: string
+          ip_address: unknown | null
+          table_name: string
+          user_agent: string | null
+        }
+        Insert: {
+          accessed_at?: string | null
+          action: string
+          admin_user_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          table_name: string
+          user_agent?: string | null
+        }
+        Update: {
+          accessed_at?: string | null
+          action?: string
+          admin_user_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          table_name?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      contact_rate_limit: {
+        Row: {
+          created_at: string | null
+          id: string
+          ip_address: unknown
+          submission_count: number | null
+          window_start: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ip_address: unknown
+          submission_count?: number | null
+          window_start?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown
+          submission_count?: number | null
+          window_start?: string | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           course: string
@@ -1130,6 +1184,36 @@ export type Database = {
       }
     }
     Views: {
+      contact_submissions_secure: {
+        Row: {
+          course: string | null
+          created_at: string | null
+          id: string | null
+          masked_phone: string | null
+          name: string | null
+          phone: string | null
+          social: string | null
+        }
+        Insert: {
+          course?: string | null
+          created_at?: string | null
+          id?: string | null
+          masked_phone?: never
+          name?: string | null
+          phone?: string | null
+          social?: string | null
+        }
+        Update: {
+          course?: string | null
+          created_at?: string | null
+          id?: string | null
+          masked_phone?: never
+          name?: string | null
+          phone?: string | null
+          social?: string | null
+        }
+        Relationships: []
+      }
       leaderboard: {
         Row: {
           id: string | null
@@ -1156,6 +1240,21 @@ export type Database = {
         Args: { p_participant_id: string }
         Returns: Json
       }
+      check_contact_rate_limit: {
+        Args: { p_ip_address: unknown }
+        Returns: boolean
+      }
+      get_contact_submissions_with_audit: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          course: string
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          social: string | null
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1166,6 +1265,10 @@ export type Database = {
       is_super_admin: {
         Args: { _user_id: string }
         Returns: boolean
+      }
+      log_admin_access: {
+        Args: { p_action: string; p_table_name: string }
+        Returns: undefined
       }
     }
     Enums: {
