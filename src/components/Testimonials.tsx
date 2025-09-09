@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -8,42 +10,44 @@ export const Testimonials: React.FC = () => {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
   const [mutedStatus, setMutedStatus] = useState<{
     [key: number]: boolean;
-  }>({
-    1: true,
-    2: true
-  });
+  }>({});
   const [openVideo, setOpenVideo] = useState<number | null>(null);
   const isMobile = useIsMobile();
   const videoRefs = useRef<{
     [key: number]: HTMLVideoElement | null;
-  }>({
-    1: null,
-    2: null
-  });
+  }>({});
   const modalVideoRefs = useRef<{
     [key: number]: HTMLVideoElement | null;
-  }>({
-    1: null,
-    2: null
-  });
-  const testimonials = [
-    {
-      id: 1,
-      name: 'Участник программы',
-      position: 'Выпускник КЭМП',
-      videoUrl: '/videos/testimonial-1.mp4'
+  }>({});
+
+  // Загружаем отзывы из базы данных
+  const { data: testimonials = [], isLoading } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data;
     },
-    {
-      id: 2,
-      name: 'Участник программы',
-      position: 'Выпускник КЭМП',
-      videoUrl: '/videos/testimonial-2.mp4'
+  });
+
+  // Инициализируем состояние звука после загрузки данных
+  React.useEffect(() => {
+    if (testimonials.length > 0) {
+      const initialMutedStatus = testimonials.reduce((acc, testimonial, index) => {
+        acc[index + 1] = true;
+        return acc;
+      }, {} as { [key: number]: boolean });
+      setMutedStatus(initialMutedStatus);
     }
-  ];
-  const togglePlay = (id: number) => {
-    const videoElement = videoRefs.current[id];
+  }, [testimonials]);
+  const togglePlay = (index: number) => {
+    const videoElement = videoRefs.current[index];
     if (!videoElement) return;
-    if (playingVideo === id) {
+    if (playingVideo === index) {
       videoElement.pause();
       setPlayingVideo(null);
     } else {
@@ -53,25 +57,25 @@ export const Testimonials: React.FC = () => {
       videoElement.play().catch(err => {
         console.error("Error playing video:", err);
       });
-      setPlayingVideo(id);
+      setPlayingVideo(index);
     }
   };
-  const toggleMute = (id: number, e: React.MouseEvent) => {
+  const toggleMute = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    const videoElement = videoRefs.current[id];
+    const videoElement = videoRefs.current[index];
     if (!videoElement) return;
-    const newMutedStatus = !mutedStatus[id];
+    const newMutedStatus = !mutedStatus[index];
     videoElement.muted = newMutedStatus;
     setMutedStatus(prev => ({
       ...prev,
-      [id]: newMutedStatus
+      [index]: newMutedStatus
     }));
   };
-  const openVideoDialog = (id: number, e: React.MouseEvent) => {
+  const openVideoDialog = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setOpenVideo(id);
-    if (playingVideo === id) {
-      const videoElement = videoRefs.current[id];
+    setOpenVideo(index);
+    if (playingVideo === index) {
+      const videoElement = videoRefs.current[index];
       if (videoElement) {
         videoElement.pause();
         setPlayingVideo(null);
@@ -93,94 +97,121 @@ export const Testimonials: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
-          {testimonials.map(testimonial => <Card key={testimonial.id} className="overflow-hidden hover-lift bg-gray-900 border-gray-800 cursor-pointer" onClick={() => togglePlay(testimonial.id)}>
-              <CardContent className="p-0 relative aspect-video">
-                <div className="relative w-full h-full overflow-hidden">
-                  <video
-                    ref={el => videoRefs.current[testimonial.id] = el}
-                    src={testimonial.videoUrl}
-                    muted={mutedStatus[testimonial.id]}
-                    className="w-full h-full object-cover"
-                    onEnded={() => setPlayingVideo(null)}
-                  />
-                  
-                  {/* Play/Pause Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Button
-                      variant="secondary"
-                      size="lg"
-                      className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-4"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        togglePlay(testimonial.id);
-                      }}
-                    >
-                      {playingVideo === testimonial.id ? (
-                        <Pause size={24} />
+        {isLoading ? (
+          <div className="text-center text-white">Загрузка отзывов...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
+            {testimonials.map((testimonial, index) => {
+              const testimonialIndex = index + 1;
+              return (
+                <Card key={testimonial.id} className="overflow-hidden hover-lift bg-gray-900 border-gray-800 cursor-pointer" onClick={() => togglePlay(testimonialIndex)}>
+                  <CardContent className="p-0 relative aspect-video">
+                    <div className="relative w-full h-full overflow-hidden">
+                      {testimonial.video_url ? (
+                        <video
+                          ref={el => videoRefs.current[testimonialIndex] = el}
+                          src={testimonial.video_url}
+                          muted={mutedStatus[testimonialIndex]}
+                          className="w-full h-full object-cover"
+                          onEnded={() => setPlayingVideo(null)}
+                        />
                       ) : (
-                        <Play size={24} />
+                        <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                          <p className="text-white text-center p-4">{testimonial.text_content}</p>
+                        </div>
                       )}
-                    </Button>
-                  </div>
-
-                  {/* Controls */}
-                  <div className="absolute top-2 right-2 flex gap-2">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-2"
-                      onClick={(e) => toggleMute(testimonial.id, e)}
-                    >
-                      {mutedStatus[testimonial.id] ? (
-                        <VolumeX size={16} />
-                      ) : (
-                        <Volume2 size={16} />
+                      
+                      {/* Play/Pause Button */}
+                      {testimonial.video_url && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Button
+                            variant="secondary"
+                            size="lg"
+                            className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-4"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              togglePlay(testimonialIndex);
+                            }}
+                          >
+                            {playingVideo === testimonialIndex ? (
+                              <Pause size={24} />
+                            ) : (
+                              <Play size={24} />
+                            )}
+                          </Button>
+                        </div>
                       )}
-                    </Button>
-                    
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-2"
-                      onClick={(e) => openVideoDialog(testimonial.id, e)}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-                      </svg>
-                    </Button>
-                  </div>
 
-                  {/* Info Overlay */}
-                  <div className="absolute bottom-0 left-0 p-3 bg-gradient-to-t from-black/80 to-transparent w-full">
-                    <h4 className="font-bold text-white text-sm md:text-base">
-                      {testimonial.name}
-                    </h4>
-                    <p className="text-gray-300 text-xs">
-                      {testimonial.position}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>)}
-        </div>
+                      {/* Controls */}
+                      {testimonial.video_url && (
+                        <div className="absolute top-2 right-2 flex gap-2">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-2"
+                            onClick={(e) => toggleMute(testimonialIndex, e)}
+                          >
+                            {mutedStatus[testimonialIndex] ? (
+                              <VolumeX size={16} />
+                            ) : (
+                              <Volume2 size={16} />
+                            )}
+                          </Button>
+                          
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            className="bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-2"
+                            onClick={(e) => openVideoDialog(testimonialIndex, e)}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                            </svg>
+                          </Button>
+                        </div>
+                      )}
+
+                      {/* Info Overlay */}
+                      <div className="absolute bottom-0 left-0 p-3 bg-gradient-to-t from-black/80 to-transparent w-full">
+                        <h4 className="font-bold text-white text-sm md:text-base">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-gray-300 text-xs">
+                          {testimonial.position}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <Dialog open={openVideo !== null} onOpenChange={open => !open && handleDialogClose()}>
         <DialogContent className="max-w-4xl p-0 border-gray-800 bg-black w-[95vw]">
           <DialogClose className="absolute right-2 top-2 md:right-4 md:top-4 z-20 bg-black/60 rounded-full p-1 text-white hover:bg-black/80 transition-all" />
           
-          {openVideo && <div className="relative aspect-video w-full">
-              <video ref={el => modalVideoRefs.current[openVideo] = el} src={testimonials.find(t => t.id === openVideo)?.videoUrl} autoPlay controls className="w-full h-full object-contain" />
+          {openVideo && testimonials[openVideo - 1]?.video_url && (
+            <div className="relative aspect-video w-full">
+              <video 
+                ref={el => modalVideoRefs.current[openVideo] = el} 
+                src={testimonials[openVideo - 1]?.video_url} 
+                autoPlay 
+                controls 
+                className="w-full h-full object-contain" 
+              />
               <div className="absolute bottom-0 left-0 p-2 md:p-4 bg-gradient-to-t from-black to-transparent w-full">
                 <h4 className="font-bold text-white text-base md:text-xl">
-                  {testimonials.find(t => t.id === openVideo)?.name}
+                  {testimonials[openVideo - 1]?.name}
                 </h4>
                 <p className="text-gray-300 text-xs md:text-sm">
-                  {testimonials.find(t => t.id === openVideo)?.position}
+                  {testimonials[openVideo - 1]?.position}
                 </p>
               </div>
-            </div>}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </section>;

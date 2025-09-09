@@ -526,6 +526,42 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean | null
+          name: string
+          position: string | null
+          sort_order: number | null
+          text_content: string | null
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          position?: string | null
+          sort_order?: number | null
+          text_content?: string | null
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          position?: string | null
+          sort_order?: number | null
+          text_content?: string | null
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       totems: {
         Row: {
           created_at: string

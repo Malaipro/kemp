@@ -1,82 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GalleryHorizontal } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import kamp1 from '@/assets/gallery/kamp-1.jpg';
-import kamp2 from '@/assets/gallery/kamp-2.jpg';
-import kamp3 from '@/assets/gallery/kamp-3.jpg';
-import kamp4 from '@/assets/gallery/kamp-4.jpg';
-import kamp5 from '@/assets/gallery/kamp-5.jpg';
-import kamp6 from '@/assets/gallery/kamp-6.jpg';
-import kamp7 from '@/assets/gallery/kamp-7.jpg';
-import kamp8 from '@/assets/gallery/kamp-8.jpg';
-import kamp9 from '@/assets/gallery/kamp-9.jpg';
-import kamp10 from '@/assets/gallery/kamp-10.jpg';
-import kamp11 from '@/assets/gallery/kamp-11.jpg';
-import kamp12 from '@/assets/gallery/kamp-12.jpg';
-
-// Updated photos array with all 12 images
-const photos = [
-  {
-    id: 1,
-    src: kamp1,
-    alt: "Участники КЭМП в тренировочном процессе"
-  },
-  {
-    id: 2,
-    src: kamp2,
-    alt: "Моменты командной работы КЭМП"
-  },
-  {
-    id: 3,
-    src: kamp3,
-    alt: "Интенсивные тренировки КЭМП"
-  },
-  {
-    id: 4,
-    src: kamp4,
-    alt: "Тренировки на природе"
-  },
-  {
-    id: 5,
-    src: kamp5,
-    alt: "Групповые занятия КЭМП"
-  },
-  {
-    id: 6,
-    src: kamp6,
-    alt: "Физическая подготовка"
-  },
-  {
-    id: 7,
-    src: kamp7,
-    alt: "Командные упражнения"
-  },
-  {
-    id: 8,
-    src: kamp8,
-    alt: "Тактическая медицина"
-  },
-  {
-    id: 9,
-    src: kamp9,
-    alt: "Специальная подготовка"
-  },
-  {
-    id: 10,
-    src: kamp10,
-    alt: "Полевые занятия КЭМП"
-  },
-  {
-    id: 11,
-    src: kamp11,
-    alt: "Практические навыки"
-  },
-  {
-    id: 12,
-    src: kamp12,
-    alt: "Выездные испытания"
-  }
-];
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 export const PhotoGallery: React.FC = () => {
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -86,6 +12,24 @@ export const PhotoGallery: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const isMobile = useIsMobile();
+
+  // Загружаем изображения из базы данных
+  const { data: photos = [], isLoading } = useQuery({
+    queryKey: ['gallery-images'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('gallery_images')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data.map(img => ({
+        id: img.id,
+        src: img.image_url,
+        alt: img.title || img.description || 'Момент КЭМП'
+      }));
+    },
+  });
   
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
@@ -228,36 +172,42 @@ export const PhotoGallery: React.FC = () => {
         </div>
 
         {/* Horizontal scrolling gallery with improved animation */}
-        <div className="relative overflow-hidden" ref={galleryRef}>
-          <div 
-            ref={scrollContainerRef}
-            className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll mobile-snap-scroll"
-            style={{ scrollBehavior: 'auto', cursor: isDragging ? 'grabbing' : 'grab' }}
-          >
-            {/* Display all 12 unique photos */}
-            {photos.map((photo) => (
-              <div
-                key={photo.id}
-                className={`flex-none ${isMobile ? 'w-[80vw] h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover"
-                  loading="eager"
-                  draggable="false"
-                />
-              </div>
-            ))}
+        {isLoading ? (
+          <div className="text-center text-gray-600">Загрузка галереи...</div>
+        ) : photos.length > 0 ? (
+          <div className="relative overflow-hidden" ref={galleryRef}>
+            <div 
+              ref={scrollContainerRef}
+              className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide py-2 md:py-4 whitespace-nowrap touch-scroll mobile-snap-scroll"
+              style={{ scrollBehavior: 'auto', cursor: isDragging ? 'grabbing' : 'grab' }}
+            >
+              {/* Display photos from database */}
+              {photos.map((photo) => (
+                <div
+                  key={photo.id}
+                  className={`flex-none ${isMobile ? 'w-[80vw] h-60' : 'w-72 h-80'} relative overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 snap-item`}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                    draggable="false"
+                  />
+                </div>
+              ))}
+            </div>
+            
+            {/* Visual indicators for better UX */}
+            <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-2">
+              {photos.map((_, index) => (
+                <div key={index} className={`h-1 w-8 rounded-full ${index === 0 ? 'bg-kamp-primary' : 'bg-white/30'}`}></div>
+              ))}
+            </div>
           </div>
-          
-          {/* Visual indicators for better UX */}
-          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-2">
-            {photos.map((_, index) => (
-              <div key={index} className={`h-1 w-8 rounded-full ${index === 0 ? 'bg-kamp-primary' : 'bg-white/30'}`}></div>
-            ))}
-          </div>
-        </div>
+        ) : (
+          <div className="text-center text-gray-600">Галерея пуста</div>
+        )}
       </div>
     </section>
   );

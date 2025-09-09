@@ -53,6 +53,18 @@ interface GalleryImage {
   sort_order: number;
 }
 
+interface Testimonial {
+  id: string;
+  name: string;
+  position: string | null;
+  video_url: string | null;
+  text_content: string | null;
+  is_active: boolean | null;
+  sort_order: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export const ContentManager: React.FC = () => {
   const [activeTab, setActiveTab] = useState('page-content');
   const queryClient = useQueryClient();
@@ -94,8 +106,8 @@ export const ContentManager: React.FC = () => {
     },
   });
 
-  const { data: gallery = [] } = useQuery({
-    queryKey: ['galleryImages'],
+  const { data: galleryImages = [] } = useQuery({
+    queryKey: ['gallery-images'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('gallery_images')
@@ -103,6 +115,18 @@ export const ContentManager: React.FC = () => {
         .order('sort_order');
       if (error) throw error;
       return data as GalleryImage[];
+    },
+  });
+
+  const { data: testimonials = [] } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .order('sort_order');
+      if (error) throw error;
+      return data as Testimonial[];
     },
   });
 
@@ -114,11 +138,22 @@ export const ContentManager: React.FC = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 bg-gray-800">
-          <TabsTrigger value="page-content">Контент страниц</TabsTrigger>
-          <TabsTrigger value="trainers">Тренеры</TabsTrigger>
-          <TabsTrigger value="programs">Программы</TabsTrigger>
-          <TabsTrigger value="gallery">Галерея</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-5 bg-gray-800">
+          <TabsTrigger value="page-content" className="text-white data-[state=active]:bg-kamp-accent data-[state=active]:text-black">
+            Контент страниц
+          </TabsTrigger>
+          <TabsTrigger value="trainers" className="text-white data-[state=active]:bg-kamp-accent data-[state=active]:text-black">
+            Тренеры
+          </TabsTrigger>
+          <TabsTrigger value="programs" className="text-white data-[state=active]:bg-kamp-accent data-[state=active]:text-black">
+            Программы
+          </TabsTrigger>
+          <TabsTrigger value="gallery" className="text-white data-[state=active]:bg-kamp-accent data-[state=active]:text-black">
+            Моменты КЭМП
+          </TabsTrigger>
+          <TabsTrigger value="testimonials" className="text-white data-[state=active]:bg-kamp-accent data-[state=active]:text-black">
+            Отзывы
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="page-content">
@@ -134,7 +169,11 @@ export const ContentManager: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="gallery">
-          <GalleryManager images={gallery} />
+          <GalleryManager images={galleryImages} />
+        </TabsContent>
+
+        <TabsContent value="testimonials">
+          <TestimonialsManager testimonials={testimonials} />
         </TabsContent>
       </Tabs>
     </div>
@@ -873,6 +912,208 @@ const GalleryManager: React.FC<{ images: GalleryImage[] }> = ({ images }) => {
               <Badge variant="secondary" className="mt-2 text-xs">
                 {image.category}
               </Badge>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Компонент для управления отзывами
+const TestimonialsManager: React.FC<{ testimonials: Testimonial[] }> = ({ testimonials }) => {
+  const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [newTestimonial, setNewTestimonial] = useState({
+    name: '',
+    position: '',
+    video_url: '',
+    text_content: ''
+  });
+  
+  const queryClient = useQueryClient();
+
+  const createTestimonialMutation = useMutation({
+    mutationFn: async (testimonialData: typeof newTestimonial) => {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .insert([testimonialData])
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] });
+      setShowCreateForm(false);
+      setNewTestimonial({ name: '', position: '', video_url: '', text_content: '' });
+      toast.success('Отзыв создан успешно');
+    }
+  });
+
+  const updateTestimonialMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Testimonial> }) => {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] });
+      setEditingTestimonial(null);
+      toast.success('Отзыв обновлен успешно');
+    }
+  });
+
+  const deleteTestimonialMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('testimonials')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['testimonials'] });
+      toast.success('Отзыв удален успешно');
+    }
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Управление отзывами</h2>
+        <Button 
+          onClick={() => setShowCreateForm(true)}
+          className="bg-kamp-accent hover:bg-kamp-accent/90 text-black"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Добавить отзыв
+        </Button>
+      </div>
+
+      {showCreateForm && (
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-lg font-bold text-white">Новый отзыв</h3>
+            <Input
+              placeholder="Имя участника"
+              value={newTestimonial.name}
+              onChange={(e) => setNewTestimonial(prev => ({ ...prev, name: e.target.value }))}
+              className="bg-white"
+            />
+            <Input
+              placeholder="Должность/статус"
+              value={newTestimonial.position}
+              onChange={(e) => setNewTestimonial(prev => ({ ...prev, position: e.target.value }))}
+              className="bg-white"
+            />
+            <Input
+              placeholder="URL видео"
+              value={newTestimonial.video_url}
+              onChange={(e) => setNewTestimonial(prev => ({ ...prev, video_url: e.target.value }))}
+              className="bg-white"
+            />
+            <Textarea
+              placeholder="Текст отзыва (опционально)"
+              value={newTestimonial.text_content}
+              onChange={(e) => setNewTestimonial(prev => ({ ...prev, text_content: e.target.value }))}
+              className="bg-white"
+            />
+            <div className="flex gap-2">
+              <Button onClick={() => createTestimonialMutation.mutate(newTestimonial)}>
+                Создать
+              </Button>
+              <Button variant="outline" onClick={() => setShowCreateForm(false)}>
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {editingTestimonial && (
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-lg font-bold text-white">Редактировать отзыв</h3>
+            <Input
+              placeholder="Имя участника"
+              value={editingTestimonial.name}
+              onChange={(e) => setEditingTestimonial(prev => prev ? { ...prev, name: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Input
+              placeholder="Должность/статус"
+              value={editingTestimonial.position || ''}
+              onChange={(e) => setEditingTestimonial(prev => prev ? { ...prev, position: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Input
+              placeholder="URL видео"
+              value={editingTestimonial.video_url || ''}
+              onChange={(e) => setEditingTestimonial(prev => prev ? { ...prev, video_url: e.target.value } : null)}
+              className="bg-white"
+            />
+            <Textarea
+              placeholder="Текст отзыва"
+              value={editingTestimonial.text_content || ''}
+              onChange={(e) => setEditingTestimonial(prev => prev ? { ...prev, text_content: e.target.value } : null)}
+              className="bg-white"
+            />
+            <div className="flex gap-2">
+              <Button onClick={() => updateTestimonialMutation.mutate({ 
+                id: editingTestimonial.id, 
+                updates: editingTestimonial 
+              })}>
+                Сохранить
+              </Button>
+              <Button variant="outline" onClick={() => setEditingTestimonial(null)}>
+                Отмена
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {testimonials.map((testimonial) => (
+          <Card key={testimonial.id} className="bg-gray-800 border-gray-700">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-lg font-bold text-white">{testimonial.name}</h3>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setEditingTestimonial(testimonial)}
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      if (confirm('Удалить отзыв?')) {
+                        deleteTestimonialMutation.mutate(testimonial.id);
+                      }
+                    }}
+                    className="border-red-600 text-red-400"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm mb-2">{testimonial.position}</p>
+              {testimonial.video_url && (
+                <p className="text-blue-400 text-sm mb-2">Видео: {testimonial.video_url}</p>
+              )}
+              {testimonial.text_content && (
+                <p className="text-gray-300 text-sm">{testimonial.text_content}</p>
+              )}
             </CardContent>
           </Card>
         ))}
