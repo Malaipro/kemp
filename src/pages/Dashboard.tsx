@@ -10,7 +10,8 @@ import { ParticipantManagement } from '@/components/admin/ParticipantManagement'
 import { StreamManagement } from '@/components/admin/StreamManagement';
 import { ActivityFormAdmin } from '@/components/kamp/ActivityFormAdmin';
 import { CooperTestManagement } from '@/components/cooper/CooperTestManagement';
-import { ScheduleManagement } from '@/components/schedule/ScheduleManagement';
+import { DetailedScheduleManagement } from '@/components/schedule/DetailedScheduleManagement';
+import { ScheduleViewer } from '@/components/schedule/ScheduleViewer';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LogOut, User, Shield } from 'lucide-react';
@@ -114,7 +115,7 @@ export const Dashboard: React.FC = () => {
           <div className="kamp-container">
             {isSuperAdmin ? (
               <Tabs defaultValue="kamp" className="w-full">
-                <TabsList className="grid w-full grid-cols-5 mb-6 h-auto p-1">
+                <TabsList className="grid w-full grid-cols-6 mb-6 h-auto p-1">
                   <TabsTrigger value="kamp" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <User className="w-4 h-4" />
                     <span className="hidden sm:inline">КЭМП</span>
@@ -134,6 +135,10 @@ export const Dashboard: React.FC = () => {
                   <TabsTrigger value="cooper" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
                     <User className="w-4 h-4" />
                     <span className="hidden sm:inline">Купер</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="schedule" className="flex items-center gap-2 text-xs sm:text-sm px-2 py-3">
+                    <Shield className="w-4 h-4" />
+                    <span className="hidden sm:inline">Расписание</span>
                   </TabsTrigger>
                 </TabsList>
                 
@@ -155,6 +160,10 @@ export const Dashboard: React.FC = () => {
                 
                 <TabsContent value="cooper">
                   <CooperTestManagement />
+                </TabsContent>
+                
+                <TabsContent value="schedule">
+                  <DetailedScheduleManagement />
                 </TabsContent>
               </Tabs>
             ) : (
@@ -186,7 +195,7 @@ export const Dashboard: React.FC = () => {
                 </TabsContent>
                 
                 <TabsContent value="schedule">
-                  <ScheduleManagement />
+                  <ScheduleViewer />
                 </TabsContent>
               </Tabs>
             )}

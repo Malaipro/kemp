@@ -334,12 +334,18 @@ export type Database = {
       schedule: {
         Row: {
           activity_name: string
+          ascetic_meaning_kemp: string | null
+          ascetic_meaning_nutrition: string | null
           created_at: string
+          date_specific: string | null
           day_of_week: number
           description: string | null
+          event_type: string | null
+          highlight_color: string | null
           id: string
           instructor: string | null
           is_active: boolean
+          lecturer: string | null
           location: string | null
           max_participants: number | null
           time_end: string
@@ -348,12 +354,18 @@ export type Database = {
         }
         Insert: {
           activity_name: string
+          ascetic_meaning_kemp?: string | null
+          ascetic_meaning_nutrition?: string | null
           created_at?: string
+          date_specific?: string | null
           day_of_week: number
           description?: string | null
+          event_type?: string | null
+          highlight_color?: string | null
           id?: string
           instructor?: string | null
           is_active?: boolean
+          lecturer?: string | null
           location?: string | null
           max_participants?: number | null
           time_end: string
@@ -362,12 +374,18 @@ export type Database = {
         }
         Update: {
           activity_name?: string
+          ascetic_meaning_kemp?: string | null
+          ascetic_meaning_nutrition?: string | null
           created_at?: string
+          date_specific?: string | null
           day_of_week?: number
           description?: string | null
+          event_type?: string | null
+          highlight_color?: string | null
           id?: string
           instructor?: string | null
           is_active?: boolean
+          lecturer?: string | null
           location?: string | null
           max_participants?: number | null
           time_end?: string
@@ -908,6 +926,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      event_type_enum: "training" | "lecture" | "test" | "special"
+      highlight_color_enum: "none" | "red" | "yellow" | "green" | "blue"
       reward_type: "zakal" | "gran" | "shram" | "totem"
       shram_subtype: "bjj" | "kick" | "ofp" | "tactics"
       totem_type:
@@ -1050,6 +1070,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      event_type_enum: ["training", "lecture", "test", "special"],
+      highlight_color_enum: ["none", "red", "yellow", "green", "blue"],
       reward_type: ["zakal", "gran", "shram", "totem"],
       shram_subtype: ["bjj", "kick", "ofp", "tactics"],
       totem_type: [
