@@ -191,8 +191,12 @@ export const PhotoGallery: React.FC = () => {
                     src={photo.src}
                     alt={photo.alt}
                     className="w-full h-full object-cover"
-                    loading="eager"
+                    loading="lazy"
                     draggable="false"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
                   />
                 </div>
               ))}

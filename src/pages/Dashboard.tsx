@@ -23,6 +23,7 @@ export const Dashboard: React.FC = () => {
   const { user, signOut, loading } = useAuth();
   const { isSuperAdmin, loading: roleLoading } = useRole();
   const [participantData, setParticipantData] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState('kamp');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -115,36 +116,36 @@ export const Dashboard: React.FC = () => {
         <section className="kamp-section">
           <div className="kamp-container">
             {isSuperAdmin ? (
-              <Tabs defaultValue="kamp" className="w-full">
-                <div className="mb-6">
-                  <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7 h-auto p-1 gap-1">
-                    <TabsTrigger value="kamp" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
-                      <User className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>КЭМП</span>
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <div className="mb-6 overflow-x-auto">
+                  <TabsList className="grid w-full grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 h-auto p-1 gap-1 min-w-max">
+                    <TabsTrigger value="kamp" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">КЭМП</span>
                     </TabsTrigger>
-                    <TabsTrigger value="activities" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>Актив.</span>
+                    <TabsTrigger value="activities" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">Актив.</span>
                     </TabsTrigger>
-                    <TabsTrigger value="participants" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
-                      <User className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>Участн.</span>
+                    <TabsTrigger value="participants" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">Участн.</span>
                     </TabsTrigger>
-                    <TabsTrigger value="streams" className="flex flex-col items-center gap-1 text-xs px-1 py-2">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>Потоки</span>
+                    <TabsTrigger value="streams" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">Потоки</span>
                     </TabsTrigger>
-                    <TabsTrigger value="cooper" className="flex flex-col items-center gap-1 text-xs px-1 py-2 lg:grid-cols-auto">
-                      <User className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>Купер</span>
+                    <TabsTrigger value="cooper" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">Купер</span>
                     </TabsTrigger>
-                    <TabsTrigger value="schedule" className="flex flex-col items-center gap-1 text-xs px-1 py-2 lg:grid-cols-auto">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>Расписан.</span>
+                    <TabsTrigger value="schedule" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">Расписан.</span>
                     </TabsTrigger>
-                    <TabsTrigger value="cms" className="flex flex-col items-center gap-1 text-xs px-1 py-2 lg:grid-cols-auto">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4" />
-                      <span>CMS</span>
+                    <TabsTrigger value="cms" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
+                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                      <span className="truncate">CMS</span>
                     </TabsTrigger>
                   </TabsList>
                 </div>
