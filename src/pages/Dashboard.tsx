@@ -118,34 +118,34 @@ export const Dashboard: React.FC = () => {
             {isSuperAdmin ? (
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <div className="mb-6 overflow-x-auto">
-                  <TabsList className="grid w-full grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 h-auto p-1 gap-1 min-w-max">
-                    <TabsTrigger value="kamp" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">КЭМП</span>
+                  <TabsList className="flex w-max min-w-full h-auto p-1 gap-1">
+                    <TabsTrigger value="kamp" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <User className="w-4 h-4" />
+                      <span className="whitespace-nowrap">КЭМП</span>
                     </TabsTrigger>
-                    <TabsTrigger value="activities" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">Актив.</span>
+                    <TabsTrigger value="activities" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <Shield className="w-4 h-4" />
+                      <span className="whitespace-nowrap">Активности</span>
                     </TabsTrigger>
-                    <TabsTrigger value="participants" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">Участн.</span>
+                    <TabsTrigger value="participants" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <User className="w-4 h-4" />
+                      <span className="whitespace-nowrap">Участники</span>
                     </TabsTrigger>
-                    <TabsTrigger value="streams" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">Потоки</span>
+                    <TabsTrigger value="streams" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <Shield className="w-4 h-4" />
+                      <span className="whitespace-nowrap">Потоки</span>
                     </TabsTrigger>
-                    <TabsTrigger value="cooper" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <User className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">Купер</span>
+                    <TabsTrigger value="cooper" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <User className="w-4 h-4" />
+                      <span className="whitespace-nowrap">Купер</span>
                     </TabsTrigger>
-                    <TabsTrigger value="schedule" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">Расписан.</span>
+                    <TabsTrigger value="schedule" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <Shield className="w-4 h-4" />
+                      <span className="whitespace-nowrap">Расписание</span>
                     </TabsTrigger>
-                    <TabsTrigger value="cms" className="flex flex-col items-center gap-1 text-xs px-2 py-2 min-w-0">
-                      <Shield className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
-                      <span className="truncate">CMS</span>
+                    <TabsTrigger value="cms" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[60px] flex-shrink-0">
+                      <Shield className="w-4 h-4" />
+                      <span className="whitespace-nowrap">CMS</span>
                     </TabsTrigger>
                   </TabsList>
                 </div>
