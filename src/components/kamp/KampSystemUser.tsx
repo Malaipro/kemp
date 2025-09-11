@@ -17,32 +17,34 @@ export const KampSystemUser: React.FC = () => {
         </div>
 
         <Tabs defaultValue="progress" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 mb-8 h-auto gap-1 p-1">
-            <TabsTrigger value="progress" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 px-1">
-              <Trophy className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-center">Прогресс</span>
-            </TabsTrigger>
-            <TabsTrigger value="profile" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 px-1">
-              <User className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-center">Профиль</span>
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 px-1">
-              <Settings className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-center">Настройки</span>
-            </TabsTrigger>
-            <TabsTrigger value="instructions" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 px-1">
-              <Book className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-center">Инструкция</span>
-            </TabsTrigger>
-            <TabsTrigger value="ascetics" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 px-1">
-              <Target className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-center">Аскезы</span>
-            </TabsTrigger>
-            <TabsTrigger value="manual" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 px-1">
-              <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-center">Руководство</span>
-            </TabsTrigger>
-          </TabsList>
+          <div className="mb-8 overflow-x-auto">
+            <TabsList className="flex w-max min-w-full h-auto gap-1 p-1">
+              <TabsTrigger value="progress" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[72px] flex-shrink-0">
+                <Trophy className="w-4 h-4" />
+                <span className="whitespace-nowrap">Прогресс</span>
+              </TabsTrigger>
+              <TabsTrigger value="profile" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[72px] flex-shrink-0">
+                <User className="w-4 h-4" />
+                <span className="whitespace-nowrap">Профиль</span>
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[72px] flex-shrink-0">
+                <Settings className="w-4 h-4" />
+                <span className="whitespace-nowrap">Настройки</span>
+              </TabsTrigger>
+              <TabsTrigger value="instructions" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[72px] flex-shrink-0">
+                <Book className="w-4 h-4" />
+                <span className="whitespace-nowrap">Инструкция</span>
+              </TabsTrigger>
+              <TabsTrigger value="ascetics" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[72px] flex-shrink-0">
+                <Target className="w-4 h-4" />
+                <span className="whitespace-nowrap">Аскезы</span>
+              </TabsTrigger>
+              <TabsTrigger value="manual" className="flex flex-col items-center gap-1 text-xs px-3 py-2 min-w-[72px] flex-shrink-0">
+                <FileText className="w-4 h-4" />
+                <span className="whitespace-nowrap">Руководство</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
           
           <TabsContent value="progress">
             <KampProgress />
