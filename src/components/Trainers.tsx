@@ -16,6 +16,16 @@ interface Trainer {
   sort_order: number;
 }
 
+// Ensure images work on mobile: force HTTPS, hide referrer, and provide a fallback
+const getSafeUrl = (url?: string) => {
+  if (!url) return '/placeholder.svg';
+  try {
+    return url.startsWith('http://') ? url.replace('http://', 'https://') : url;
+  } catch {
+    return '/placeholder.svg';
+  }
+};
+
 export const Trainers: React.FC = () => {
   const [selectedTrainer, setSelectedTrainer] = useState<Trainer | null>(null);
   const isMobile = useIsMobile();
@@ -68,9 +78,13 @@ export const Trainers: React.FC = () => {
             >
               <div className={`${isMobile ? 'aspect-[3/4]' : 'aspect-[3/4]'} overflow-hidden`}>
                 <img 
-                  src={trainer.image_url} 
+                  src={getSafeUrl(trainer.image_url)} 
                   alt={trainer.name}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover transition-transform duration-700 ease-out transform hover:scale-105"
+                  onError={(e) => { e.currentTarget.src = '/placeholder.svg'; }}
                 />
               </div>
               <div className={`${isMobile ? 'p-1.5' : 'p-4 md:p-6'} bg-black`}>
@@ -112,9 +126,13 @@ export const Trainers: React.FC = () => {
                 <div className="w-full md:w-1/3">
                   <div className="h-48 md:h-full">
                     <img 
-                      src={selectedTrainer.image_url} 
+                      src={getSafeUrl(selectedTrainer.image_url)} 
                       alt={selectedTrainer.name}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
                       className="w-full h-full object-cover object-top"
+                      onError={(e) => { e.currentTarget.src = '/placeholder.svg'; }}
                     />
                   </div>
                 </div>
