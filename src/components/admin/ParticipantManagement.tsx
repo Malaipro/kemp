@@ -39,7 +39,8 @@ export const ParticipantManagement: React.FC = () => {
     name: '',
     last_name: '',
     email: '',
-    stream_id: ''
+    stream_id: '',
+    password: ''
   });
 
   const queryClient = useQueryClient();
@@ -81,7 +82,27 @@ export const ParticipantManagement: React.FC = () => {
 
   const createParticipantMutation = useMutation({
     mutationFn: async (participantData: typeof newParticipant) => {
-      // Создаем участника без auth пользователя - пользователь зарегистрируется сам
+      // Создаем пользователя через edge function, если указан email и пароль
+      let userId = null;
+      if (participantData.email && participantData.password) {
+        const { data: response } = await supabase.functions.invoke('create-user', {
+          body: {
+            email: participantData.email,
+            password: participantData.password,
+            metadata: {
+              name: participantData.name,
+              last_name: participantData.last_name
+            }
+          }
+        });
+        
+        if (response?.error) {
+          throw new Error(response.error);
+        }
+        
+        userId = response?.user?.id;
+      }
+
       const { data, error } = await supabase
         .from('участники')
         .insert([{
@@ -89,7 +110,7 @@ export const ParticipantManagement: React.FC = () => {
           last_name: participantData.last_name || null,
           email: participantData.email || null,
           stream_id: participantData.stream_id || null,
-          user_id: null, // Будет заполнен когда пользователь зарегистрируется
+          user_id: userId,
           points: 0
         }])
         .select()
@@ -101,7 +122,7 @@ export const ParticipantManagement: React.FC = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['participants-management'] });
       setShowCreateForm(false);
-      setNewParticipant({ name: '', last_name: '', email: '', stream_id: '' });
+      setNewParticipant({ name: '', last_name: '', email: '', stream_id: '', password: '' });
       toast.success('Участник создан успешно');
     },
     onError: (error) => {
@@ -239,6 +260,17 @@ export const ParticipantManagement: React.FC = () => {
                 value={newParticipant.email}
                 onChange={(e) => setNewParticipant(prev => ({ ...prev, email: e.target.value }))}
                 placeholder="email@example.com"
+                className="bg-white border-gray-300"
+              />
+            </div>
+            <div>
+              <Label htmlFor="password" className="text-gray-300">Пароль</Label>
+              <Input
+                id="password"
+                type="password"
+                value={newParticipant.password}
+                onChange={(e) => setNewParticipant(prev => ({ ...prev, password: e.target.value }))}
+                placeholder="Пароль для входа"
                 className="bg-white border-gray-300"
               />
             </div>
