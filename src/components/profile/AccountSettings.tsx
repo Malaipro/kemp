@@ -10,7 +10,6 @@ import { Eye, EyeOff, Save, Mail, Lock } from 'lucide-react';
 
 export const AccountSettings: React.FC = () => {
   const { user } = useAuth();
-  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -65,7 +64,6 @@ export const AccountSettings: React.FC = () => {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
-      setIsChangingPassword(false);
       
     } catch (error) {
       console.error('Error changing password:', error);
@@ -79,7 +77,6 @@ export const AccountSettings: React.FC = () => {
     setCurrentPassword('');
     setNewPassword('');
     setConfirmPassword('');
-    setIsChangingPassword(false);
   };
 
   if (!user) {
@@ -120,20 +117,13 @@ export const AccountSettings: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {!isChangingPassword ? (
-            <div className="space-y-4">
-              <p className="text-gray-300 text-sm">
-                Последнее изменение пароля: {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString('ru-RU') : 'Неизвестно'}
-              </p>
-              <Button 
-                onClick={() => setIsChangingPassword(true)}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                Изменить пароль
-              </Button>
-            </div>
-          ) : (
-            <form onSubmit={handlePasswordChange} className="space-y-4">
+          <div className="space-y-4">
+            <p className="text-gray-300 text-sm">
+              Последнее изменение пароля: {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString('ru-RU') : 'Неизвестно'}
+            </p>
+          </div>
+          
+          <form onSubmit={handlePasswordChange} className="space-y-4">
               <div>
                 <Label className="text-gray-300">Текущий пароль</Label>
                 <div className="relative">
@@ -218,11 +208,10 @@ export const AccountSettings: React.FC = () => {
                   variant="outline"
                   className="text-white border-gray-600"
                 >
-                  Отмена
+                  Очистить
                 </Button>
               </div>
             </form>
-          )}
         </CardContent>
       </Card>
     </div>
