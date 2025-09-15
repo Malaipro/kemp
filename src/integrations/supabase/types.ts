@@ -1263,6 +1263,7 @@ export type Database = {
       app_role: "admin" | "moderator" | "user"
       event_type_enum: "training" | "lecture" | "test" | "special"
       highlight_color_enum: "none" | "red" | "yellow" | "green" | "blue"
+      lecture_subtype: "kemp" | "tactics" | "nutrition" | "psychology"
       lecture_subtype_new: "kemp" | "nutrition"
       reward_type: "zakal" | "gran" | "shram" | "totem"
       shram_subtype: "bjj" | "kick" | "ofp" | "tactics"
@@ -1277,6 +1278,7 @@ export type Database = {
         | "blade"
         | "lighthouse"
         | "bear"
+      training_subtype: "bjj" | "kick" | "ofp" | "boxing" | "wrestling"
       training_subtype_new: "bjj" | "kick" | "ofp"
       zakal_subtype: "bjj" | "kick" | "ofp"
     }
@@ -1419,6 +1421,7 @@ export const Constants = {
       app_role: ["admin", "moderator", "user"],
       event_type_enum: ["training", "lecture", "test", "special"],
       highlight_color_enum: ["none", "red", "yellow", "green", "blue"],
+      lecture_subtype: ["kemp", "tactics", "nutrition", "psychology"],
       lecture_subtype_new: ["kemp", "nutrition"],
       reward_type: ["zakal", "gran", "shram", "totem"],
       shram_subtype: ["bjj", "kick", "ofp", "tactics"],
@@ -1434,6 +1437,7 @@ export const Constants = {
         "lighthouse",
         "bear",
       ],
+      training_subtype: ["bjj", "kick", "ofp", "boxing", "wrestling"],
       training_subtype_new: ["bjj", "kick", "ofp"],
       zakal_subtype: ["bjj", "kick", "ofp"],
     },
