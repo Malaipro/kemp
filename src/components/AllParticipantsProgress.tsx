@@ -122,7 +122,7 @@ export const AllParticipantsProgress: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error || !progressStats) {
     return (
       <section className="kamp-section">
         <div className="kamp-container">
@@ -134,7 +134,7 @@ export const AllParticipantsProgress: React.FC = () => {
     );
   }
 
-  const stats = progressStats!;
+  const stats = progressStats;
 
   return (
     <section className="kamp-section">
