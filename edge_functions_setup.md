@@ -13,7 +13,7 @@
 ## 2. Обновление конфигурации (config.toml)
 
 ```toml
-project_id = "wfjvjvbjjxcgkaolkgdq"
+project_id = "jbotyvommxeoyhrmdfic"
 
 [api]
 enabled = true
@@ -39,8 +39,8 @@ verify_jwt = false
 - `SUPABASE_SERVICE_ROLE_KEY` - Service Role Key нового проекта
 - `RESEND_API_KEY` - ваш API ключ Resend
 - `SUPABASE_ANON_KEY` - Anon Key нового проекта  
-- `SUPABASE_URL` - https://wfjvjvbjjxcgkaolkgdq.supabase.co
-- `SUPABASE_DB_URL` - postgresql://postgres:[PASSWORD]@db.wfjvjvbjjxcgkaolkgdq.supabase.co:5432/postgres
+- `SUPABASE_URL` - https://jbotyvommxeoyhrmdfic.supabase.co
+- `SUPABASE_DB_URL` - postgresql://postgres:[PASSWORD]@db.jbotyvommxeoyhrmdfic.supabase.co:5432/postgres
 - `SUPABASE_PUBLISHABLE_KEY` - Anon Key (дубликат)
 
 ## 4. Деплой функций
@@ -48,7 +48,7 @@ verify_jwt = false
 После настройки секретов выполните:
 
 ```bash
-supabase functions deploy --project-ref wfjvjvbjjxcgkaolkgdq
+supabase functions deploy --project-ref jbotyvommxeoyhrmdfic
 ```
 
 ## 5. Проверка

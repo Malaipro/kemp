@@ -2,7 +2,7 @@
 
 ## Шаг 1: Подготовка нового проекта
 
-1. Откройте новый проект: https://supabase.com/dashboard/project/wfjvjvbjjxcgkaolkgdq
+1. Откройте ваш проект: https://supabase.com/dashboard/project/jbotyvommxeoyhrmdfic
 2. Перейдите в SQL Editor
 3. Выполните полностью файл `migration_export.sql`
 
@@ -17,7 +17,7 @@
 1. Скопируйте папку `supabase/functions/` 
 2. Обновите `supabase/config.toml` (используйте данные из `edge_functions_setup.md`)
 3. Установите все секреты через Dashboard → Settings → Edge Functions
-4. Выполните деплой: `supabase functions deploy --project-ref wfjvjvbjjxcgkaolkgdq`
+4. Выполните деплой: `supabase functions deploy --project-ref jbotyvommxeoyhrmdfic`
 
 ## Шаг 4: Обновление кода приложения
 
