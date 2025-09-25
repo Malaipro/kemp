@@ -11,7 +11,7 @@ import { validateEmail, validatePassword, validateName, sanitizeInput, rateLimit
 
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn, signUp, resetPassword } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -25,6 +25,9 @@ export const Auth: React.FC = () => {
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Reset password form state
+  const [resetEmail, setResetEmail] = useState('');
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -132,6 +135,36 @@ export const Auth: React.FC = () => {
     setIsLoading(false);
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Rate limiting
+    if (!rateLimiter.isAllowed('reset-attempt', 3, 300000)) {
+      setFormErrors({ general: 'Слишком много попыток. Попробуйте через 5 минут.' });
+      return;
+    }
+
+    // Validate email
+    const sanitizedEmail = sanitizeInput(resetEmail);
+    if (!validateEmail(sanitizedEmail)) {
+      setFormErrors({ email: 'Введите корректный email адрес' });
+      return;
+    }
+
+    setFormErrors({});
+    setIsLoading(true);
+
+    const { error } = await resetPassword(sanitizedEmail);
+    
+    if (error) {
+      setFormErrors({ general: 'Ошибка при отправке письма' });
+    } else {
+      setResetEmail('');
+    }
+    
+    setIsLoading(false);
+  };
+
   return (
     <Layout>
       <section className="kamp-section bg-black min-h-screen flex items-center justify-center">
@@ -150,9 +183,10 @@ export const Auth: React.FC = () => {
             
             <CardContent>
               <Tabs defaultValue="login" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsList className="grid w-full grid-cols-3 mb-6">
                   <TabsTrigger value="login">Вход</TabsTrigger>
                   <TabsTrigger value="signup">Регистрация</TabsTrigger>
+                  <TabsTrigger value="reset">Сброс пароля</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="login">
@@ -307,6 +341,42 @@ export const Auth: React.FC = () => {
                       disabled={isLoading || signupPassword !== confirmPassword || Object.keys(formErrors).length > 0}
                     >
                       {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
+                    </Button>
+                  </form>
+                </TabsContent>
+
+                <TabsContent value="reset">
+                  <form onSubmit={handleResetPassword} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="reset-email" className="text-muted-foreground">Email</Label>
+                      <Input
+                        id="reset-email"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        required
+                        maxLength={254}
+                        className={`kamp-input ${formErrors.email ? 'border-red-500' : ''}`}
+                      />
+                      {formErrors.email && (
+                        <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>
+                      )}
+                      <p className="text-xs text-gray-400">
+                        Мы отправим ссылку для сброса пароля на ваш email
+                      </p>
+                    </div>
+
+                    {formErrors.general && (
+                      <p className="text-red-400 text-sm text-center">{formErrors.general}</p>
+                    )}
+
+                    <Button 
+                      type="submit" 
+                      className="kamp-button-primary w-full"
+                      disabled={isLoading || Object.keys(formErrors).length > 0}
+                    >
+                      {isLoading ? 'Отправка...' : 'Отправить письмо'}
                     </Button>
                   </form>
                 </TabsContent>
