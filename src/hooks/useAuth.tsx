@@ -11,6 +11,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: any }>;
+  adminResetPassword: (email: string, newPassword: string) => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -202,6 +203,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const adminResetPassword = async (email: string, newPassword: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-reset-password', {
+        body: { email, newPassword }
+      });
+
+      if (error) {
+        toast({
+          title: "Ошибка",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
+      }
+
+      toast({
+        title: "Пароль изменен",
+        description: "Пароль успешно обновлен",
+      });
+
+      return { error: null };
+    } catch (error: any) {
+      toast({
+        title: "Ошибка",
+        description: "Произошла ошибка при изменении пароля",
+        variant: "destructive",
+      });
+      return { error };
+    }
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -211,6 +243,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       signIn,
       signOut,
       resetPassword,
+      adminResetPassword,
     }}>
       {children}
     </AuthContext.Provider>

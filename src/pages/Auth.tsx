@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/Layout';
 import { validateEmail, validatePassword, validateName, sanitizeInput, rateLimiter } from '@/lib/validation';
+import { AdminPasswordReset } from '@/components/AdminPasswordReset';
 
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
@@ -167,6 +168,7 @@ export const Auth: React.FC = () => {
 
   return (
     <Layout>
+      <AdminPasswordReset />
       <section className="kamp-section bg-black min-h-screen flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
